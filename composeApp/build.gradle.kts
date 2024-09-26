@@ -52,12 +52,9 @@ kotlin {
     
     sourceSets {
         val desktopMain by getting
-        
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-        }
+
         commonMain.dependencies {
+            implementation(projects.shared)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
@@ -66,11 +63,35 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(projects.shared)
+            implementation(libs.bundles.ktor.common)
+            implementation(libs.kermit)
+            implementation(libs.windowSizeMultiplatform)
+            /** Provide this for the other source sets */
+            api(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
         }
+
+        androidMain.dependencies {
+            implementation(compose.preview)
+            implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.engine.cio)
+            implementation(libs.koin.android)
+            implementation(libs.koin.compose)
+        }
+
+        nativeMain.dependencies {
+            implementation(libs.ktor.engine.cio)
+        }
+
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.ktor.engine.cio)
+        }
+
+        wasmJsMain.dependencies {
+            implementation(libs.ktor.engine.js)
         }
     }
 }
@@ -110,6 +131,9 @@ android {
     dependencies {
         debugImplementation(compose.uiTooling)
     }
+}
+dependencies {
+    implementation(project(":shared"))
 }
 
 compose.desktop {
