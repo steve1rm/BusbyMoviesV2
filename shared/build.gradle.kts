@@ -54,4 +54,8 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+
+    buildFeatures {
+        this.buildConfig = true
+    }
 }

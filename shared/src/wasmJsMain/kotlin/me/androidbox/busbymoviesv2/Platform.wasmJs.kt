@@ -5,3 +5,8 @@ class WasmPlatform: Platform {
 }
 
 actual fun getPlatform(): Platform = WasmPlatform()
+
+actual fun isDebug(): Boolean {
+    /** Find specific implementation */
+    return true
+}
