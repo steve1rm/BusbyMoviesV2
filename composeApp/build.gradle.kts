@@ -54,6 +54,7 @@ kotlin {
         val desktopMain by getting
 
         commonMain.dependencies {
+            implementation(projects.shared)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
@@ -67,7 +68,6 @@ kotlin {
             implementation(libs.windowSizeMultiplatform)
         }
 
-
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -77,7 +77,7 @@ kotlin {
         nativeMain.dependencies {
             implementation(libs.ktor.engine.cio)
         }
-        
+
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)

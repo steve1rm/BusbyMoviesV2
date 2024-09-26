@@ -15,7 +15,7 @@ compose-plugin = "1.6.11"
 junit = "4.13.2"
 kotlin = "2.0.20"
 kotlinx-coroutines = "1.8.1"
-ktor = "3.0.0-rc-1" # Only this version works for wasm
+ktor = "3.0.0-rc-1" # Only this version works for wasm https://github.com/ktorio/ktor/releases?q=3.0.0-wasm2&expanded=true
 logback = "1.5.7"
 androidKotlinMultiplatformLibrary = "8.6.1"
 kotlinStdlib = "2.0.20"

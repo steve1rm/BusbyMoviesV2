@@ -1,4 +1,4 @@
-package me.androidbox.busbymoviesv2.data.network
+package me.androidbox.busbymoviesv2.core.data.network
 
 import io.ktor.client.HttpClient
 
