@@ -18,9 +18,9 @@ import me.androidbox.busbymoviesv2.isDebug
 
 class HttpNetworkClientImp(
     private val httpClientEngine: HttpClientEngine
-) : HttpNetworkClient {
+) {
 
-    override fun build(): HttpClient {
+    fun build(): HttpClient {
         val httpClient = HttpClient(httpClientEngine) {
             install(ContentNegotiation) {
                 json(

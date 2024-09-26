@@ -23,6 +23,8 @@ runner = "1.6.2"
 core = "1.6.1"
 kermit = "2.0.4"
 windowSizeMultiplatform = "0.5.0"
+koin = "4.0.0" # Only this version works for wasm https://github.com/InsertKoinIO/koin/releases/tag/3.6.0-wasm-alpha2
+koinComposeMultiplatform = "1.2.0-Beta5"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -39,6 +41,13 @@ androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", nam
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+
+# Dependency injection
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref= "koinComposeMultiplatform" }
 
 # Utils
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }

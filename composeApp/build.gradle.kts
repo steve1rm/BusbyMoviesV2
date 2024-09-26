@@ -66,12 +66,18 @@ kotlin {
             implementation(libs.bundles.ktor.common)
             implementation(libs.kermit)
             implementation(libs.windowSizeMultiplatform)
+            /** Provide this for the other source sets */
+            api(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
         }
 
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.engine.cio)
+            implementation(libs.koin.android)
+            implementation(libs.koin.compose)
         }
 
         nativeMain.dependencies {
