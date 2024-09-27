@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.serialization)
 }
 
 kotlin {
@@ -55,6 +56,8 @@ kotlin {
 
         commonMain.dependencies {
             implementation(projects.shared)
+         // NOT WORKING, NEED TO CHECK implementation(projects.core)
+
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
