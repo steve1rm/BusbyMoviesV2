@@ -55,7 +55,7 @@ kotlin {
 
         commonMain.dependencies {
             implementation(projects.shared)
-            implementation(projects.core)
+         // NOT WORKING, NEED TO CHECK implementation(projects.core)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
