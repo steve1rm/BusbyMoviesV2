@@ -16,12 +16,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import busbymoviesv2.composeapp.generated.resources.Res
 import busbymoviesv2.composeapp.generated.resources.compose_multiplatform
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import me.androidbox.busbymoviesv2.move_list.data.remote_data_source.MoveListRemoteDataSource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.koinInject
 
 @Composable
 @Preview
 fun App() {
+
+    val movieListRemoteDataSource = koinInject<MoveListRemoteDataSource>()
+
+    CoroutineScope(Dispatchers.Default).launch {
+        movieListRemoteDataSource.nowPlaying()
+    }
+
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {

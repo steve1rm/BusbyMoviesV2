@@ -6,6 +6,7 @@ import domain.utils.CheckResult
 import domain.utils.DataError
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
+import io.ktor.http.URLParserException
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.serialization.SerializationException
 import kotlin.coroutines.cancellation.CancellationException
@@ -23,6 +24,11 @@ suspend inline fun <reified D> safeApiRequest(block: () -> HttpResponse): CheckR
         exception.printStackTrace()
 
         return CheckResult.Failure(DataError.Network.SERIALIZATION)
+    }
+    catch(exception: URLParserException) {
+        exception.printStackTrace()
+        println("NETWORK STATUS URLParser")
+        return CheckResult.Failure(DataError.Network.BAD_REQUEST)
     }
     catch (exception: Exception) {
         exception.printStackTrace()
