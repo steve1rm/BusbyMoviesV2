@@ -30,6 +30,7 @@ class MovieListRepositoryImp(
                 )
             }
         }
+
         return checkResult
     }
 
