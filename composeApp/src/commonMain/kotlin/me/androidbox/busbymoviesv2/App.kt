@@ -19,7 +19,7 @@ import busbymoviesv2.composeapp.generated.resources.compose_multiplatform
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import me.androidbox.busbymoviesv2.move_list.data.remote_data_source.MoveListRemoteDataSource
+import me.androidbox.busbymoviesv2.move_list.data.remote_data_source.MovieListRemoteDataSource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
@@ -28,7 +28,7 @@ import org.koin.compose.koinInject
 @Preview
 fun App() {
 
-    val movieListRemoteDataSource = koinInject<MoveListRemoteDataSource>()
+    val movieListRemoteDataSource = koinInject<MovieListRemoteDataSource>()
 
     CoroutineScope(Dispatchers.Default).launch {
         movieListRemoteDataSource.nowPlaying()

@@ -1,10 +1,10 @@
-package me.androidbox.busbymoviesv2.move_list.dto
+package me.androidbox.busbymoviesv2.move_list.domain.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MovieResultDto(
+data class MovieResultModel(
     @SerialName("adult")
     val adult: Boolean = false,
     @SerialName("backdrop_path")

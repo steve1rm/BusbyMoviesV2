@@ -1,4 +1,4 @@
-package domain.utils
+package me.androidbox.busbymoviesv2.core.domain.utils
 
 class EmailValidator {
     companion object {
