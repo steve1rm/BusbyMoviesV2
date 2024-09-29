@@ -1,10 +1,10 @@
-package me.androidbox.busbymoviesv2.move_list.dto
+package me.androidbox.busbymoviesv2.move_list.data.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MoveListDto(
+data class MovieListDto(
     @SerialName("dates")
     val datesDto: DatesDto = DatesDto(),
     @SerialName("page")
