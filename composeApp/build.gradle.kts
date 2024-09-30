@@ -73,8 +73,6 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.bundles.ktor.common)
             implementation(libs.kermit)
             implementation(libs.windowSizeMultiplatform)
@@ -82,6 +80,11 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+            implementation(libs.lifecycle.viewmodel.compose)
+            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.androidx.lifecycle.runtime.compose)
+
+            //     implementation(libs.kamel.image)
         }
 
         androidMain.dependencies {
@@ -90,20 +93,25 @@ kotlin {
             implementation(libs.ktor.engine.cio)
             implementation(libs.koin.android)
             implementation(libs.koin.compose)
+            implementation(libs.koin.androidx.compose)
+    //        implementation(libs.kamel.image)
         }
 
         nativeMain.dependencies {
             implementation(libs.ktor.engine.cio)
+    //        implementation(libs.kamel.image)
         }
 
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.engine.cio)
+     //       implementation(libs.kamel.image)
         }
 
         wasmJsMain.dependencies {
             implementation(libs.ktor.engine.js)
+     //       implementation(libs.kamel.image)
         }
     }
 }

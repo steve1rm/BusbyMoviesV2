@@ -1,6 +1,6 @@
-package me.androidbox.busbymoviesv2.move_list.domain.models
+package me.androidbox.busbymoviesv2.move_list.presentation.models
 
-data class MovieResultModel(
+data class MovieResult(
     val adult: Boolean = false,
     val backdropPath: String = "",
     val genreIds: List<Int> = listOf(),

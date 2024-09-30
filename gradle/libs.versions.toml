@@ -18,8 +18,10 @@ androidx-espresso-core = "3.6.1"
 androidx-lifecycle = "2.8.0"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
+coilCompose = "2.7.0"
 compose-plugin = "1.6.11"
 junit = "4.13.2"
+kamelImage = "0.9.5"
 kotlin = "2.0.20"
 kotlinx-coroutines = "1.8.1"
 ktor = "3.0.0-rc-1" # Only this version works for wasm https://github.com/ktorio/ktor/releases?q=3.0.0-wasm2&expanded=true
@@ -30,12 +32,14 @@ runner = "1.6.2"
 core = "1.6.1"
 kermit = "2.0.4"
 windowSizeMultiplatform = "0.5.0"
-koin = "4.0.0" # Only this version works for wasm https://github.com/InsertKoinIO/koin/releases/tag/3.6.0-wasm-alpha2
+koin = "3.6.0-wasm-alpha2" # Only this version works for wasm https://github.com/InsertKoinIO/koin/releases/tag/3.6.0-wasm-alpha2
 koinComposeMultiplatform = "1.2.0-Beta5"
 serializationVersion = "1.9.0"
 gmazzo-buildconfig-version = "5.3.5" # BuildConfig for local.properties
 
 [libraries]
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+kamel-image = { module = "media.kamel:kamel-image", version.ref = "kamelImage" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -49,6 +53,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
 # Dependency injection
