@@ -83,8 +83,10 @@ kotlin {
             implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-
-            //     implementation(libs.kamel.image)
+            //   implementation("media.kamel:kamel-decoder-image-bitmap-resizing:1.0.0-beta.6")
+            implementation("media.kamel:kamel-image-default:1.0.0-beta.7")
+            implementation("co.touchlab:stately-common:2.0.6")
+            implementation("co.touchlab:stately-concurrent-collections:2.0.7")
         }
 
         androidMain.dependencies {
@@ -94,24 +96,20 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.compose)
             implementation(libs.koin.androidx.compose)
-    //        implementation(libs.kamel.image)
         }
 
         nativeMain.dependencies {
             implementation(libs.ktor.engine.cio)
-    //        implementation(libs.kamel.image)
         }
 
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.engine.cio)
-     //       implementation(libs.kamel.image)
         }
 
         wasmJsMain.dependencies {
             implementation(libs.ktor.engine.js)
-     //       implementation(libs.kamel.image)
         }
     }
 }

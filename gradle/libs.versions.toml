@@ -8,7 +8,7 @@
 #Maximum tested Android Gradle Plugin version: 8.5
 agp = "8.5.0"
 android-compileSdk = "34"
-android-minSdk = "24"
+android-minSdk = "28"
 android-targetSdk = "34"
 androidx-activityCompose = "1.9.2"
 androidx-appcompat = "1.7.0"
@@ -21,7 +21,7 @@ androidx-test-junit = "1.2.1"
 coilCompose = "2.7.0"
 compose-plugin = "1.6.11"
 junit = "4.13.2"
-kamelImage = "0.9.5"
+kamelImage = "1.0.0-beta.7"
 kotlin = "2.0.20"
 kotlinx-coroutines = "1.8.1"
 ktor = "3.0.0-rc-1" # Only this version works for wasm https://github.com/ktorio/ktor/releases?q=3.0.0-wasm2&expanded=true

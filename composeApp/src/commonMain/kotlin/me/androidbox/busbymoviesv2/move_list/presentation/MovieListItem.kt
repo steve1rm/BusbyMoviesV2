@@ -3,7 +3,6 @@ package me.androidbox.busbymoviesv2.move_list.presentation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieItem
@@ -18,16 +17,31 @@ fun MovieListItem(
         modifier = modifier.fillMaxWidth()
     ) {
 
-      /* KamelImage(
-            resource = asyncPainterResource(data = Url(movieItem.imagePathURI)),
+        /*
+        KamelImage(
+            { asyncPainterResource(data = Url("https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg")) },
             contentDescription = movieItem.movieName,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.height(200.dp)
+            modifier = Modifier.fillMaxWidth().height(200.dp),
+            contentScale = ContentScale.Crop
         )*/
 
-        Text(
+       /* KamelImage(
+            modifier = Modifier.size(40.dp),
+            resource = asyncPainterResource(
+                data = coinListState.imageUri
+            ),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            onLoading = {
+                CircularProgressIndicator(
+                    color = Color.Blue
+                )
+            }
+        )*/
+
+      /*  Text(
             text = movieItem.movieName
-        )
+        )*/
     }
 }
 
