@@ -6,6 +6,9 @@ object Routes {
     /** Move lists */
     const val NOW_PLAYING = "$BASE_URL/movie/now_playing"
 
+    /** Configuration */
+    const val CONFIGURATION = "$BASE_URL/configuration"
+
     /** Authentication Endpoints google */
     private const val BASE_URL_SECURE = "https://securetoken.googleapis.com/v1"
 
