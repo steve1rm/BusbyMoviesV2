@@ -60,7 +60,6 @@ class MoveListViewModel(
                     movieListState = movieListState.copy(
                         isLoading = false,
                         movieList = movieListResult.data.toMovieList(imageSize))
-                    println("NETWORK MovieList")
                 }
             }
 
