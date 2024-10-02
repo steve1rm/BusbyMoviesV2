@@ -16,9 +16,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import busbymoviesv2.composeapp.generated.resources.Res
 import busbymoviesv2.composeapp.generated.resources.compose_multiplatform
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUseCase
 import me.androidbox.busbymoviesv2.move_list.presentation.MoveListViewModel
 import me.androidbox.busbymoviesv2.move_list.presentation.screens.MovieListScreen
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -29,8 +34,15 @@ fun App() {
     val movieListViewModel : MoveListViewModel = koinViewModel()
     val movieListState = movieListViewModel.movieListState
 
+    val configurationUseCase = koinInject<ConfigurationUseCase>()
+
+    CoroutineScope(Dispatchers.Default).launch {
+        configurationUseCase.execute()
+    }
+
     MaterialTheme {
         MovieListScreen(movieListState = movieListState)
+
 
        var showContent by remember { mutableStateOf(false) }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
