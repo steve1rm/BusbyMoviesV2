@@ -25,8 +25,6 @@ class MovieListRemoteDataSourceImp(
                         this.append("accept", ContentType.Application.Json.contentType)
                     }
                 }
-
-            println("NETWORK STATUS ${response.status}")
             response
         }
 

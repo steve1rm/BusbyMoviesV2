@@ -3,7 +3,7 @@ package me.androidbox.busbymoviesv2.move_list.presentation
 import me.androidbox.busbymoviesv2.move_list.domain.models.MovieListModel
 import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieResult
 
-fun MovieListModel.toMovieList(): List<MovieResult> {
+fun MovieListModel.toMovieList(imageSize: String): List<MovieResult> {
 
     return this.movieResultModel.map {
         MovieResult(
