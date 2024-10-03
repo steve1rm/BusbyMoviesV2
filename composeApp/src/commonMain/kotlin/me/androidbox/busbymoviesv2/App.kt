@@ -1,8 +1,10 @@
 package me.androidbox.busbymoviesv2
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Badge
 import androidx.compose.material.BadgedBox
 import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationDefaults
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -23,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import me.androidbox.busbymoviesv2.move_list.presentation.MoveListViewModel
 import me.androidbox.busbymoviesv2.move_list.presentation.screens.MovieListScreen
@@ -86,11 +89,15 @@ fun App() {
                     }
                 )
             },
-            content = {
-                MovieListScreen(movieListState = movieListState)
+            content = { paddingValues ->
+                MovieListScreen(
+                    movieListState = movieListState,
+                    modifier = Modifier.padding(paddingValues))
             },
             bottomBar = {
-                BottomNavigation {
+                BottomNavigation(
+                    elevation = BottomNavigationDefaults.Elevation
+                ) {
                     listOfBottomNavigationItem.forEachIndexed { index, bottomNavigationItem ->
                         BottomNavigationItem(
                             label = {
