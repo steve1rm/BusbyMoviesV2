@@ -1,7 +1,9 @@
 package me.androidbox.busbymoviesv2.move_list.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
@@ -17,6 +19,7 @@ import busbymoviesv2.composeapp.generated.resources.Res
 import busbymoviesv2.composeapp.generated.resources.compose_multiplatform
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import me.androidbox.busbymoviesv2.core.presentation.utils.getRandomColor
 import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieResult
 import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -29,27 +32,31 @@ fun MovieListItem(
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-            KamelImage(
-                resource = { asyncPainterResource(data = movie.posterPath) },
-                contentDescription = "",
-                modifier = Modifier.fillMaxWidth(),
-                contentScale = ContentScale.Crop,
-                onLoading = {_ ->
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                        color = Color.Blue
-                    )
-                },
-                onFailure = {
-                    Image(imageVector = vectorResource(Res.drawable.compose_multiplatform), contentDescription = null)
-                }
-            )
+        KamelImage(
+            resource = { asyncPainterResource(data = movie.posterPath) },
+            contentDescription = "",
+            modifier = Modifier.fillMaxWidth(),
+            contentScale = ContentScale.Crop,
+            onLoading = {_ ->
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = Color.Blue
+                )
+            },
+            onFailure = {
+                Image(imageVector = vectorResource(Res.drawable.compose_multiplatform), contentDescription = null)
+            }
+        )
 
-            Text(
-                modifier = Modifier.padding(16.dp),
-                text = movie.posterPath, color = Color.Black)
-        }
+        Text(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = getRandomColor().copy(alpha = 0.4f))
+                .padding(16.dp),
+            text = movie.title, color = Color.Black)
+    }
 }
+
 
 @Preview
 @Composable

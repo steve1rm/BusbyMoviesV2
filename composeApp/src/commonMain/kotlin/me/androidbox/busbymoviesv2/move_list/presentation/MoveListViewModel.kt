@@ -8,10 +8,9 @@ import androidx.lifecycle.viewModelScope
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import me.androidbox.busbymoviesv2.configuration.domain.models.ConfigurationModel
 import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUseCase
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
-import me.androidbox.busbymoviesv2.core.presentation.utils.getScreenDensity
+import me.androidbox.busbymoviesv2.core.presentation.utils.mapImageSize
 import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListNowPlayingUseCase
 
 class MoveListViewModel(
@@ -54,7 +53,7 @@ class MoveListViewModel(
                     Logger.d { "Success movie list ${movieListResult.data}" }
 
                     val imageSize = configurationModel?.let {
-                        getImageSize(it)
+                        mapImageSize(it)
                     } ?: "original"
 
                     movieListState = movieListState.copy(
@@ -64,26 +63,4 @@ class MoveListViewModel(
             }
         }
     }
-}
-
-
-private fun getImageSize(configurationResult: ConfigurationModel): String {
-    val listOfPosterSizes = configurationResult.imagesModel.posterSizes
-
-    val deviceSize = when (getScreenDensity()) {
-        "LDPI" -> "w92"
-        "MDPI" -> "w154"
-        "HDPI" -> "w185"
-        "XHDPI" -> "w342"
-        "XXHDPI" -> "w500"
-        "XXXHDPI" -> "w780"
-        else -> "original"
-    }
-
-    val size = listOfPosterSizes.firstOrNull { posterSize ->
-        posterSize == deviceSize
-    } ?: run {
-        "w500"
-    }
-    return size
 }
