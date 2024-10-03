@@ -40,14 +40,6 @@ fun MovieListScreen(
                         movieResult ->
                     MovieListItem(movieResult)
                 }
-                /* items(
-                     movieListState.movieList,
-                     key = { movieResult ->
-                         movieResult.id
-                     }
-                 ) { movieResult ->
-                     MovieListItem(movieResult)
-                 }*/
             }
         }
     }
