@@ -36,6 +36,7 @@ koin = "3.6.0-wasm-alpha2" # Only this version works for wasm https://github.com
 koinComposeMultiplatform = "1.2.0-Beta5"
 serializationVersion = "1.9.0"
 gmazzo-buildconfig-version = "5.3.5" # BuildConfig for local.properties
+kmpalette = "3.1.0"
 
 [libraries]
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
@@ -66,6 +67,7 @@ koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", ver
 # Utils
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 windowSizeMultiplatform = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "windowSizeMultiplatform" }
+kmpalette-core = { module = "com.kmpalette:kmpalette-core", version.ref = "kmpalette" }
 
 # Ktor
 ktor-engine-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }

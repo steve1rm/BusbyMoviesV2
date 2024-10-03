@@ -55,17 +55,17 @@ class MoveListViewModel(
 
                     val imageSize = configurationModel?.let {
                         getImageSize(it)
-                    } ?: "w500"
+                    } ?: "original"
 
                     movieListState = movieListState.copy(
                         isLoading = false,
                         movieList = movieListResult.data.toMovieList(imageSize))
                 }
             }
-
         }
     }
 }
+
 
 private fun getImageSize(configurationResult: ConfigurationModel): String {
     val listOfPosterSizes = configurationResult.imagesModel.posterSizes

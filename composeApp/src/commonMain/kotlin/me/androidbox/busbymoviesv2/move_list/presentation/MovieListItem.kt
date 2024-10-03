@@ -47,7 +47,7 @@ fun MovieListItem(
 
             Text(
                 modifier = Modifier.padding(16.dp),
-                text = movie.title, color = Color.Black)
+                text = movie.posterPath, color = Color.Black)
         }
 }
 

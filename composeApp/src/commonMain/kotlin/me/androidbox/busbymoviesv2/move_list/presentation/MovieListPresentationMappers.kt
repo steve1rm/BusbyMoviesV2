@@ -5,7 +5,7 @@ import me.androidbox.busbymoviesv2.move_list.domain.models.MovieListModel
 import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieResult
 
 fun MovieListModel.toMovieList(backdropImageSize: String): List<MovieResult> {
-    val imagePath = "$BASE_IMAGE_PATH$backdropImageSize/"
+    val imagePath = "$BASE_IMAGE_PATH$backdropImageSize"
 
     return this.movieResultModel.map {
         MovieResult(
