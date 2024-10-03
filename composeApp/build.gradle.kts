@@ -73,8 +73,6 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.bundles.ktor.common)
             implementation(libs.kermit)
             implementation(libs.windowSizeMultiplatform)
@@ -82,6 +80,15 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+            implementation(libs.lifecycle.viewmodel.compose)
+            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.androidx.lifecycle.runtime.compose)
+         //   implementation(libs.kmpalette.core)
+
+            //   implementation("media.kamel:kamel-decoder-image-bitmap-resizing:1.0.0-beta.6")
+            implementation("media.kamel:kamel-image-default:1.0.0-beta.7")
+            implementation("co.touchlab:stately-common:2.0.6")
+            implementation("co.touchlab:stately-concurrent-collections:2.0.7")
         }
 
         androidMain.dependencies {
@@ -90,6 +97,7 @@ kotlin {
             implementation(libs.ktor.engine.cio)
             implementation(libs.koin.android)
             implementation(libs.koin.compose)
+            implementation(libs.koin.androidx.compose)
         }
 
         nativeMain.dependencies {

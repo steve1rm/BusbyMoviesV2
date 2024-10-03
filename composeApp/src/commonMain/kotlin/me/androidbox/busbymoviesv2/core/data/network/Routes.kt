@@ -2,9 +2,13 @@ package me.androidbox.busbymoviesv2.core.data.network
 
 object Routes {
     private const val BASE_URL = "https://api.themoviedb.org/3"
+    const val BASE_IMAGE_PATH = "https://image.tmdb.org/t/p/"
 
     /** Move lists */
     const val NOW_PLAYING = "$BASE_URL/movie/now_playing"
+
+    /** Configuration */
+    const val CONFIGURATION = "$BASE_URL/configuration"
 
     /** Authentication Endpoints google */
     private const val BASE_URL_SECURE = "https://securetoken.googleapis.com/v1"

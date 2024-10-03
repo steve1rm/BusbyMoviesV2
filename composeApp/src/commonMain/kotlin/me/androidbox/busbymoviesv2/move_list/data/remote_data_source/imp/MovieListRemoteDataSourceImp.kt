@@ -5,14 +5,13 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.http.ContentType
-import me.androidbox.busbymoviesv2.core.data.dto.ErrorResponseDto
 import me.androidbox.busbymoviesv2.core.data.network.Routes
 import me.androidbox.busbymoviesv2.core.data.network.safeApiRequest
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
 import me.androidbox.busbymoviesv2.core.domain.utils.DataError
 import me.androidbox.busbymoviesv2.core.domain.utils.ErrorModel
-import me.androidbox.busbymoviesv2.move_list.data.remote_data_source.MovieListRemoteDataSource
 import me.androidbox.busbymoviesv2.move_list.data.dto.MovieListDto
+import me.androidbox.busbymoviesv2.move_list.data.remote_data_source.MovieListRemoteDataSource
 
 class MovieListRemoteDataSourceImp(
     private val httpClient: HttpClient
@@ -26,8 +25,6 @@ class MovieListRemoteDataSourceImp(
                         this.append("accept", ContentType.Application.Json.contentType)
                     }
                 }
-
-            println("NETWORK STATUS ${response.status}")
             response
         }
 
