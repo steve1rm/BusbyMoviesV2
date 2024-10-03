@@ -36,7 +36,7 @@ fun MovieListItem(
             resource = { asyncPainterResource(data = movie.posterPath) },
             contentDescription = "",
             modifier = Modifier.fillMaxWidth(),
-            contentScale = ContentScale.Fit,
+            contentScale = ContentScale.FillWidth,
             onLoading = {_ ->
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
