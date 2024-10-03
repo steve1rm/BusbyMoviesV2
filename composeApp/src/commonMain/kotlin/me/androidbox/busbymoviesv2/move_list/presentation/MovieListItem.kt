@@ -36,7 +36,7 @@ fun MovieListItem(
             resource = { asyncPainterResource(data = movie.posterPath) },
             contentDescription = "",
             modifier = Modifier.fillMaxWidth(),
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.Fit,
             onLoading = {_ ->
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
@@ -45,7 +45,7 @@ fun MovieListItem(
             },
             onFailure = {
                 Image(imageVector = vectorResource(Res.drawable.compose_multiplatform), contentDescription = null)
-            }
+            },
         )
 
         Text(
@@ -56,7 +56,6 @@ fun MovieListItem(
             text = movie.title, color = Color.Black)
     }
 }
-
 
 @Preview
 @Composable
