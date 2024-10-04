@@ -39,7 +39,7 @@ fun MovieListItem(
         KamelImage(
             resource = { asyncPainterResource(data = movie.posterPath) },
             contentDescription = "",
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize() /*.aspectRatio(3f / 2f) */,
             contentScale = ContentScale.FillWidth,
             onLoading = {_ ->
                 CircularProgressIndicator(

@@ -31,11 +31,13 @@ import me.androidbox.busbymoviesv2.move_list.presentation.MoveListViewModel
 import me.androidbox.busbymoviesv2.move_list.presentation.MovieCategories
 import me.androidbox.busbymoviesv2.move_list.presentation.MovieListAction
 import me.androidbox.busbymoviesv2.move_list.presentation.screens.MovieListScreen
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
 data class BottomNavigationItem(
-    val title: String,
+    val title: StringResource,
     val movieCategory: MovieCategories,
     val selectedIcon: ImageVector,
     val unSelectedIcon: ImageVector,
@@ -45,29 +47,29 @@ data class BottomNavigationItem(
 
 val listOfBottomNavigationItem = listOf(
     BottomNavigationItem(
-        title = "Now Playing",
+        title = MovieCategories.NOW_PLAYING.titleRes,
         movieCategory = MovieCategories.NOW_PLAYING,
         selectedIcon = Icons.Filled.Home,
         unSelectedIcon = Icons.Outlined.Home,
         hasExtra = false
     ),
-    BottomNavigationItem(
-        title = "Trending",
-        movieCategory = MovieCategories.TRENDING,
+   BottomNavigationItem(
+        title = MovieCategories.TOP_RATED.titleRes,
+        movieCategory = MovieCategories.TOP_RATED,
         selectedIcon = Icons.Filled.Favorite,
         unSelectedIcon = Icons.Outlined.Favorite,
         hasExtra = false,
         badgeCount = 5
     ),
     BottomNavigationItem(
-        title = "Popular",
+        title = MovieCategories.POPULAR.titleRes,
         movieCategory = MovieCategories.POPULAR,
         selectedIcon = Icons.Filled.Person,
         unSelectedIcon = Icons.Outlined.Person,
         hasExtra = false
     ),
     BottomNavigationItem(
-        title = "Upcoming",
+        title = MovieCategories.UPCOMING.titleRes,
         movieCategory = MovieCategories.UPCOMING,
         selectedIcon = Icons.Filled.Settings,
         unSelectedIcon = Icons.Outlined.Settings,
@@ -91,7 +93,7 @@ fun App() {
             topBar = {
                 TopAppBar(
                     title = {
-                        Text(listOfBottomNavigationItem[selectedItemIndex].title)
+                        Text(stringResource(resource = listOfBottomNavigationItem[selectedItemIndex].title))
                     }
                 )
             },
@@ -107,13 +109,21 @@ fun App() {
                     listOfBottomNavigationItem.forEachIndexed { index, bottomNavigationItem ->
                         BottomNavigationItem(
                             label = {
-                                Text(text = bottomNavigationItem.title)
+                                Text(text = stringResource(resource = bottomNavigationItem.title))
                             },
                             selected = selectedItemIndex == index,
                             onClick = {
+                                /* Don't trigger a new request if the user is on the same category */
+                                if(selectedItemIndex != index) {
+                                    /** Just want to load a different movie list i.e. now playing, trending, popular, upcoming */
+                                    movieListViewModel.onLoginAction(
+                                        MovieListAction.OnMovieListNavigationItemClicked(
+                                            listOfBottomNavigationItem[index].movieCategory
+                                        )
+                                    )
+                                }
+
                                 selectedItemIndex = index
-                                /** Just want to load a different movie list i.e. now playing, trending, popular, upcoming */
-                                movieListViewModel.onLoginAction(MovieListAction.OnMovieListNavigationItemClicked(listOfBottomNavigationItem[index].movieCategory))
                             },
                             icon = {
                                 BadgedBox(
@@ -131,7 +141,7 @@ fun App() {
                                     Icon(
                                         imageVector = if (selectedItemIndex == index)
                                             bottomNavigationItem.selectedIcon else bottomNavigationItem.unSelectedIcon,
-                                        contentDescription = bottomNavigationItem.title
+                                        contentDescription = stringResource(resource = bottomNavigationItem.title)
                                     )
                                 }
                             }
