@@ -6,6 +6,9 @@ object Routes {
 
     /** Move lists */
     const val NOW_PLAYING = "$BASE_URL/movie/now_playing"
+    const val TRENDING = "$BASE_URL/movie/tending"
+    const val POPULAR = "$BASE_URL/movie/popular"
+    const val UPCOMING = "$BASE_URL/movie/upcoming"
 
     /** Configuration */
     const val CONFIGURATION = "$BASE_URL/configuration"

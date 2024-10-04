@@ -6,5 +6,5 @@ import me.androidbox.busbymoviesv2.core.domain.utils.ErrorModel
 import me.androidbox.busbymoviesv2.move_list.domain.models.MovieListModel
 
 fun interface MovieListNowPlayingUseCase {
-    suspend fun execute(): CheckResult<MovieListModel, DataError.Network, ErrorModel>
+    suspend fun execute(movieRoute: String): CheckResult<MovieListModel, DataError.Network, ErrorModel>
 }
