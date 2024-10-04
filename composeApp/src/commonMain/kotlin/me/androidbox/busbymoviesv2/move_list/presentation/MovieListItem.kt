@@ -5,7 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -14,6 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import busbymoviesv2.composeapp.generated.resources.Res
 import busbymoviesv2.composeapp.generated.resources.compose_multiplatform
@@ -27,16 +31,16 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun MovieListItem(
     movie: MovieResult,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
     ) {
         KamelImage(
             resource = { asyncPainterResource(data = movie.posterPath) },
             contentDescription = "",
-            modifier = Modifier.fillMaxWidth(),
-            contentScale = ContentScale.Fit,
+            modifier = Modifier.fillMaxSize() /*.aspectRatio(3f / 2f) */,
+            contentScale = ContentScale.FillWidth,
             onLoading = {_ ->
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
@@ -50,10 +54,16 @@ fun MovieListItem(
 
         Text(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .height(60.dp)
                 .background(color = getRandomColor().copy(alpha = 0.4f))
-                .padding(16.dp),
-            text = movie.title, color = Color.Black)
+                .wrapContentHeight(Alignment.CenterVertically)
+                .padding(horizontal = 16.dp),
+            maxLines = 2,
+            textAlign = TextAlign.Start,
+            overflow = TextOverflow.Ellipsis,
+            text = movie.title,
+            color = Color.Black)
     }
 }
 

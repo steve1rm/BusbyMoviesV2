@@ -10,7 +10,7 @@ import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListNowPlaying
 class MovieListNowPlayingUseCaseImp(
     private val movieListRepository: MovieListRepository
 ) : MovieListNowPlayingUseCase {
-    override suspend fun execute(): CheckResult<MovieListModel, DataError.Network, ErrorModel> {
-        return movieListRepository.nowPlaying()
+    override suspend fun execute(movieRoute: String): CheckResult<MovieListModel, DataError.Network, ErrorModel> {
+        return movieListRepository.nowPlaying(movieRoute)
     }
 }

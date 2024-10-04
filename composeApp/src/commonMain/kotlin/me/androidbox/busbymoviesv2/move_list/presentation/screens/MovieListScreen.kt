@@ -20,6 +20,7 @@ fun MovieListScreen(
     movieListState: MovieListState,
     modifier: Modifier = Modifier
 ) {
+
     Box(modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center) {
 
@@ -29,7 +30,7 @@ fun MovieListScreen(
         else {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(count = 2),
-                modifier = modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 state = rememberLazyGridState()
             ) {
                 items(
