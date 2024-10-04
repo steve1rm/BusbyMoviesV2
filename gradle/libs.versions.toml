@@ -37,6 +37,7 @@ koinComposeMultiplatform = "1.2.0-Beta5"
 serializationVersion = "1.9.0"
 gmazzo-buildconfig-version = "5.3.5" # BuildConfig for local.properties
 kmpalette = "3.1.0"
+voyager = "1.1.0-alpha04"
 
 [libraries]
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
@@ -68,6 +69,11 @@ koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", ver
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 windowSizeMultiplatform = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "windowSizeMultiplatform" }
 kmpalette-core = { module = "com.kmpalette:kmpalette-core", version.ref = "kmpalette" }
+
+# Navigation
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
+
 
 # Ktor
 ktor-engine-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }

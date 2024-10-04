@@ -1,4 +1,4 @@
-package me.androidbox.busbymoviesv2.move_list.presentation
+package me.androidbox.busbymoviesv2.move_list.presentation.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
