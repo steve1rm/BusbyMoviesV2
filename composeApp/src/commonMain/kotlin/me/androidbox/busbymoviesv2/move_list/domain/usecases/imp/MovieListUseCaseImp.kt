@@ -11,6 +11,6 @@ class MovieListUseCaseImp(
     private val movieListRepository: MovieListRepository
 ) : MovieListUseCase {
     override suspend fun execute(movieRoute: String): CheckResult<MovieListModel, DataError.Network, ErrorModel> {
-        return movieListRepository.nowPlaying(movieRoute)
+        return movieListRepository.movieList(movieRoute)
     }
 }

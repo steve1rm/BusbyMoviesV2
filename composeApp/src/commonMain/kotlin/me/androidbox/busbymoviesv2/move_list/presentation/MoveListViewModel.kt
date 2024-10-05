@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.touchlab.kermit.Logger
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUseCase
@@ -22,6 +23,10 @@ class MoveListViewModel(
     var movieListState by mutableStateOf(MovieListState())
         private set
 
+    init {
+        movieList(Routes.NOW_PLAYING)
+    }
+
     fun onMovieListAction(action: MovieListAction) {
         when(action) {
             is MovieListAction.OnMovieClicked -> {
@@ -36,13 +41,22 @@ class MoveListViewModel(
                     "Movie navigation item clicked ${action.movieCategory.name}"
                 }
 
-                nowPlaying(movieListUseCase, action.movieCategory.movieRoute)
+                movieList(action.movieCategory.movieRoute)
             }
         }
     }
 
-    private fun nowPlaying(movieListUseCase: MovieListUseCase, movieRoute: String) {
-        viewModelScope.launch {
+    private var job: Job? = Job()
+
+    private fun movieList(movieRoute: String) {
+
+        Logger.d {
+            "Job Status before ${job?.isActive}"
+        }
+
+        job?.cancel()
+
+        job = viewModelScope.launch {
             movieListState = movieListState.copy(
                 isLoading = true
             )
@@ -80,51 +94,5 @@ class MoveListViewModel(
                 }
             }
         }
-
-    }
-
-  /*  private fun trending() {
-        viewModelScope.launch {
-            movieListState = movieListState.copy(
-                isLoading = true
-            )
-
-            val configuration = viewModelScope.async {
-                configurationUseCase.execute()
-            }
-
-            val movieList = viewModelScope.async {
-                movieListNowPlayingUseCase.execute()
-            }
-
-            val configurationModel = configuration.await()
-            val movieListResult = movieList.await()
-
-            when (movieListResult) {
-                is CheckResult.Failure -> {
-                    Logger.e { "Fetch from the movie endpoint ${movieListResult.exceptionError}" }
-
-                    movieListState = movieListState.copy(
-                        isLoading = false
-                    )
-                }
-
-                is CheckResult.Success -> {
-                    Logger.d { "Success movie list ${movieListResult.data}" }
-
-                    val imageSize = configurationModel?.let {
-                        mapImageSize(it)
-                    } ?: "original"
-
-                    movieListState = movieListState.copy(
-                        isLoading = false,
-                        movieList = movieListResult.data.toMovieList(imageSize))
-                }
-            }
-        }
-    }*/
-
-    init {
-        nowPlaying(movieListUseCase, Routes.NOW_PLAYING)
     }
 }

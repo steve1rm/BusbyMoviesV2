@@ -15,7 +15,7 @@ import me.androidbox.busbymoviesv2.move_list.data.remote_data_source.MovieListRe
 class MovieListRemoteDataSourceImp(
     private val httpClient: HttpClient
 ) : MovieListRemoteDataSource {
-    override suspend fun nowPlaying(movieRoute: String): CheckResult<MovieListDto, DataError.Network, ErrorModel> {
+    override suspend fun movieList(movieRoute: String): CheckResult<MovieListDto, DataError.Network, ErrorModel> {
         val safeResult = safeApiRequest<MovieListDto> {
             val response = httpClient
                 .get(movieRoute) {
@@ -27,18 +27,7 @@ class MovieListRemoteDataSourceImp(
             response
         }
 
+        println("NETWORK STATUS AFTER")
         return safeResult
-    }
-
-    override fun popular() {
-        TODO("Not yet implemented")
-    }
-
-    override fun trending() {
-        TODO("Not yet implemented")
-    }
-
-    override fun upcoming() {
-        TODO("Not yet implemented")
     }
 }
