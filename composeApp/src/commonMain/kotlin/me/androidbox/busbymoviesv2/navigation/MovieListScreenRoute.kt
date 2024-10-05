@@ -15,7 +15,7 @@ data object MovieListScreenRoute : Screen {
 
         MovieListScreen(
             movieListState = movieListState,
-            onMovieListAction = movieListViewModel::onLoginAction
+            onMovieListAction = movieListViewModel::onMovieListAction
         )
     }
 }

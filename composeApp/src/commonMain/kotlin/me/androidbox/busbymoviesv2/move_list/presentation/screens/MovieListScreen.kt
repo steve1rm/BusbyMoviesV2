@@ -88,11 +88,6 @@ fun MovieListScreen(
                             /* Don't trigger a new request if the user is on the same category */
                             if(selectedItemIndex != index) {
                                 /** Just want to load a different movie list i.e. now playing, trending, popular, upcoming */
-                                /*movieListViewModel.onLoginAction(
-                                    MovieListAction.OnMovieListNavigationItemClicked(
-                                        listOfBottomMovieListNavigationItems[index].movieCategory
-                                    )
-                                )*/
                                 onMovieListAction(MovieListAction.OnMovieListNavigationItemClicked(
                                     listOfBottomMovieListNavigationItems[index].movieCategory
                                 ))

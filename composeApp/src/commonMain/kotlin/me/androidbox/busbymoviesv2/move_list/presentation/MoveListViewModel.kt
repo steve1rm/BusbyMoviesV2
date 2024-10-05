@@ -12,17 +12,17 @@ import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUs
 import me.androidbox.busbymoviesv2.core.data.network.Routes
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
 import me.androidbox.busbymoviesv2.core.presentation.utils.mapImageSize
-import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListNowPlayingUseCase
+import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListUseCase
 
 class MoveListViewModel(
-    private val movieListNowPlayingUseCase: MovieListNowPlayingUseCase,
+    private val movieListUseCase: MovieListUseCase,
     private val configurationUseCase: ConfigurationUseCase
 ) : ViewModel() {
 
     var movieListState by mutableStateOf(MovieListState())
         private set
 
-    fun onLoginAction(action: MovieListAction) {
+    fun onMovieListAction(action: MovieListAction) {
         when(action) {
             is MovieListAction.OnMovieClicked -> {
                 /** Navigate to movie details screen */
@@ -36,35 +36,12 @@ class MoveListViewModel(
                     "Movie navigation item clicked ${action.movieCategory.name}"
                 }
 
-                nowPlaying(movieListNowPlayingUseCase, action.movieCategory.movieRoute)
-
-/*
-                when(action.movieCategory) {
-                    MovieCategories.NOW_PLAYING -> {
-                        Logger.d {
-                            "Movie navigation item clicked NOW PLAYING ${action.movieCategory.name}"
-                        }
-
-                    }
-                    MovieCategories.TRENDING -> {
-                        Logger.d {
-                            "Movie navigation item clicked TRENDING ${action.movieCategory.name}"
-                        }
-                        nowPlaying(movieListNowPlayingUseCase, action.movieCategory.movieRoute)
-                    }
-                    MovieCategories.POPULAR -> {
-
-                    }
-                    MovieCategories.UPCOMING -> {
-
-                    }
-                }
-*/
+                nowPlaying(movieListUseCase, action.movieCategory.movieRoute)
             }
         }
     }
 
-    private fun nowPlaying(movieListNowPlayingUseCase: MovieListNowPlayingUseCase, movieRoute: String) {
+    private fun nowPlaying(movieListUseCase: MovieListUseCase, movieRoute: String) {
         viewModelScope.launch {
             movieListState = movieListState.copy(
                 isLoading = true
@@ -75,7 +52,7 @@ class MoveListViewModel(
             }
 
             val movieList = viewModelScope.async {
-                movieListNowPlayingUseCase.execute(movieRoute)
+                movieListUseCase.execute(movieRoute)
             }
 
             val configurationModel = configuration.await()
@@ -148,6 +125,6 @@ class MoveListViewModel(
     }*/
 
     init {
-        nowPlaying(movieListNowPlayingUseCase, Routes.NOW_PLAYING)
+        nowPlaying(movieListUseCase, Routes.NOW_PLAYING)
     }
 }
