@@ -12,8 +12,8 @@ class MovieListRepositoryImp(
     private val movieListRemoteDataSource: MovieListRemoteDataSource
 ): MovieListRepository {
 
-    override suspend fun nowPlaying(movieRoute: String): CheckResult<MovieListModel, DataError.Network, ErrorModel> {
-        val checkResult = when(val response = movieListRemoteDataSource.nowPlaying(movieRoute)) {
+    override suspend fun movieList(movieRoute: String): CheckResult<MovieListModel, DataError.Network, ErrorModel> {
+        val checkResult = when(val response = movieListRemoteDataSource.movieList(movieRoute)) {
             is CheckResult.Failure -> {
                 CheckResult.Failure(
                     exceptionError = response.exceptionError,
@@ -32,17 +32,5 @@ class MovieListRepositoryImp(
         }
 
         return checkResult
-    }
-
-    override suspend fun popular() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun trending() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun upcoming() {
-        TODO("Not yet implemented")
     }
 }

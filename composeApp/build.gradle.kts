@@ -83,7 +83,9 @@ kotlin {
             implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-         //   implementation(libs.kmpalette.core)
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.transitions)
+            implementation("br.com.devsrsouza.compose.icons:font-awesome:1.1.1")
 
             //   implementation("media.kamel:kamel-decoder-image-bitmap-resizing:1.0.0-beta.6")
             implementation("media.kamel:kamel-image-default:1.0.0-beta.7")

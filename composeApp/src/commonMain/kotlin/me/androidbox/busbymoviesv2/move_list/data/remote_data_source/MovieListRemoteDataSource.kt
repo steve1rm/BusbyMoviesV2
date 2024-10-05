@@ -6,8 +6,5 @@ import me.androidbox.busbymoviesv2.core.domain.utils.ErrorModel
 import me.androidbox.busbymoviesv2.move_list.data.dto.MovieListDto
 
 interface MovieListRemoteDataSource {
-    suspend fun nowPlaying(movieRoute: String): CheckResult<MovieListDto, DataError.Network, ErrorModel>
-    fun popular()
-    fun trending()
-    fun upcoming()
+    suspend fun movieList(movieRoute: String): CheckResult<MovieListDto, DataError.Network, ErrorModel>
 }
