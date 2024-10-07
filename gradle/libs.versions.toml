@@ -20,6 +20,7 @@ androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
 coilCompose = "2.7.0"
 compose-plugin = "1.6.11"
+fontAwesome = "1.1.1"
 junit = "4.13.2"
 kamelImage = "1.0.0-beta.7"
 kotlin = "2.0.20"
@@ -31,6 +32,7 @@ kotlinStdlib = "2.0.20"
 runner = "1.6.2"
 core = "1.6.1"
 kermit = "2.0.4"
+statelyConcurrentCollections = "2.1.0"
 windowSizeMultiplatform = "0.5.0"
 koin = "3.6.0-wasm-alpha2" # Only this version works for wasm https://github.com/InsertKoinIO/koin/releases/tag/3.6.0-wasm-alpha2
 koinComposeMultiplatform = "1.2.0-Beta5"
@@ -41,7 +43,9 @@ voyager = "1.1.0-alpha04"
 
 [libraries]
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+font-awesome = { module = "br.com.devsrsouza.compose.icons:font-awesome", version.ref = "fontAwesome" }
 kamel-image = { module = "media.kamel:kamel-image", version.ref = "kamelImage" }
+kamel-image-default = { module = "media.kamel:kamel-image-default", version.ref = "kamelImage" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -67,6 +71,7 @@ koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", ver
 
 # Utils
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+stately-concurrent-collections = { module = "co.touchlab:stately-concurrent-collections", version.ref = "statelyConcurrentCollections" }
 windowSizeMultiplatform = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "windowSizeMultiplatform" }
 kmpalette-core = { module = "com.kmpalette:kmpalette-core", version.ref = "kmpalette" }
 

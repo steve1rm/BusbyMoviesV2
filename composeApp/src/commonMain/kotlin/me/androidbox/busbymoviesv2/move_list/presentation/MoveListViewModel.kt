@@ -13,11 +13,13 @@ import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUs
 import me.androidbox.busbymoviesv2.core.data.network.Routes
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
 import me.androidbox.busbymoviesv2.core.presentation.utils.mapImageSize
+import me.androidbox.busbymoviesv2.move_list.data.remote_data_source.MovieListRemoteDataSource
 import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListUseCase
 
 class MoveListViewModel(
     private val movieListUseCase: MovieListUseCase,
-    private val configurationUseCase: ConfigurationUseCase
+    private val configurationUseCase: ConfigurationUseCase,
+    private val movieListRemoteDataSource: MovieListRemoteDataSource
 ) : ViewModel() {
 
     var movieListState by mutableStateOf(MovieListState())
@@ -54,45 +56,59 @@ class MoveListViewModel(
             "Job Status before ${job?.isActive}"
         }
 
-        job?.cancel()
-
         job = viewModelScope.launch {
-            movieListState = movieListState.copy(
-                isLoading = true
-            )
+            try {
+                movieListState = movieListState.copy(
+                    isLoading = true
+                )
 
-            val configuration = viewModelScope.async {
-                configurationUseCase.execute()
-            }
-
-            val movieList = viewModelScope.async {
-                movieListUseCase.execute(movieRoute)
-            }
-
-            val configurationModel = configuration.await()
-            val movieListResult = movieList.await()
-
-            when (movieListResult) {
-                is CheckResult.Failure -> {
-                    Logger.e { "Fetch from the movie endpoint ${movieListResult.exceptionError}" }
-
-                    movieListState = movieListState.copy(
-                        isLoading = false
-                    )
+                val configuration = viewModelScope.async {
+                    configurationUseCase.execute()
                 }
 
-                is CheckResult.Success -> {
-                    Logger.d { "Success movie list ${movieListResult.data}" }
+                val movieList = viewModelScope.async {
+                    movieListUseCase.execute(movieRoute)
+                    //   movieListRemoteDataSource.movieList(Routes.NOW_PLAYING)
+                }
 
-                    val imageSize = configurationModel?.let {
-                        mapImageSize(it)
-                    } ?: "original"
+                val configurationModel = configuration.await()
+                val movieListResult = movieList.await()
 
-                    movieListState = movieListState.copy(
-                        isLoading = false,
-                        movieList = movieListResult.data.toMovieList(imageSize))
+                when (movieListResult) {
+                    is CheckResult.Failure -> {
+                        Logger.e { "Fetch from the movie endpoint ${movieListResult.exceptionError}" }
+
+                        movieListState = movieListState.copy(
+                            isLoading = false
+                        )
+                    }
+
+                    is CheckResult.Success -> {
+                        Logger.d { "Success movie list ${movieListResult.data}" }
+
+                        val imageSize = configurationModel?.let {
+                            mapImageSize(it)
+                        } ?: "original"
+
+                        movieListState = movieListState.copy(
+                            isLoading = false,
+                            movieList = movieListResult.data.toMovieList(imageSize)
+                        )
+                    }
                 }
             }
+            catch (ex: Exception) {
+                println(ex.message)
+                movieListState = movieListState.copy(
+                    isLoading = false
+                )
+            }
+        }
+
+        viewModelScope.launch {
+     //       delay(2000L)
+     //       job?.cancelChildren()
+       //     viewModelScope.coroutineContext.cancelChildren()
         }
     }
 }

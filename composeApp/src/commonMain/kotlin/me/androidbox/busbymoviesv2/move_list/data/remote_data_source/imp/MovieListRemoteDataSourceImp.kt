@@ -17,6 +17,7 @@ class MovieListRemoteDataSourceImp(
 ) : MovieListRemoteDataSource {
     override suspend fun movieList(movieRoute: String): CheckResult<MovieListDto, DataError.Network, ErrorModel> {
         val safeResult = safeApiRequest<MovieListDto> {
+        //    delay(5000L)
             val response = httpClient
                 .get(movieRoute) {
                     headers {
