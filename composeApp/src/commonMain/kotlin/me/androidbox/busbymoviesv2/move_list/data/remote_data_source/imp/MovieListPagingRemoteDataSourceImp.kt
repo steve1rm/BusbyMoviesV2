@@ -9,7 +9,8 @@ import me.androidbox.busbymoviesv2.move_list.domain.models.MovieResultModel
 
 class MovieListPagingRemoteDataSourceImp(
     private val movieListRemoteDataSource: MovieListRemoteDataSource,
-    private val searchTerm: String
+    private val searchTerm: String,
+    private val route: String,
 ) : PagingSource<Int, MovieResultModel>() {
 
     override fun getRefreshKey(state: PagingState<Int, MovieResultModel>): Int? {
@@ -30,7 +31,7 @@ class MovieListPagingRemoteDataSourceImp(
         val position = params.key ?: 1
         val offset = (position - 1) * 20 /* We want 20 pages */
 
-        when(val response = movieListRemoteDataSource.movieList("https://api.themoviedb.org/3/movie/now_playing")) {
+        when(val response = movieListRemoteDataSource.movieList(route)) {
             is CheckResult.Failure -> {
                 return LoadResult.Error(Throwable(message = response.exceptionError.toString()))
             }

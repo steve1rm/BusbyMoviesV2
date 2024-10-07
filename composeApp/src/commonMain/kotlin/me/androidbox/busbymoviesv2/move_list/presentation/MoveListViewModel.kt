@@ -34,7 +34,7 @@ class MoveListViewModel(
         private set
 
     init {
-     //   movieList(Routes.NOW_PLAYING)
+   //     movieList(Routes.NOW_PLAYING)
         viewModelScope.launch {
             movieListPagingRepositoryImp.movieListPaging(Routes.NOW_PLAYING)
                 .cachedIn(viewModelScope)

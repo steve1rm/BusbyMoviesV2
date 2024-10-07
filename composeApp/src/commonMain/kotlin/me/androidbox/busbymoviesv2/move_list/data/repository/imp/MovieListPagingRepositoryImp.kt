@@ -14,7 +14,7 @@ class MovieListPagingRepositoryImp(
     private val searchTerm: String
 ): MovieListPagingRepository {
     override fun movieListPaging(route: String): Flow<PagingData<MovieResultModel>> {
-        println("MOVIELISTPAGING")
+        println("MOVIELISTPAGING $route")
 
         return Pager(
             config = PagingConfig(
@@ -25,7 +25,8 @@ class MovieListPagingRepositoryImp(
             pagingSourceFactory = {
                MovieListPagingRemoteDataSourceImp(
                    movieListRemoteDataSource = movieListRemoteDataSource,
-                   searchTerm = searchTerm
+                   searchTerm = searchTerm,
+                   route = route
                )
             }
         ).flow
