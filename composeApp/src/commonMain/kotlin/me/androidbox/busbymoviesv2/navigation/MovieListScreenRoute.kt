@@ -1,6 +1,7 @@
 package me.androidbox.busbymoviesv2.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberUpdatedState
 import cafe.adriel.voyager.core.screen.Screen
 import me.androidbox.busbymoviesv2.move_list.presentation.MoveListViewModel
 import me.androidbox.busbymoviesv2.move_list.presentation.screens.MovieListScreen
@@ -12,6 +13,7 @@ data object MovieListScreenRoute : Screen {
     override fun Content() {
         val movieListViewModel : MoveListViewModel = koinViewModel()
         val movieListState = movieListViewModel.movieListState
+
 
         MovieListScreen(
             movieListState = movieListState,
