@@ -1,8 +1,8 @@
 package me.androidbox.busbymoviesv2.move_list.di
 
 import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUseCase
-import me.androidbox.busbymoviesv2.move_list.data.remote_data_source.MovieListRemoteDataSource
 import me.androidbox.busbymoviesv2.move_list.data.repository.MovieListRepository
+import me.androidbox.busbymoviesv2.move_list.data.repository.imp.MovieListPagingRepositoryImp
 import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListUseCase
 import me.androidbox.busbymoviesv2.move_list.domain.usecases.imp.MovieListUseCaseImp
 import me.androidbox.busbymoviesv2.move_list.presentation.MoveListViewModel
@@ -18,6 +18,6 @@ val movieListModule = module {
     // factoryOf(::MovieListNowPlayingUseCaseImp).bind(MovieListNowPlayingUseCase::class)
 
     viewModel {
-        MoveListViewModel(get<MovieListUseCase>(), get<ConfigurationUseCase>(), get<MovieListRemoteDataSource>())
+        MoveListViewModel(get<MovieListUseCase>(), get<ConfigurationUseCase>(), get<MovieListPagingRepositoryImp>())
     }
 }

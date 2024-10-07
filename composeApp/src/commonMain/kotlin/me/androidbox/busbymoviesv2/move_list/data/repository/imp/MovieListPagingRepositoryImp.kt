@@ -14,6 +14,8 @@ class MovieListPagingRepositoryImp(
     private val searchTerm: String
 ): MovieListPagingRepository {
     override fun movieListPaging(route: String): Flow<PagingData<MovieResultModel>> {
+        println("MOVIELISTPAGING")
+
         return Pager(
             config = PagingConfig(
                 pageSize = 20,

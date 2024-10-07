@@ -5,29 +5,46 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.cash.paging.PagingData
+import app.cash.paging.cachedIn
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUseCase
 import me.androidbox.busbymoviesv2.core.data.network.Routes
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
 import me.androidbox.busbymoviesv2.core.presentation.utils.mapImageSize
-import me.androidbox.busbymoviesv2.move_list.data.remote_data_source.MovieListRemoteDataSource
+import me.androidbox.busbymoviesv2.move_list.data.repository.imp.MovieListPagingRepositoryImp
+import me.androidbox.busbymoviesv2.move_list.domain.models.MovieResultModel
 import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListUseCase
 
 class MoveListViewModel(
     private val movieListUseCase: MovieListUseCase,
     private val configurationUseCase: ConfigurationUseCase,
-    private val movieListRemoteDataSource: MovieListRemoteDataSource
+    private val movieListPagingRepositoryImp: MovieListPagingRepositoryImp
 ) : ViewModel() {
+
+    private val _movieListFlow = MutableStateFlow<PagingData<MovieResultModel>>(PagingData.empty())
+    val movieListFlow = _movieListFlow.asStateFlow()
 
     var movieListState by mutableStateOf(MovieListState())
         private set
 
     init {
-        movieList(Routes.NOW_PLAYING)
-    }
+     //   movieList(Routes.NOW_PLAYING)
+        viewModelScope.launch {
+            movieListPagingRepositoryImp.movieListPaging(Routes.NOW_PLAYING)
+                .cachedIn(viewModelScope)
+                .collect { pagingData ->
+                       println("VIEWMODEL LAUNCH")
+                       _movieListFlow.value = pagingData
+                   }
+                }
+        }
+
 
     fun onMovieListAction(action: MovieListAction) {
         when(action) {
