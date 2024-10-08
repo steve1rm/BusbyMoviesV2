@@ -12,8 +12,8 @@ class MovieListRepositoryImp(
     private val movieListRemoteDataSource: MovieListRemoteDataSource
 ): MovieListRepository {
 
-    override suspend fun movieList(movieRoute: String): CheckResult<MovieListModel, DataError.Network, ErrorModel> {
-        val checkResult = when(val response = movieListRemoteDataSource.movieList(movieRoute)) {
+    override suspend fun movieList(page: Int, movieRoute: String): CheckResult<MovieListModel, DataError.Network, ErrorModel> {
+        val checkResult = when(val response = movieListRemoteDataSource.movieList(page, movieRoute)) {
             is CheckResult.Failure -> {
                 CheckResult.Failure(
                     exceptionError = response.exceptionError,

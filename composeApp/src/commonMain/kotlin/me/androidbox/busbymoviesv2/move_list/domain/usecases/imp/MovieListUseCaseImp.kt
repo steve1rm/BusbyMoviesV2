@@ -10,7 +10,7 @@ import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListUseCase
 class MovieListUseCaseImp(
     private val movieListRepository: MovieListRepository
 ) : MovieListUseCase {
-    override suspend fun execute(movieRoute: String): CheckResult<MovieListModel, DataError.Network, ErrorModel> {
-        return movieListRepository.movieList(movieRoute)
+    override suspend fun execute(page: Int, movieRoute: String): CheckResult<MovieListModel, DataError.Network, ErrorModel> {
+        return movieListRepository.movieList(page, movieRoute)
     }
 }

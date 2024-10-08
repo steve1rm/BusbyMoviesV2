@@ -19,7 +19,6 @@ import me.androidbox.busbymoviesv2.core.data.network.Routes
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
 import me.androidbox.busbymoviesv2.core.presentation.utils.mapImageSize
 import me.androidbox.busbymoviesv2.move_list.data.repository.imp.MovieListPagingRepositoryImp
-import me.androidbox.busbymoviesv2.move_list.domain.models.MovieResultModel
 import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListUseCase
 import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieResult
 
@@ -96,7 +95,7 @@ class MoveListViewModel(
                 }
 
                 val movieList = viewModelScope.async {
-                    movieListUseCase.execute(movieRoute)
+                    movieListUseCase.execute(1, movieRoute)
                     //   movieListRemoteDataSource.movieList(Routes.NOW_PLAYING)
                 }
 

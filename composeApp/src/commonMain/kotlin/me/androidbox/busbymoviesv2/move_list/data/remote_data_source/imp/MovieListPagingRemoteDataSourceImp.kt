@@ -14,8 +14,6 @@ class MovieListPagingRemoteDataSourceImp(
 ) : PagingSource<Int, MovieResultModel>() {
 
     override fun getRefreshKey(state: PagingState<Int, MovieResultModel>): Int? {
-        println("GETREFERESHKEY")
-
         val pageKey = state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
 
@@ -26,12 +24,10 @@ class MovieListPagingRemoteDataSourceImp(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieResultModel> {
-        println("LOAD")
         /** If the key is null we are at the first page (1) */
         val position = params.key ?: 1
-        val offset = (position - 1) * 20 /* We want 20 pages */
 
-        when(val response = movieListRemoteDataSource.movieList(route)) {
+        when(val response = movieListRemoteDataSource.movieList(position, route)) {
             is CheckResult.Failure -> {
                 return LoadResult.Error(Throwable(message = response.exceptionError.toString()))
             }
