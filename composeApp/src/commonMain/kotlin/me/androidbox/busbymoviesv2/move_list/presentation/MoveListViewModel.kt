@@ -37,6 +37,14 @@ class MoveListViewModel(
     init {
    //     movieList(Routes.NOW_PLAYING)
         viewModelScope.launch {
+        val configuration = viewModelScope.async {
+            configurationUseCase.execute()
+        }
+        val configurationModel = configuration.await()
+            val imageSize = configurationModel?.let {
+                mapImageSize(it)
+            } ?: "original"
+
             movieListPagingRepositoryImp.movieListPaging(Routes.NOW_PLAYING)
                 .cachedIn(viewModelScope)
                 .collect { pagingData ->
@@ -46,7 +54,7 @@ class MoveListViewModel(
                                id = it.id,
                                title = it.title,
                                overview = it.overview,
-                               posterPath = it.posterPath,
+                               posterPath = it.posterPath.toPosterWithImageSize(imageSize),
                                backdropPath = it.backdropPath,
                                voteAverage = it.voteAverage,
                                releaseDate = it.releaseDate
