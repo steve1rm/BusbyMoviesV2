@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.cash.paging.PagingData
 import app.cash.paging.cachedIn
+import app.cash.paging.map
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -20,6 +21,7 @@ import me.androidbox.busbymoviesv2.core.presentation.utils.mapImageSize
 import me.androidbox.busbymoviesv2.move_list.data.repository.imp.MovieListPagingRepositoryImp
 import me.androidbox.busbymoviesv2.move_list.domain.models.MovieResultModel
 import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListUseCase
+import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieResult
 
 class MoveListViewModel(
     private val movieListUseCase: MovieListUseCase,
@@ -27,7 +29,7 @@ class MoveListViewModel(
     private val movieListPagingRepositoryImp: MovieListPagingRepositoryImp
 ) : ViewModel() {
 
-    private val _movieListFlow = MutableStateFlow<PagingData<MovieResultModel>>(PagingData.empty())
+    private val _movieListFlow = MutableStateFlow<PagingData<MovieResult>>(PagingData.empty())
     val movieListFlow = _movieListFlow.asStateFlow()
 
     var movieListState by mutableStateOf(MovieListState())
@@ -40,7 +42,17 @@ class MoveListViewModel(
                 .cachedIn(viewModelScope)
                 .collect { pagingData ->
                        println("VIEWMODEL LAUNCH")
-                       _movieListFlow.value = pagingData
+                       _movieListFlow.value = pagingData.map {
+                           MovieResult(
+                               id = it.id,
+                               title = it.title,
+                               overview = it.overview,
+                               posterPath = it.posterPath,
+                               backdropPath = it.backdropPath,
+                               voteAverage = it.voteAverage,
+                               releaseDate = it.releaseDate
+                           )
+                       }
                    }
                 }
         }

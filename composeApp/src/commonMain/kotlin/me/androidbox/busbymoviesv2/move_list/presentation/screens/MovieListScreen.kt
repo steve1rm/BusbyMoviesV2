@@ -25,9 +25,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import app.cash.paging.compose.LazyPagingItems
-import me.androidbox.busbymoviesv2.move_list.domain.models.MovieResultModel
 import me.androidbox.busbymoviesv2.move_list.presentation.MovieListAction
 import me.androidbox.busbymoviesv2.move_list.presentation.MovieListState
+import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieResult
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -35,7 +35,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun MovieListScreen(
     movieListState: MovieListState,
     onMovieListAction: (MovieListAction) -> Unit,
-    movieListPager: LazyPagingItems<MovieResultModel>,
+    movieListPager: LazyPagingItems<MovieResult>,
     modifier: Modifier = Modifier
 ) {
 
@@ -69,7 +69,7 @@ fun MovieListScreen(
                             val item = movieListPager[index]
 
                             item?.let {
-                                Text(text = it.title)
+                                MovieListItem(it)
                             }
                         }
 
