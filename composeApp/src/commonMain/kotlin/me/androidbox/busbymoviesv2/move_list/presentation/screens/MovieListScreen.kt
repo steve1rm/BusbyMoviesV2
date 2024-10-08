@@ -72,15 +72,27 @@ fun MovieListScreen(
                                 MovieListItem(it)
                             }
                         }
+/*
 
-                      /*  items(
-                            items = movieListState.movieList,
-                            key = {
-                                it.id
+                        items(
+                            items = movieListPager.itemSnapshotList,
+                            key = { movieResult ->
+                                movieResult?.id ?: Random.nextInt()
                             }) {
-                                movieResult ->
-                            MovieListItem(movieResult)
-                        }*/
+                            it?.let {
+                                MovieListItem(it)
+                            }
+                        }
+*/
+
+                        /*  items(
+                              items = movieListState.movieList,
+                              key = {
+                                  it.id
+                              }) {
+                                  movieResult ->
+                              MovieListItem(movieResult)
+                          }*/
                     }
                 }
             }
