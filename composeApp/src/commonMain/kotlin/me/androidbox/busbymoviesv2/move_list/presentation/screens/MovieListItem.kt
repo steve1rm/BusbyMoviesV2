@@ -3,7 +3,7 @@ package me.androidbox.busbymoviesv2.move_list.presentation.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -39,8 +39,8 @@ fun MovieListItem(
         KamelImage(
             resource = { asyncPainterResource(data = movie.posterPath) },
             contentDescription = "",
-            modifier = Modifier.fillMaxSize() /*.aspectRatio(3f / 2f) */,
-            contentScale = ContentScale.Crop,
+            modifier = Modifier.aspectRatio(2f / 3f),
+            contentScale = ContentScale.FillHeight,
             onLoading = {_ ->
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
