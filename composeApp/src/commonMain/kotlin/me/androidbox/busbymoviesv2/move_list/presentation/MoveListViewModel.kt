@@ -48,7 +48,6 @@ class MoveListViewModel(
             movieListPagingRepositoryImp.movieListPaging(Routes.NOW_PLAYING)
                 .cachedIn(viewModelScope)
                 .collect { pagingData ->
-                       println("VIEWMODEL LAUNCH")
                        _movieListFlow.value = pagingData.map {
                            MovieResult(
                                id = it.id,
