@@ -6,5 +6,5 @@ import me.androidbox.busbymoviesv2.core.domain.utils.ErrorModel
 import me.androidbox.busbymoviesv2.move_list.domain.models.MovieListModel
 
 interface MovieListRepository {
-    suspend fun movieList(movieRoute: String): CheckResult<MovieListModel, DataError.Network, ErrorModel>
+    suspend fun movieList(page: Int, movieRoute: String): CheckResult<MovieListModel, DataError.Network, ErrorModel>
 }

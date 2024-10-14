@@ -6,5 +6,5 @@ import me.androidbox.busbymoviesv2.core.domain.utils.ErrorModel
 import me.androidbox.busbymoviesv2.move_list.data.dto.MovieListDto
 
 interface MovieListRemoteDataSource {
-    suspend fun movieList(movieRoute: String): CheckResult<MovieListDto, DataError.Network, ErrorModel>
+    suspend fun movieList(page: Int, movieRoute: String): CheckResult<MovieListDto, DataError.Network, ErrorModel>
 }

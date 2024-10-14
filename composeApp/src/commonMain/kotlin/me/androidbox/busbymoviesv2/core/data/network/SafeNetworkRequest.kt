@@ -5,11 +5,11 @@ import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.URLParserException
 import io.ktor.util.network.UnresolvedAddressException
+import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.SerializationException
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
 import me.androidbox.busbymoviesv2.core.domain.utils.DataError
 import me.androidbox.busbymoviesv2.core.domain.utils.ErrorModel
-import kotlin.coroutines.cancellation.CancellationException
 
 suspend inline fun <reified D> safeApiRequest(block: () -> HttpResponse): CheckResult<D, DataError.Network, ErrorModel> {
     val httpResponse = try {
@@ -31,9 +31,8 @@ suspend inline fun <reified D> safeApiRequest(block: () -> HttpResponse): CheckR
         return CheckResult.Failure(DataError.Network.BAD_REQUEST)
     }
     catch (exception: Exception) {
-        exception.printStackTrace()
-
         if (exception is CancellationException) {
+            println("NETWORK STATUS CANCELLATION")
             Logger.e(exception.message.orEmpty(), exception)
             throw exception
         }

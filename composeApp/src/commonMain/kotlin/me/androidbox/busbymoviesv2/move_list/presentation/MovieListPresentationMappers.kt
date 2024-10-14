@@ -26,3 +26,8 @@ fun MovieListModel.toMovieList(backdropImageSize: String): List<MovieResult> {
         )
     }
 }
+
+fun String.toPosterWithImageSize(backdropImageSize: String): String {
+    val imagePath = "$BASE_IMAGE_PATH$backdropImageSize"
+    return "$imagePath$this"
+}

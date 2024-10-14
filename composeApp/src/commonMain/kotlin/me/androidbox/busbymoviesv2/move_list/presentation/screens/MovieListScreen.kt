@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.Badge
 import androidx.compose.material.BadgedBox
@@ -25,8 +24,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import app.cash.paging.compose.LazyPagingItems
 import me.androidbox.busbymoviesv2.move_list.presentation.MovieListAction
 import me.androidbox.busbymoviesv2.move_list.presentation.MovieListState
+import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieResult
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -34,6 +35,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun MovieListScreen(
     movieListState: MovieListState,
     onMovieListAction: (MovieListAction) -> Unit,
+    movieListPager: LazyPagingItems<MovieResult>,
     modifier: Modifier = Modifier
 ) {
 
@@ -62,14 +64,35 @@ fun MovieListScreen(
                         modifier = Modifier.fillMaxSize(),
                         state = rememberLazyGridState()
                     ) {
-                        items(
-                            items = movieListState.movieList,
-                            key = {
-                                it.id
-                            }) {
-                                movieResult ->
-                            MovieListItem(movieResult)
+
+                        items(movieListPager.itemCount) { index ->
+                            val item = movieListPager[index]
+
+                            item?.let {
+                                MovieListItem(it)
+                            }
                         }
+/*
+
+                        items(
+                            items = movieListPager.itemSnapshotList,
+                            key = { movieResult ->
+                                movieResult?.id ?: Random.nextInt()
+                            }) {
+                            it?.let {
+                                MovieListItem(it)
+                            }
+                        }
+*/
+
+                        /*  items(
+                              items = movieListState.movieList,
+                              key = {
+                                  it.id
+                              }) {
+                                  movieResult ->
+                              MovieListItem(movieResult)
+                          }*/
                     }
                 }
             }
@@ -126,9 +149,10 @@ fun MovieListScreen(
 @Preview
 fun PreviewMovieListScreen() {
     MaterialTheme {
-        MovieListScreen(
+       /* MovieListScreen(
             movieListState = MovieListState(),
-            onMovieListAction = {}
-        )
+            onMovieListAction = {},
+
+        )*/
     }
 }

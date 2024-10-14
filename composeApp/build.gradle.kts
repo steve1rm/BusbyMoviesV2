@@ -85,12 +85,11 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.transitions)
-            implementation("br.com.devsrsouza.compose.icons:font-awesome:1.1.1")
+            implementation(libs.font.awesome)
+            implementation("app.cash.paging:paging-common:3.3.0-alpha02-0.5.1")
+            implementation("app.cash.paging:paging-compose-common:3.3.0-alpha02-0.5.1")
 
-            //   implementation("media.kamel:kamel-decoder-image-bitmap-resizing:1.0.0-beta.6")
-            implementation("media.kamel:kamel-image-default:1.0.0-beta.7")
-            implementation("co.touchlab:stately-common:2.0.6")
-            implementation("co.touchlab:stately-concurrent-collections:2.0.7")
+            implementation(libs.kamel.image.default)
         }
 
         androidMain.dependencies {
@@ -114,6 +113,8 @@ kotlin {
 
         wasmJsMain.dependencies {
             implementation(libs.ktor.engine.js)
+            /** KLIB resolver: Could not find "co.touchlab:stately-concurrent-collections" */
+            implementation(libs.stately.concurrent.collections)
         }
     }
 }
