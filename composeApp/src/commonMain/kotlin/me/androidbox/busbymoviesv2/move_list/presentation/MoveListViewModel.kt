@@ -14,6 +14,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import me.androidbox.busbymoviesv2.configuration.domain.models.ConfigurationModel
 import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUseCase
 import me.androidbox.busbymoviesv2.core.data.network.Routes
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
@@ -34,34 +35,40 @@ class MoveListViewModel(
     var movieListState by mutableStateOf(MovieListState())
         private set
 
+    private var configurationModel: ConfigurationModel? = null
+    private var imageSize: String = "w500"
+
     init {
-   //     movieList(Routes.NOW_PLAYING)
         viewModelScope.launch {
-        val configuration = viewModelScope.async {
-            configurationUseCase.execute()
-        }
-        val configurationModel = configuration.await()
-            val imageSize = configurationModel?.let {
+            val configuration = viewModelScope.async {
+                configurationUseCase.execute()
+            }
+            configurationModel = configuration.await()
+             configurationModel?.let {
                 mapImageSize(it)
             } ?: "original"
 
-            movieListPagingRepositoryImp.movieListPaging(Routes.NOW_PLAYING)
-                .cachedIn(viewModelScope)
-                .collect { pagingData ->
-                       _movieListFlow.value = pagingData.map {
-                           MovieResult(
-                               id = it.id,
-                               title = it.title,
-                               overview = it.overview,
-                               posterPath = it.posterPath.toPosterWithImageSize(imageSize),
-                               backdropPath = it.backdropPath,
-                               voteAverage = it.voteAverage,
-                               releaseDate = it.releaseDate
-                           )
-                       }
-                   }
-                }
+            observePaging(imageSize, Routes.NOW_PLAYING)
         }
+    }
+
+    private suspend fun observePaging(imageSize: String, route: String) {
+        movieListPagingRepositoryImp.movieListPaging(route)
+            .cachedIn(viewModelScope)
+            .collect { pagingData ->
+                _movieListFlow.value = pagingData.map {
+                    MovieResult(
+                        id = it.id,
+                        title = it.title,
+                        overview = it.overview,
+                        posterPath = it.posterPath.toPosterWithImageSize(imageSize),
+                        backdropPath = it.backdropPath,
+                        voteAverage = it.voteAverage,
+                        releaseDate = it.releaseDate
+                    )
+                }
+            }
+    }
 
 
     fun onMovieListAction(action: MovieListAction) {
@@ -78,7 +85,10 @@ class MoveListViewModel(
                     "Movie navigation item clicked ${action.movieCategory.name}"
                 }
 
-                movieList(action.movieCategory.movieRoute)
+               // movieList(action.movieCategory.movieRoute)
+                viewModelScope.launch {
+                    observePaging(imageSize, action.movieCategory.movieRoute)
+                }
             }
         }
     }
