@@ -79,7 +79,6 @@ kmpalette-core = { module = "com.kmpalette:kmpalette-core", version.ref = "kmpal
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 
-
 # Ktor
 ktor-engine-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
 ktor-engine-js = { group = "io.ktor", name = "ktor-client-js", version.ref = "ktor" }
