@@ -145,9 +145,16 @@ fun MovieListScreen(
         if(showNavigationRail) {
             NavigationRailSideBar(
                 items = listOfBottomMovieListNavigationItems,
-                selectedItemIndex = 0,
-                onItemClicked = { item ->
+                selectedItemIndex = selectedItemIndex,
+                onMovieListAction = { movieListAction, index ->
+                    println(movieListAction.toString())
+                    selectedItemIndex = index
 
+                    onMovieListAction(
+                        MovieListAction.OnMovieListNavigationItemClicked(
+                            listOfBottomMovieListNavigationItems[index].movieCategory
+                        )
+                    )
                 }
             )
         }
@@ -158,7 +165,7 @@ fun MovieListScreen(
 fun NavigationRailSideBar(
     items: List<BottomMovieListNavigationItem>,
     selectedItemIndex: Int,
-    onItemClicked: (Int) -> Unit
+    onMovieListAction: (MovieListAction, Int) -> Unit
 ) {
     NavigationRail(
         modifier = Modifier.padding(top = 56.dp)
@@ -167,16 +174,40 @@ fun NavigationRailSideBar(
             NavigationRailItem(
                 selected = selectedItemIndex == index,
                 onClick = {
-                    onItemClicked(index)
+                    /* Don't trigger a new request if the user is on the same category */
+                    if (selectedItemIndex != index) {
+                        /** Just want to load a different movie list i.e. now playing, trending, popular, upcoming */
+                        onMovieListAction(
+                            MovieListAction.OnMovieListNavigationItemClicked(
+                                items[index].movieCategory,
+                            ),
+                            index
+                        )
+                    }
                 },
                 icon = {
-                    Icon(
-                        imageVector = item.selectedIcon,
-                        contentDescription = "selected item"
-                    )
+                    BadgedBox(
+                        badge = {
+                            if (item.badgeCount != null) {
+                                Badge {
+                                    Text(text = item.badgeCount.toString())
+                                }
+                            } else if (item.hasExtra) {
+                                Badge()
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = if (selectedItemIndex == index)
+                                item.selectedIcon else item.unSelectedIcon,
+                            contentDescription = stringResource(resource = item.title)
+                        )
+                    }
                 },
                 label = {
-                    Text(text = stringResource(item.title))
+                    Text(
+                        modifier = Modifier.padding(top = 4.dp),
+                        text = stringResource(item.title))
                 }
             )
         }
