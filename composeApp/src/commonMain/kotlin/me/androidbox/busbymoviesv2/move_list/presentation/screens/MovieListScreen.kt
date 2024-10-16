@@ -83,15 +83,6 @@ fun MovieListScreen(
                                         }
                                     }
                                 )
-                              /*  items(
-                                    items = movieListPager.itemSnapshotList.items,
-                                    key = { movieResult ->
-                                        movieResult.id
-                                    },
-                                    itemContent = { movieResult ->
-                                        MovieListItem(movieResult)
-                                    }
-                                )*/
                             }
                         )
                     }
