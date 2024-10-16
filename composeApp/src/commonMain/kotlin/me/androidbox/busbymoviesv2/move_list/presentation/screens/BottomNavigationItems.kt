@@ -14,7 +14,7 @@ import me.androidbox.busbymoviesv2.move_list.presentation.MovieCategories
 import org.jetbrains.compose.resources.StringResource
 
 
-data class BottomMovieListNavigationItem(
+data class MovieListNavigationItem(
     val title: StringResource,
     val movieCategory: MovieCategories,
     val selectedIcon: ImageVector,
@@ -23,15 +23,15 @@ data class BottomMovieListNavigationItem(
     val badgeCount: Int? = null
 )
 
-val listOfBottomMovieListNavigationItems = listOf(
-    BottomMovieListNavigationItem(
+val listOfNavigationItems = listOf(
+    MovieListNavigationItem(
         title = MovieCategories.NOW_PLAYING.titleRes,
         movieCategory = MovieCategories.NOW_PLAYING,
         selectedIcon = Icons.Filled.PlayArrow,
         unSelectedIcon = Icons.Outlined.PlayArrow,
         hasExtra = false
     ),
-    BottomMovieListNavigationItem(
+    MovieListNavigationItem(
         title = MovieCategories.TOP_RATED.titleRes,
         movieCategory = MovieCategories.TOP_RATED,
         selectedIcon = Icons.Filled.Star,
@@ -39,14 +39,14 @@ val listOfBottomMovieListNavigationItems = listOf(
         hasExtra = false,
         badgeCount = 5
     ),
-    BottomMovieListNavigationItem(
+    MovieListNavigationItem(
         title = MovieCategories.POPULAR.titleRes,
         movieCategory = MovieCategories.POPULAR,
         selectedIcon = Icons.Filled.ThumbUp,
         unSelectedIcon = Icons.Outlined.ThumbUp,
         hasExtra = false
     ),
-    BottomMovieListNavigationItem(
+    MovieListNavigationItem(
         title = MovieCategories.UPCOMING.titleRes,
         movieCategory = MovieCategories.UPCOMING,
         selectedIcon = Icons.Filled.DateRange,

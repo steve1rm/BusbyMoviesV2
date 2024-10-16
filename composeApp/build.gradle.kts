@@ -90,6 +90,8 @@ kotlin {
             implementation("app.cash.paging:paging-compose-common:3.3.0-alpha02-0.5.1")
 
             implementation(libs.kamel.image.default)
+
+            implementation(libs.windowSizeMultiplatform)
         }
 
         androidMain.dependencies {
