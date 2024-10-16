@@ -9,16 +9,10 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material.Badge
-import androidx.compose.material.BadgedBox
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationDefaults
-import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.NavigationRail
-import androidx.compose.material.NavigationRailItem
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -37,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import app.cash.paging.compose.LazyPagingItems
 import me.androidbox.busbymoviesv2.move_list.presentation.MovieListAction
 import me.androidbox.busbymoviesv2.move_list.presentation.MovieListState
+import me.androidbox.busbymoviesv2.move_list.presentation.components.NavigationBottomBar
+import me.androidbox.busbymoviesv2.move_list.presentation.components.NavigationRailSideBar
 import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieResult
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -97,46 +93,14 @@ fun MovieListScreen(
                     BottomNavigation(
                         elevation = BottomNavigationDefaults.Elevation
                     ) {
-                        listOfNavigationItems.forEachIndexed { index, navigationItem ->
-                            BottomNavigationItem(
-                                label = {
-                                    Text(text = stringResource(resource = navigationItem.title))
-                                },
-                                selected = selectedItemIndex == index,
-                                onClick = {
-                                    /* Don't trigger a new request if the user is on the same category */
-                                    if (selectedItemIndex != index) {
-                                        /** Just want to load a different movie list i.e. now playing, trending, popular, upcoming */
-                                        onMovieListAction(
-                                            MovieListAction.OnMovieListNavigationItemClicked(
-                                                listOfNavigationItems[index].movieCategory
-                                            )
-                                        )
-                                    }
-
-                                    selectedItemIndex = index
-                                },
-                                icon = {
-                                    BadgedBox(
-                                        badge = {
-                                            if (navigationItem.badgeCount != null) {
-                                                Badge {
-                                                    Text(text = navigationItem.badgeCount.toString())
-                                                }
-                                            } else if (navigationItem.hasExtra) {
-                                                Badge()
-                                            }
-                                        }
-                                    ) {
-                                        Icon(
-                                            imageVector = if (selectedItemIndex == index)
-                                                navigationItem.selectedIcon else navigationItem.unSelectedIcon,
-                                            contentDescription = stringResource(resource = navigationItem.title)
-                                        )
-                                    }
-                                }
-                            )
-                        }
+                        NavigationBottomBar(
+                            listOfNavigationItems,
+                            selectedItemIndex = selectedItemIndex,
+                            onItemClicked = { movieCategory, index ->
+                                onMovieListAction(MovieListAction.OnMovieListNavigationItemClicked(movieCategory))
+                                selectedItemIndex = index
+                            }
+                        )
                     }
                 }
             }
@@ -146,69 +110,11 @@ fun MovieListScreen(
             NavigationRailSideBar(
                 listOfNavigationItems = listOfNavigationItems,
                 selectedItemIndex = selectedItemIndex,
-                onItemClicked = { movieListAction, index ->
-                    println(movieListAction.toString())
+                onItemClicked = { movieCategory, index ->
+                    onMovieListAction(MovieListAction.OnMovieListNavigationItemClicked(movieCategory))
                     selectedItemIndex = index
-
-                    onMovieListAction(
-                        MovieListAction.OnMovieListNavigationItemClicked(
-                            listOfNavigationItems[index].movieCategory
-                        )
-                    )
                 }
             )
-        }
-    }
-}
-
-
-
-@Composable
-fun NavigationRailSideBar(
-    listOfNavigationItems: List<BottomMovieListNavigationItem>,
-    selectedItemIndex: Int,
-    onItemClicked: (MovieListAction, Int) -> Unit
-) {
-    NavigationRail(
-        modifier = Modifier.padding(top = 56.dp)
-    ) {
-        listOfNavigationItems.forEachIndexed { index, navigationItem ->
-            NavigationRailItem(
-                label = {
-                    Text(text = stringResource(navigationItem.title))
-                },
-                selected = selectedItemIndex == index,
-                onClick = {
-                    /* Don't trigger a new request if the user is on the same category */
-                    if (selectedItemIndex != index) {
-                        /** Just want to load a different movie list i.e. now playing, trending, popular, upcoming */
-                        onItemClicked(
-                            MovieListAction.OnMovieListNavigationItemClicked(
-                                listOfNavigationItems[index].movieCategory,
-                            ),
-                            index
-                        )
-                    }
-                },
-                icon = {
-                    BadgedBox(
-                        badge = {
-                            if (navigationItem.badgeCount != null) {
-                                Badge {
-                                    Text(text = navigationItem.badgeCount.toString())
-                                }
-                            } else if (navigationItem.hasExtra) {
-                                Badge()
-                            }
-                        }
-                    ) {
-                        Icon(
-                            imageVector = if (selectedItemIndex == index)
-                                navigationItem.selectedIcon else navigationItem.unSelectedIcon,
-                            contentDescription = stringResource(resource = navigationItem.title)
-                        )
-                    }
-                })
         }
     }
 }
@@ -217,10 +123,10 @@ fun NavigationRailSideBar(
 @Preview
 fun PreviewMovieListScreen() {
     MaterialTheme {
-       /* MovieListScreen(
-            movieListState = MovieListState(),
-            onMovieListAction = {},
+        /* MovieListScreen(
+             movieListState = MovieListState(),
+             onMovieListAction = {},
 
-        )*/
+         )*/
     }
 }
