@@ -23,7 +23,7 @@ data class BottomMovieListNavigationItem(
     val badgeCount: Int? = null
 )
 
-val listOfBottomMovieListNavigationItems = listOf(
+val listOfNavigationItems = listOf(
     BottomMovieListNavigationItem(
         title = MovieCategories.NOW_PLAYING.titleRes,
         movieCategory = MovieCategories.NOW_PLAYING,

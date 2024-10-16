@@ -61,7 +61,7 @@ fun MovieListScreen(
             topBar = {
                 TopAppBar(
                     title = {
-                        Text(stringResource(resource = listOfBottomMovieListNavigationItems[selectedItemIndex].title))
+                        Text(stringResource(resource = listOfNavigationItems[selectedItemIndex].title))
                     }
                 )
             },
@@ -97,10 +97,10 @@ fun MovieListScreen(
                     BottomNavigation(
                         elevation = BottomNavigationDefaults.Elevation
                     ) {
-                        listOfBottomMovieListNavigationItems.forEachIndexed { index, bottomNavigationItem ->
+                        listOfNavigationItems.forEachIndexed { index, navigationItem ->
                             BottomNavigationItem(
                                 label = {
-                                    Text(text = stringResource(resource = bottomNavigationItem.title))
+                                    Text(text = stringResource(resource = navigationItem.title))
                                 },
                                 selected = selectedItemIndex == index,
                                 onClick = {
@@ -109,7 +109,7 @@ fun MovieListScreen(
                                         /** Just want to load a different movie list i.e. now playing, trending, popular, upcoming */
                                         onMovieListAction(
                                             MovieListAction.OnMovieListNavigationItemClicked(
-                                                listOfBottomMovieListNavigationItems[index].movieCategory
+                                                listOfNavigationItems[index].movieCategory
                                             )
                                         )
                                     }
@@ -119,19 +119,19 @@ fun MovieListScreen(
                                 icon = {
                                     BadgedBox(
                                         badge = {
-                                            if (bottomNavigationItem.badgeCount != null) {
+                                            if (navigationItem.badgeCount != null) {
                                                 Badge {
-                                                    Text(text = bottomNavigationItem.badgeCount.toString())
+                                                    Text(text = navigationItem.badgeCount.toString())
                                                 }
-                                            } else if (bottomNavigationItem.hasExtra) {
+                                            } else if (navigationItem.hasExtra) {
                                                 Badge()
                                             }
                                         }
                                     ) {
                                         Icon(
                                             imageVector = if (selectedItemIndex == index)
-                                                bottomNavigationItem.selectedIcon else bottomNavigationItem.unSelectedIcon,
-                                            contentDescription = stringResource(resource = bottomNavigationItem.title)
+                                                navigationItem.selectedIcon else navigationItem.unSelectedIcon,
+                                            contentDescription = stringResource(resource = navigationItem.title)
                                         )
                                     }
                                 }
@@ -144,15 +144,15 @@ fun MovieListScreen(
 
         if(showNavigationRail) {
             NavigationRailSideBar(
-                items = listOfBottomMovieListNavigationItems,
+                listOfNavigationItems = listOfNavigationItems,
                 selectedItemIndex = selectedItemIndex,
-                onMovieListAction = { movieListAction, index ->
+                onItemClicked = { movieListAction, index ->
                     println(movieListAction.toString())
                     selectedItemIndex = index
 
                     onMovieListAction(
                         MovieListAction.OnMovieListNavigationItemClicked(
-                            listOfBottomMovieListNavigationItems[index].movieCategory
+                            listOfNavigationItems[index].movieCategory
                         )
                     )
                 }
@@ -161,25 +161,30 @@ fun MovieListScreen(
     }
 }
 
+
+
 @Composable
 fun NavigationRailSideBar(
-    items: List<BottomMovieListNavigationItem>,
+    listOfNavigationItems: List<BottomMovieListNavigationItem>,
     selectedItemIndex: Int,
-    onMovieListAction: (MovieListAction, Int) -> Unit
+    onItemClicked: (MovieListAction, Int) -> Unit
 ) {
     NavigationRail(
         modifier = Modifier.padding(top = 56.dp)
     ) {
-        items.forEachIndexed { index, item ->
+        listOfNavigationItems.forEachIndexed { index, navigationItem ->
             NavigationRailItem(
+                label = {
+                    Text(text = stringResource(navigationItem.title))
+                },
                 selected = selectedItemIndex == index,
                 onClick = {
                     /* Don't trigger a new request if the user is on the same category */
                     if (selectedItemIndex != index) {
                         /** Just want to load a different movie list i.e. now playing, trending, popular, upcoming */
-                        onMovieListAction(
+                        onItemClicked(
                             MovieListAction.OnMovieListNavigationItemClicked(
-                                items[index].movieCategory,
+                                listOfNavigationItems[index].movieCategory,
                             ),
                             index
                         )
@@ -188,28 +193,22 @@ fun NavigationRailSideBar(
                 icon = {
                     BadgedBox(
                         badge = {
-                            if (item.badgeCount != null) {
+                            if (navigationItem.badgeCount != null) {
                                 Badge {
-                                    Text(text = item.badgeCount.toString())
+                                    Text(text = navigationItem.badgeCount.toString())
                                 }
-                            } else if (item.hasExtra) {
+                            } else if (navigationItem.hasExtra) {
                                 Badge()
                             }
                         }
                     ) {
                         Icon(
                             imageVector = if (selectedItemIndex == index)
-                                item.selectedIcon else item.unSelectedIcon,
-                            contentDescription = stringResource(resource = item.title)
+                                navigationItem.selectedIcon else navigationItem.unSelectedIcon,
+                            contentDescription = stringResource(resource = navigationItem.title)
                         )
                     }
-                },
-                label = {
-                    Text(
-                        modifier = Modifier.padding(top = 4.dp),
-                        text = stringResource(item.title))
-                }
-            )
+                })
         }
     }
 }
