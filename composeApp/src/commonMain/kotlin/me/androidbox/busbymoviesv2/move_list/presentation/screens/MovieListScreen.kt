@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationDefaults
@@ -44,7 +43,6 @@ fun MovieListScreen(
     movieListPager: LazyPagingItems<MovieResult>,
     modifier: Modifier = Modifier
 ) {
-
     var selectedItemIndex by rememberSaveable {
         mutableIntStateOf(0)
     }
@@ -75,6 +73,17 @@ fun MovieListScreen(
                             state = rememberLazyGridState(),
                             content = {
                                 items(
+                                    count = movieListPager.itemCount,
+                                    key = {
+                                        it
+                                    },
+                                    itemContent = { index ->
+                                        movieListPager[index]?.let { movieResult ->
+                                            MovieListItem(movieResult)
+                                        }
+                                    }
+                                )
+                              /*  items(
                                     items = movieListPager.itemSnapshotList.items,
                                     key = { movieResult ->
                                         movieResult.id
@@ -82,7 +91,7 @@ fun MovieListScreen(
                                     itemContent = { movieResult ->
                                         MovieListItem(movieResult)
                                     }
-                                )
+                                )*/
                             }
                         )
                     }
