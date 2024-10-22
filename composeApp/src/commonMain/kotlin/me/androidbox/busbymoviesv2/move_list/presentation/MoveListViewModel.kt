@@ -70,7 +70,6 @@ class MoveListViewModel(
             }
     }
 
-
     fun onMovieListAction(action: MovieListAction) {
         when(action) {
             is MovieListAction.OnMovieClicked -> {

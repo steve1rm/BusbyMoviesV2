@@ -6,6 +6,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.parameter
 import io.ktor.http.ContentType
+import kotlinx.coroutines.delay
 import me.androidbox.busbymoviesv2.core.data.network.safeApiRequest
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
 import me.androidbox.busbymoviesv2.core.domain.utils.DataError
@@ -18,7 +19,7 @@ class MovieListRemoteDataSourceImp(
 ) : MovieListRemoteDataSource {
     override suspend fun movieList(page: Int, movieRoute: String): CheckResult<MovieListDto, DataError.Network, ErrorModel> {
         val safeResult = safeApiRequest<MovieListDto> {
-        //    delay(5000L)
+            delay(2_000L)
             val response = httpClient
                 .get(movieRoute) {
                     parameter("page", page)
@@ -30,7 +31,6 @@ class MovieListRemoteDataSourceImp(
             response
         }
 
-        println("NETWORK STATUS AFTER")
         return safeResult
     }
 }
