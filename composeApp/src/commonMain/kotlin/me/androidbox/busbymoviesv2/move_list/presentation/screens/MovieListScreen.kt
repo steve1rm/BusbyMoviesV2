@@ -161,7 +161,9 @@ fun MovieListScreen(
                                                     color = Color.Red
                                                 )
                                                 OutlinedButton(
-                                                    onClick = {},
+                                                    onClick = {
+                                                        movieListPager.retry()
+                                                    },
                                                     modifier = Modifier
                                                         .fillMaxWidth()
                                                         .padding(16.dp)
@@ -190,7 +192,9 @@ fun MovieListScreen(
                                                     modifier = Modifier.weight(1f),
                                                     color = Color.Red
                                                 )
-                                                OutlinedButton(onClick = {}) {
+                                                OutlinedButton(onClick = {
+                                                    movieListPager.retry()
+                                                }) {
                                                     Text(text = "Try again")
                                                 }
                                             }
