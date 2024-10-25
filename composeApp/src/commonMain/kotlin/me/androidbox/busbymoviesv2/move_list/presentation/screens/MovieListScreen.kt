@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@file:OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterialApi::class)
 
 package me.androidbox.busbymoviesv2.move_list.presentation.screens
 
@@ -17,18 +17,24 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationDefaults
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -63,6 +69,15 @@ fun MovieListScreen(
      * */
     val windowClass = calculateWindowSizeClass()
     val showNavigationRail = windowClass.widthSizeClass != WindowWidthSizeClass.Compact
+    var isRefreshing by remember { mutableStateOf(false) }
+
+    val pullToRefreshState = rememberPullRefreshState(
+        refreshing = isRefreshing,
+        onRefresh = {
+            isRefreshing = true
+            movieListPager.refresh()
+        }
+    )
 
     Surface {
         Scaffold(
@@ -74,16 +89,16 @@ fun MovieListScreen(
                 )
             },
             content = { paddingValues ->
-                Box(modifier = modifier.fillMaxSize().padding(paddingValues),
+                Box(modifier = modifier.fillMaxSize()
+                    .padding(paddingValues)
+                    .pullRefresh(pullToRefreshState),
                     contentAlignment = Alignment.Center) {
 
-                    if(movieListState.isLoading) {
-                        CircularProgressIndicator()
-                    }
-                    else {
                         LazyVerticalGrid(
                             columns = GridCells.Fixed(count = 2),
-                            modifier = Modifier.fillMaxSize().padding(start = if(showNavigationRail) 68.dp else 0.dp),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(start = if(showNavigationRail) 68.dp else 0.dp),
                             state = rememberLazyGridState(),
                             content = {
                                 items(
@@ -114,33 +129,23 @@ fun MovieListScreen(
                                         ) {
                                             Box(
                                                 modifier = Modifier
-                                                    .fillMaxWidth()
+                                                    .fillMaxSize()
                                                     .padding(vertical = 8.dp),
                                                 contentAlignment = Alignment.Center
                                             ) {
                                                 CircularProgressIndicator(
-                                                    color = Color.Green
+                                                    modifier = Modifier.align(Alignment.Center),
+                                                    color = Color.Blue
                                                 )
                                             }
                                         }
                                     }
 
-                                    movieListPager.loadState.append is LoadStateLoading -> {
-                                        item(
-                                            span = {
-                                                GridItemSpan(currentLineSpan = 2)
-                                            }
-                                        ) {
-                                            Box(
-                                                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                CircularProgressIndicator(
-                                                    modifier = Modifier.align(Alignment.Center),
-                                                    color = Color.Green
-                                                )
-                                            }
-                                        }
+                                    movieListPager.loadState.refresh is LoadStateNotLoading -> {
+                                        /** Stop the refresh indicator as the data has already loaded */
+
+                                            isRefreshing = false
+
                                     }
 
                                     movieListPager.loadState.refresh is LoadStateError -> {
@@ -175,6 +180,24 @@ fun MovieListScreen(
                                         }
                                     }
 
+                                    movieListPager.loadState.append is LoadStateLoading -> {
+                                        item(
+                                            span = {
+                                                GridItemSpan(currentLineSpan = 2)
+                                            }
+                                        ) {
+                                            Box(
+                                                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                                                contentAlignment = Alignment.Center
+                                            ) {
+                                                CircularProgressIndicator(
+                                                    modifier = Modifier.align(Alignment.Center),
+                                                    color = Color.Green
+                                                )
+                                            }
+                                        }
+                                    }
+
                                     movieListPager.loadState.append is LoadStateError -> {
                                         item(
                                             span = {
@@ -203,8 +226,13 @@ fun MovieListScreen(
                                 }
                             }
                         )
+
+                        PullRefreshIndicator(
+                            modifier = Modifier.align(Alignment.TopCenter),
+                            refreshing = isRefreshing,
+                            state = pullToRefreshState
+                        )
                     }
-                }
             },
             bottomBar = {
                 if(!showNavigationRail) {
