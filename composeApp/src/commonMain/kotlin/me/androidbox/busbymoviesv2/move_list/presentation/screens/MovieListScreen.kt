@@ -33,6 +33,8 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -67,11 +69,12 @@ fun MovieListScreen(
      * */
     val windowClass = calculateWindowSizeClass()
     val showNavigationRail = windowClass.widthSizeClass != WindowWidthSizeClass.Compact
+    var isRefreshing by remember { mutableStateOf(false) }
 
     val pullToRefreshState = rememberPullRefreshState(
-        refreshing = movieListState.isLoading,
-        refreshThreshold = 120.dp,
+        refreshing = isRefreshing,
         onRefresh = {
+            isRefreshing = true
             movieListPager.refresh()
         }
     )
@@ -91,12 +94,6 @@ fun MovieListScreen(
                     .pullRefresh(pullToRefreshState),
                     contentAlignment = Alignment.Center) {
 
-                    if(movieListState.isLoading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.align(Alignment.BottomCenter)
-                        )
-                    }
-                    else {
                         LazyVerticalGrid(
                             columns = GridCells.Fixed(count = 2),
                             modifier = Modifier
@@ -142,6 +139,13 @@ fun MovieListScreen(
                                                 )
                                             }
                                         }
+                                    }
+
+                                    movieListPager.loadState.refresh is LoadStateNotLoading -> {
+                                        /** Stop the refresh indicator as the data has already loaded */
+
+                                            isRefreshing = false
+
                                     }
 
                                     movieListPager.loadState.refresh is LoadStateError -> {
@@ -225,11 +229,10 @@ fun MovieListScreen(
 
                         PullRefreshIndicator(
                             modifier = Modifier.align(Alignment.TopCenter),
-                            refreshing = true,
+                            refreshing = isRefreshing,
                             state = pullToRefreshState
                         )
                     }
-                }
             },
             bottomBar = {
                 if(!showNavigationRail) {
