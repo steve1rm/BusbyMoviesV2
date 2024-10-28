@@ -90,7 +90,8 @@ kotlin {
             implementation("app.cash.paging:paging-compose-common:3.3.0-alpha02-0.5.1")
 
             implementation(libs.kamel.image.default)
-
+            implementation("dev.chrisbanes.haze:haze:0.7.3")
+            implementation("dev.chrisbanes.haze:haze-materials:0.7.3")
             implementation(libs.windowSizeMultiplatform)
         }
 
