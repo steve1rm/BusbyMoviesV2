@@ -1,4 +1,4 @@
-package me.androidbox.busbymoviesv2.movie_details.data
+package me.androidbox.busbymoviesv2.movie_details.data.dto
 
 import kotlinx.serialization.Serializable
 

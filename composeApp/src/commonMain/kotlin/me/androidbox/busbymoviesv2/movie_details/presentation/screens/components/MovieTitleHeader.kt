@@ -17,6 +17,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MovieTitleHeader(
+    title: String,
+    tagline: String,
+    releaseDate: String,
     modifier: Modifier = Modifier
 ) {
         Column(
@@ -26,7 +29,7 @@ fun MovieTitleHeader(
         ) {
 
             Text(
-                text = "The Mighty Warriors who became Heroes",
+                text = tagline,
                 color = Color.White,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Thin
@@ -43,14 +46,14 @@ fun MovieTitleHeader(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Seven Samurai",
+                    text = title,
                     color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold
                 )
 
                 Text(
-                    text = "26 April 1954",
+                    text = releaseDate,
                     color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold
@@ -62,5 +65,9 @@ fun MovieTitleHeader(
 @Preview
 @Composable
 fun MovieTitleHeaderPreview() {
-    MovieTitleHeader(modifier = Modifier)
+    MovieTitleHeader(
+        title = "Seven Samurai",
+        tagline = "The Mighty Warriors who became Heroes",
+        releaseDate = "26 April 1964",
+        modifier = Modifier)
 }

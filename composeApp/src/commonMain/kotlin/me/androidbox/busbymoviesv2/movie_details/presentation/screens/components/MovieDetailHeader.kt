@@ -22,13 +22,13 @@ import dev.chrisbanes.haze.hazeChild
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
-import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieResult
+import me.androidbox.busbymoviesv2.movie_details.presentation.model.MovieDetail
 import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MovieDetailHeader(
-    movie: MovieResult
+    movieDetail: MovieDetail
 ) {
     val hazeState = remember { HazeState() }
 
@@ -54,6 +54,9 @@ fun MovieDetailHeader(
         )
 
         MovieTitleHeader(
+            title = movieDetail.title,
+            tagline = movieDetail.tagline,
+            releaseDate = movieDetail.releaseDate,
             modifier = Modifier.align(Alignment.BottomCenter).hazeChild(
                 state = hazeState,
                 shape = RoundedCornerShape(topStart = 60f, topEnd = 60f)
@@ -65,5 +68,5 @@ fun MovieDetailHeader(
 @Preview
 @Composable
 fun MovieDetailHeaderPreview() {
-    MovieDetailHeader(movie = MovieResult())
+    MovieDetailHeader(movieDetail = MovieDetail())
 }

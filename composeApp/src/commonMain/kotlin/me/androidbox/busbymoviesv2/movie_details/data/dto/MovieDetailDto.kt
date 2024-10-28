@@ -1,4 +1,4 @@
-package me.androidbox.busbymoviesv2.movie_details.data
+package me.androidbox.busbymoviesv2.movie_details.data.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -10,7 +10,6 @@ data class MovieDetailDto(
     @SerialName("backdrop_path")
     val backdropPath: String,
     val budget: Int,
-    val genres: List<GenreDto>,
     val homepage: String,
     val id: Int,
     @SerialName("imdb_id")
@@ -34,5 +33,6 @@ data class MovieDetailDto(
     @SerialName("vote_average")
     val voteAverage: Double,
     @SerialName("vote_count")
-    val voteCount: Int
+    val voteCount: Int,
+    val genres: List<GenreDto>
 )

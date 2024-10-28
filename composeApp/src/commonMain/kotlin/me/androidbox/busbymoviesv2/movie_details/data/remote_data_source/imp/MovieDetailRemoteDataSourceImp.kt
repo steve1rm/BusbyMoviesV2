@@ -11,7 +11,7 @@ import me.androidbox.busbymoviesv2.core.data.network.safeApiRequest
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
 import me.androidbox.busbymoviesv2.core.domain.utils.DataError
 import me.androidbox.busbymoviesv2.core.domain.utils.ErrorModel
-import me.androidbox.busbymoviesv2.movie_details.data.MovieDetailDto
+import me.androidbox.busbymoviesv2.movie_details.data.dto.MovieDetailDto
 import me.androidbox.busbymoviesv2.movie_details.data.remote_data_source.MovieDetailRemoteDataSource
 
 class MovieDetailRemoteDataSourceImp(private val httpClient: HttpClient) : MovieDetailRemoteDataSource {
