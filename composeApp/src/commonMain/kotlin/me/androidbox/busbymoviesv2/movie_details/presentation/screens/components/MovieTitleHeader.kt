@@ -6,10 +6,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -35,21 +38,27 @@ fun MovieTitleHeader(
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
+                    modifier = Modifier.weight(1f),
                     text = tagline,
                     color = Color.White,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Thin
                 )
 
-                Icon(
-                    modifier = Modifier.size(32.dp),
-                    painter = painterResource(resource = Res.drawable.favourite),
-                    contentDescription = "Favourite",
-                    tint = Color.White
-                )
+                IconButton(
+                    modifier = Modifier.wrapContentSize().size(24.dp),
+                    onClick = {}
+                ) {
+                    Icon(
+                        painter = painterResource(resource = Res.drawable.favourite),
+                        contentDescription = "Favourite",
+                        tint = Color.White
+                    )
+                }
             }
 
             Divider(
