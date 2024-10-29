@@ -2,14 +2,14 @@ package me.androidbox.busbymoviesv2.movie_details.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
 import me.androidbox.busbymoviesv2.configuration.domain.models.ConfigurationModel
 import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUseCase
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
@@ -18,10 +18,19 @@ import me.androidbox.busbymoviesv2.movie_details.domain.MovieDetailUseCase
 
 class MovieDetailViewModel(
     private val movieDetailUseCase: MovieDetailUseCase,
-    private val configurationUseCase: ConfigurationUseCase) : ViewModel() {
+    private val configurationUseCase: ConfigurationUseCase,
+    private val movieId: Int) : ViewModel() {
 
     private val _movieDetailState = MutableStateFlow(MovieDetailState())
     val movieDetailState = _movieDetailState.asStateFlow()
+        .onStart {
+           movieDetail(movieId)
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000L),
+            initialValue = MovieDetailState()
+        )
 
     private var configurationModel: ConfigurationModel? = null
     private var imageSize: String = "w500"
@@ -40,40 +49,31 @@ class MovieDetailViewModel(
 
     fun movieDetail(movieId: Int) {
         viewModelScope.launch {
-      //      withTimeout(5_000L) {
-      //          try {
+            _movieDetailState.update { movieDetailState ->
+                movieDetailState.copy(
+                    isLoading = true
+                )
+            }
+            when (val checkResult = movieDetailUseCase.execute(movieId)) {
+                is CheckResult.Failure -> {
+                    checkResult.exceptionError
+
                     _movieDetailState.update { movieDetailState ->
                         movieDetailState.copy(
                             isLoading = true
                         )
                     }
-                    when (val checkResult = movieDetailUseCase.execute(movieId)) {
-                        is CheckResult.Failure -> {
-                            checkResult.exceptionError
+                }
 
-                            _movieDetailState.update { movieDetailState ->
-                                movieDetailState.copy(
-                                    isLoading = true
-                                )
-                            }
-                        }
-
-                        is CheckResult.Success -> {
-                            _movieDetailState.update { movieDetailState ->
-                                movieDetailState.copy(
-                                    movieDetail = checkResult.data.toMovieDetail(imageSize),
-                                    isLoading = false
-                                )
-                            }
-                        }
+                is CheckResult.Success -> {
+                    _movieDetailState.update { movieDetailState ->
+                        movieDetailState.copy(
+                            movieDetail = checkResult.data.toMovieDetail(imageSize),
+                            isLoading = false
+                        )
                     }
-       //         }
-         //       catch (ex: TimeoutCancellationException) {
-           //         coroutineContext.ensureActive()
-
-           //         ex.printStackTrace()
-           //     }
-         //   }
+                }
+            }
         }
     }
 
@@ -86,4 +86,6 @@ class MovieDetailViewModel(
             MovieDetailAction.OnSimilarMovieClicked -> TODO()
         }
     }
+
+
 }

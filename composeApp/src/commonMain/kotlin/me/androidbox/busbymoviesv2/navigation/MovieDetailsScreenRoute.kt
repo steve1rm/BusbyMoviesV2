@@ -10,15 +10,16 @@ import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailViewMod
 import me.androidbox.busbymoviesv2.movie_details.presentation.screens.MovieDetailsScreen
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.koin.core.parameter.parametersOf
 
+@OptIn(KoinExperimentalAPI::class)
 data class MovieDetailsScreenRoute(private val movieId: Int) : Screen {
 
     @Composable
     override fun Content() {
-        val movieDetailViewModel = koinViewModel<MovieDetailViewModel>()
+        val movieDetailViewModel: MovieDetailViewModel = koinViewModel(parameters = { parametersOf(movieId) })
         val movieDetailState by movieDetailViewModel.movieDetailState.collectAsStateWithLifecycle()
 
-        movieDetailViewModel.movieDetail(movieId)
         MovieDetailsScreen(
             movieDetailState = movieDetailState,
             movieDetailAction = movieDetailViewModel::onMovieDetailAction

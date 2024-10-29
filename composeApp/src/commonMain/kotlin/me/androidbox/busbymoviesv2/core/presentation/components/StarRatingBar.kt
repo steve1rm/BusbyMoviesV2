@@ -1,4 +1,4 @@
-package me.androidbox.busbymoviesv2.movie_details.presentation.screens.components
+package me.androidbox.busbymoviesv2.core.presentation.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -13,7 +13,6 @@ import busbymoviesv2.composeapp.generated.resources.star_empty
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.roundToInt
-
 
 @Composable
 fun StarRatingBar(
