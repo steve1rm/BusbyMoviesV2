@@ -54,6 +54,7 @@ fun MovieListItem(
                 )
             },
             onFailure = {
+                println("ONFAILURE IMAGE DETAIL ${movie.posterPath}")
                 Image(imageVector = vectorResource(Res.drawable.compose_multiplatform), contentDescription = null)
             },
         )

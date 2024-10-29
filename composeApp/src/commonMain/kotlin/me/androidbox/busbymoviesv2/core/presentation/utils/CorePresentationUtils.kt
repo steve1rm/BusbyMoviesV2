@@ -2,6 +2,7 @@ package me.androidbox.busbymoviesv2.core.presentation.utils
 
 import androidx.compose.ui.graphics.Color
 import me.androidbox.busbymoviesv2.configuration.domain.models.ConfigurationModel
+import me.androidbox.busbymoviesv2.core.data.network.Routes.BASE_IMAGE_PATH
 import kotlin.random.Random
 
 expect fun getScreenDensity(): String
@@ -33,4 +34,16 @@ fun mapImageSize(configurationResult: ConfigurationModel): String {
         "w500"
     }
     return size
+}
+
+
+/**
+ * Appends the provided image size to the base image path and returns the full poster URL.
+ *
+ * @param imageSize The desired image size for the poster.
+ * @return The full poster URL with the specified image size.
+ */
+fun String.toMovieWithImageSize(imageSize: String): String {
+    val imagePath = "$BASE_IMAGE_PATH$imageSize"
+    return "$imagePath$this"
 }

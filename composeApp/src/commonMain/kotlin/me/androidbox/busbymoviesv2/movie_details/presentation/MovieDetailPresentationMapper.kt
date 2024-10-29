@@ -1,14 +1,17 @@
 package me.androidbox.busbymoviesv2.movie_details.presentation
 
+import me.androidbox.busbymoviesv2.core.data.network.Routes.BASE_IMAGE_PATH
 import me.androidbox.busbymoviesv2.movie_details.domain.models.GenreModel
 import me.androidbox.busbymoviesv2.movie_details.domain.models.MovieDetailModel
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.Genre
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.MovieDetail
 
-fun MovieDetailModel.toMovieDetail(): MovieDetail {
+fun MovieDetailModel.toMovieDetail(imageSize: String): MovieDetail {
+    val imagePath = "$BASE_IMAGE_PATH$imageSize"
+
     return MovieDetail(
         isAdult = this.isAdult,
-        backdropPath = this.backdropPath,
+        backdropPath = "$imagePath${this.backdropPath}",
         budget = this.budget,
         homepage = this.homepage,
         id = this.id,
@@ -17,7 +20,7 @@ fun MovieDetailModel.toMovieDetail(): MovieDetail {
         originalTitle = this.originalTitle,
         overview = this.overview,
         popularity = this.popularity,
-        posterPath = this.posterPath,
+        posterPath = "$imagePath${this.posterPath}",
         releaseDate = this.releaseDate,
         revenue = this.revenue,
         runtime = this.runtime,

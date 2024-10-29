@@ -88,8 +88,8 @@ kotlin {
             implementation(libs.font.awesome)
 
             implementation(libs.kamel.image.default)
-            implementation("dev.chrisbanes.haze:haze:0.7.3")
-            implementation("dev.chrisbanes.haze:haze-materials:0.7.3")
+            implementation(libs.haze)
+            implementation(libs.haze.materials)
             implementation(libs.windowSizeMultiplatform)
         }
 
@@ -100,15 +100,15 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.compose)
             implementation(libs.koin.androidx.compose)
-            implementation("app.cash.paging:paging-common:3.3.0-alpha02-0.5.1")
-            implementation("app.cash.paging:paging-compose-common:3.3.0-alpha02-0.5.1")
+            implementation(libs.paging.common)
+            implementation(libs.paging.compose.common)
 
         }
 
         nativeMain.dependencies {
             implementation(libs.ktor.engine.cio)
-            implementation("app.cash.paging:paging-common:3.3.0-alpha02-0.5.1")
-            implementation("app.cash.paging:paging-compose-common:3.3.0-alpha02-0.5.1")
+            implementation(libs.paging.common)
+            implementation(libs.paging.compose.common)
 
         }
 
@@ -116,8 +116,8 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.engine.cio)
-            implementation("app.cash.paging:paging-common:3.3.0-alpha02-0.5.1")
-            implementation("app.cash.paging:paging-compose-common:3.3.0-alpha02-0.5.1")
+            implementation(libs.paging.common)
+            implementation(libs.paging.compose.common)
         }
 
         wasmJsMain.dependencies {
