@@ -2,11 +2,14 @@ package me.androidbox.busbymoviesv2.movie_details.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import me.androidbox.busbymoviesv2.configuration.domain.models.ConfigurationModel
 import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUseCase
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
@@ -37,30 +40,40 @@ class MovieDetailViewModel(
 
     fun movieDetail(movieId: Int) {
         viewModelScope.launch {
-            _movieDetailState.update { movieDetailState ->
-                movieDetailState.copy(
-                    isLoading = true
-                )
-            }
-            when(val checkResult = movieDetailUseCase.execute(movieId)) {
-                is CheckResult.Failure -> {
-                    checkResult.exceptionError
-
+      //      withTimeout(5_000L) {
+      //          try {
                     _movieDetailState.update { movieDetailState ->
                         movieDetailState.copy(
                             isLoading = true
                         )
                     }
-                }
-                is CheckResult.Success -> {
-                    _movieDetailState.update { movieDetailState ->
-                        movieDetailState.copy(
-                            movieDetail = checkResult.data.toMovieDetail(imageSize),
-                            isLoading = false
-                        )
+                    when (val checkResult = movieDetailUseCase.execute(movieId)) {
+                        is CheckResult.Failure -> {
+                            checkResult.exceptionError
+
+                            _movieDetailState.update { movieDetailState ->
+                                movieDetailState.copy(
+                                    isLoading = true
+                                )
+                            }
+                        }
+
+                        is CheckResult.Success -> {
+                            _movieDetailState.update { movieDetailState ->
+                                movieDetailState.copy(
+                                    movieDetail = checkResult.data.toMovieDetail(imageSize),
+                                    isLoading = false
+                                )
+                            }
+                        }
                     }
-                }
-            }
+       //         }
+         //       catch (ex: TimeoutCancellationException) {
+           //         coroutineContext.ensureActive()
+
+           //         ex.printStackTrace()
+           //     }
+         //   }
         }
     }
 

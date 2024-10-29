@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailAction
 import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailState
 import me.androidbox.busbymoviesv2.movie_details.presentation.screens.components.MovieDetailHeader
+import me.androidbox.busbymoviesv2.movie_details.presentation.screens.components.MovieDetailOverview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -42,6 +43,8 @@ fun MovieDetailsScreen(
                     MovieDetailHeader(
                         movieDetail = movieDetailState.movieDetail
                     )
+
+                    MovieDetailOverview(movieDetail = movieDetailState.movieDetail)
                 }
             }
         }
