@@ -25,8 +25,6 @@ val movieDetailModule = module {
         MovieDetailRemoteDataSourceImp(get<HttpClient>())
     }
 
-    // viewModelOf(::MovieDetailViewModel)
-
     viewModel { (movieId: Int) ->
         MovieDetailViewModel(
             movieDetailUseCase = get<MovieDetailUseCase>(),

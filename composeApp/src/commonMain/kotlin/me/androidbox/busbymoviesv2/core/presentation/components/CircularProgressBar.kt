@@ -4,8 +4,11 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,6 +29,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun CircularProgressBar(
+    modifier: Modifier = Modifier,
     percentage: Float,
     number: Int,
     fontSize: TextUnit = 12.sp,
@@ -50,7 +54,7 @@ fun CircularProgressBar(
     }
 
     Box(
-        modifier = Modifier.size(radius),
+        modifier = modifier.size(radius).background(color = Color.Black, shape = CircleShape),
         contentAlignment = Alignment.Center,
     ) {
         Canvas(
@@ -68,7 +72,7 @@ fun CircularProgressBar(
         }
 
         Text(text = (animateCurrentPercentage * number).toInt().toString(),
-            color = Color.Black,
+            color = Color.White,
             fontSize = fontSize,
             fontWeight = FontWeight.SemiBold)
     }

@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,6 +15,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import busbymoviesv2.composeapp.generated.resources.Res
+import busbymoviesv2.composeapp.generated.resources.favourite
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -28,12 +33,24 @@ fun MovieTitleHeader(
                 .padding(top = 10.dp, bottom = 10.dp)
         ) {
 
-            Text(
-                text = tagline,
-                color = Color.White,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Thin
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = tagline,
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Thin
+                )
+
+                Icon(
+                    modifier = Modifier.size(32.dp),
+                    painter = painterResource(resource = Res.drawable.favourite),
+                    contentDescription = "Favourite",
+                    tint = Color.White
+                )
+            }
 
             Divider(
                 modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp),

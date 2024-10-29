@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalHazeMaterialsApi::class)
-
 package me.androidbox.busbymoviesv2.movie_details.presentation.screens.components
 
 import androidx.compose.foundation.layout.Box
@@ -16,7 +14,6 @@ import androidx.compose.ui.layout.ContentScale
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.haze
 import dev.chrisbanes.haze.hazeChild
-import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.MovieDetail
