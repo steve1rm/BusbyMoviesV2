@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
@@ -58,7 +57,7 @@ fun MovieDetailsScreen(
                         add = Color.White.copy(alpha = 0.2f), // Adjust alpha for lightening intensity
                         multiply = Color.White
                     )
-                       Column(modifier = Modifier.fillMaxWidth()) {
+                       Column(modifier = Modifier.fillMaxSize()) {
                             MovieDetailHeader(
                                 movieDetail = movieDetailState.movieDetail
                             )
@@ -81,7 +80,7 @@ fun MovieDetailsScreen(
                                        it.printStackTrace()
                                    },
                                )
-                               Column(modifier = Modifier.fillMaxWidth()) {
+                               Column(modifier = Modifier.fillMaxSize()) {
                                    Spacer(modifier = Modifier.height(16.dp))
                                    MovieDetailOverview(movieDetail = movieDetailState.movieDetail)
                                }
