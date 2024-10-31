@@ -48,7 +48,7 @@ fun MovieRating(movieDetail: MovieDetail) {
 
         CircularProgressBar(
             modifier = Modifier.align(Alignment.TopCenter).offset(y = (-16).dp),
-            percentage = 0.8f,
+            percentage = (movieDetail.voteAverage / 10).toFloat(),
             number = 100
         )
     }

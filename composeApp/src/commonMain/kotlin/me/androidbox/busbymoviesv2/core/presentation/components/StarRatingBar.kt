@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import busbymoviesv2.composeapp.generated.resources.Res
 import busbymoviesv2.composeapp.generated.resources.star
-import busbymoviesv2.composeapp.generated.resources.star_empty
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.roundToInt
@@ -33,7 +32,7 @@ fun StarRatingBar(
             )
         }
 
-       /** Decide whether to display the grayed out stars
+       /** TODO Decide whether to display the grayed out stars
        repeat(5) { index ->
             Icon(
                 modifier = Modifier.size(32.dp),

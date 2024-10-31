@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +28,7 @@ fun MovieDetailOverview(
 ) {
 
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
         ) {
             Row(
                 modifier = modifier.fillMaxWidth()
@@ -49,8 +51,12 @@ fun MovieDetailOverview(
                     Text(
                         color = Color.DarkGray,
                         text = "Running time ${movieDetail.runtime.minutes}")
-                    Text(text = "Revenue $${movieDetail.revenue.formatNumberWithSuffix()}")
-                    /** Don't show if there is zero budget*/
+
+                    /** Don't show if there is zero budget or revenue */
+                    if (movieDetail.revenue > 0) {
+                        Text(text = "Revenue $${movieDetail.revenue.formatNumberWithSuffix()}")
+                    }
+
                     if (movieDetail.budget > 0) {
                         Text(text = "Budget $${movieDetail.budget.formatNumberWithSuffix()}")
                     }
@@ -73,26 +79,7 @@ fun MovieDetailOverview(
 
                 MovieRating(movieDetail)
             }
-
-           /* Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                MovieButton(
-                    iconRes = Res.drawable.feedback,
-                    text = "6 Reviews",
-                    onClicked = {}
-                )
-
-                MovieButton(
-                    iconRes = Res.drawable.movie,
-                    text = "10 Trailers",
-                    onClicked = {}
-                )
-            }*/
-
-    }
+        }
 }
 
 @Preview
@@ -104,3 +91,21 @@ fun PreviewMovideDetailOverview() {
         )
     }
 }
+
+/* Row(
+              modifier = Modifier.fillMaxWidth(),
+              verticalAlignment = Alignment.CenterVertically,
+              horizontalArrangement = Arrangement.SpaceBetween
+          ) {
+              MovieButton(
+                  iconRes = Res.drawable.feedback,
+                  text = "6 Reviews",
+                  onClicked = {}
+              )
+
+              MovieButton(
+                  iconRes = Res.drawable.movie,
+                  text = "10 Trailers",
+                  onClicked = {}
+              )
+          }*/
