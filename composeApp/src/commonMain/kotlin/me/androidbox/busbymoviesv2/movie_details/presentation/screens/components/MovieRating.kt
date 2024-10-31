@@ -24,8 +24,10 @@ import me.androidbox.busbymoviesv2.movie_details.presentation.model.MovieDetail
 import org.jetbrains.compose.resources.vectorResource
 
 @Composable
-fun MovieRating(movieDetail: MovieDetail) {
-    Box(modifier = Modifier
+fun MovieRating(
+    movieDetail: MovieDetail,
+    modifier: Modifier = Modifier) {
+    Box(modifier = modifier
         .wrapContentWidth()
         .padding(top = 16.dp),
         contentAlignment = Alignment.Center) {

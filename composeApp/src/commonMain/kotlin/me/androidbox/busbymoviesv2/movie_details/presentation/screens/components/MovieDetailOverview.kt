@@ -1,5 +1,6 @@
 package me.androidbox.busbymoviesv2.movie_details.presentation.screens.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,9 +9,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -23,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import busbymoviesv2.composeapp.generated.resources.Res
 import busbymoviesv2.composeapp.generated.resources.feedback
 import busbymoviesv2.composeapp.generated.resources.movie
@@ -42,7 +46,8 @@ fun MovieDetailOverview(
         modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
     ) {
 
-        Box(modifier = Modifier.fillMaxWidth()) {
+        Box(modifier = Modifier.fillMaxSize()) {
+
             Row(
                 modifier = modifier.fillMaxWidth()
                     .padding(horizontal = 8.dp)
@@ -132,25 +137,30 @@ fun MovieDetailOverview(
                     }
                 }
 
-                MovieRating(movieDetail)
+                MovieRating(
+                    movieDetail = movieDetail)
             }
+        }
 
+        Column(modifier = Modifier
+            .fillMaxSize().offset(y = -(16.dp)).zIndex(-1f)
+            .background(color = Color.White, shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))) {
             Text(
-                modifier = Modifier.align(Alignment.BottomStart).padding(start = 8.dp),
+                modifier = Modifier.padding(start = 8.dp),
                 color = Color.Black,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.SemiBold,
                 text = "Overview"
             )
-        }
 
-        Text(
-            color = Color.Black,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Light,
-            text = movieDetail.overview
-        )
+            Text(
+                color = Color.Black,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Light,
+                text = movieDetail.overview
+            )
+        }
     }
 }
 
