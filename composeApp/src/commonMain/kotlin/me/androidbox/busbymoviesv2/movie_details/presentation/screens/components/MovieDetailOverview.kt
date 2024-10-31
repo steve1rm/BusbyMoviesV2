@@ -4,9 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
@@ -58,19 +61,54 @@ fun MovieDetailOverview(
                         textAlign = TextAlign.Start
                     )
 
-                    Text(
-                        color = Color.DarkGray,
-                        text = "Running time ${movieDetail.runtime.minutes}"
-                    )
+                    Row {
+                        Text(
+                            modifier = Modifier.weight(1f),
+                            color = Color.Black,
+                            text = "Running time:"
+                        )
+
+                        Text(
+                            modifier = Modifier.wrapContentWidth(),
+                            color = Color.Black,
+                            text = "${movieDetail.runtime.minutes}"
+                        )
+
+                    }
 
                     /** Don't show if there is zero budget or revenue */
                     if (movieDetail.revenue > 0) {
-                        Text(text = "Revenue $${movieDetail.revenue.formatNumberWithSuffix()}")
+                        Row {
+                            Text(
+                                modifier = Modifier.weight(1f),
+                                color = Color.Black,
+                                text = "Revenue:")
+
+                            Text(
+                                modifier = Modifier.wrapContentWidth(),
+                                color = Color.Black,
+                                text = "$${movieDetail.revenue.formatNumberWithSuffix()}"
+                            )
+                        }
+
                     }
 
                     if (movieDetail.budget > 0) {
-                        Text(text = "Budget $${movieDetail.budget.formatNumberWithSuffix()}")
+                        Row{
+                            Text(
+                                modifier = Modifier.weight(1f),
+                                color = Color.Black,
+                                text = "Budget:")
+
+                            Text(
+                                modifier = Modifier.wrapContentWidth(),
+                                color = Color.Black,
+                                text = "$${movieDetail.budget.formatNumberWithSuffix()}"
+                            )
+                        }
                     }
+
+                    Spacer(modifier = Modifier.height(32.dp))
 
                     Row(
                         modifier = Modifier.fillMaxSize(),
@@ -97,22 +135,18 @@ fun MovieDetailOverview(
                 MovieRating(movieDetail)
             }
 
-            Column(
-                modifier = Modifier.align(Alignment.BottomStart)
-            ) {
-
-                Text(
-                    color = Color.Black,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    text = "Overview"
-                )
-            }
+            Text(
+                modifier = Modifier.align(Alignment.BottomStart).padding(start = 8.dp),
+                color = Color.Black,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.SemiBold,
+                text = "Overview"
+            )
         }
 
         Text(
             color = Color.Black,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
             fontSize = 18.sp,
             fontWeight = FontWeight.Light,
             text = movieDetail.overview
