@@ -11,6 +11,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+        //    CircularProgressBar(percentage = 0.8f, number = 100)
             App()
         }
     }

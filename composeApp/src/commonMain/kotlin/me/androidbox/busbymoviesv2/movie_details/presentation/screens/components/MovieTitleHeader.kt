@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -16,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import busbymoviesv2.composeapp.generated.resources.Res
@@ -32,8 +34,8 @@ fun MovieTitleHeader(
 ) {
         Column(
             modifier = modifier
-                .padding(horizontal = 8.dp)
-                .padding(top = 10.dp, bottom = 10.dp)
+                .padding(horizontal = 10.dp)
+                .padding(top = 8.dp, bottom = 4.dp)
         ) {
 
             Row(
@@ -43,6 +45,8 @@ fun MovieTitleHeader(
             ) {
                 Text(
                     modifier = Modifier.weight(1f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     text = tagline,
                     color = Color.White,
                     fontSize = 18.sp,
@@ -72,6 +76,7 @@ fun MovieTitleHeader(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
+                    modifier = Modifier.weight(1f),
                     text = title,
                     color = Color.White,
                     fontSize = 16.sp,
@@ -79,6 +84,9 @@ fun MovieTitleHeader(
                 )
 
                 Text(
+                    modifier = Modifier.wrapContentWidth(),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     text = releaseDate,
                     color = Color.White,
                     fontSize = 16.sp,

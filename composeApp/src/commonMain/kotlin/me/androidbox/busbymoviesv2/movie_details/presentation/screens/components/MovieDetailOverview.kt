@@ -1,35 +1,23 @@
 package me.androidbox.busbymoviesv2.movie_details.presentation.screens.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import busbymoviesv2.composeapp.generated.resources.Res
-import busbymoviesv2.composeapp.generated.resources.compose_multiplatform
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
-import me.androidbox.busbymoviesv2.core.presentation.components.CircularProgressBar
+import androidx.compose.ui.unit.sp
 import me.androidbox.busbymoviesv2.core.presentation.components.StarRatingBar
+import me.androidbox.busbymoviesv2.core.presentation.utils.formatNumberWithSuffix
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.MovieDetail
-import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlin.time.Duration.Companion.minutes
 
 @Composable
 fun MovieDetailOverview(
@@ -37,50 +25,73 @@ fun MovieDetailOverview(
     modifier: Modifier = Modifier
 ) {
 
-    Row(
-        modifier = modifier.fillMaxWidth()
-    ) {
-
-        Spacer(modifier = Modifier.height(20.dp))
-
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.fillMaxWidth()
         ) {
-            StarRatingBar(movieDetail.voteAverage)
-        }
+            Row(
+                modifier = modifier.fillMaxWidth()
+                    .padding(horizontal = 8.dp)
+            ) {
 
-        MovieRating(movieDetail)
-    }
-}
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    StarRatingBar(movieDetail.voteAverage)
 
-@Composable
-fun MovieRating(movieDetail: MovieDetail) {
-    Box(modifier = Modifier
-        .wrapContentWidth()
-        .padding(top = 16.dp, bottom = 16.dp),
-        contentAlignment = Alignment.Center) {
+                    Text(
+                        color = Color.Black,
+                        fontWeight = FontWeight.SemiBold,
+                        text = movieDetail.genres.joinToString(" • ") { genre -> genre.name },
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Start
+                    )
 
-        KamelImage(
-            resource = { asyncPainterResource(data = movieDetail.posterPath) },
-            contentDescription = movieDetail.title,
-            modifier = Modifier.size(150.dp, 250.dp).clip(RoundedCornerShape(8.dp)),
-            contentScale = ContentScale.FillHeight,
-            onLoading = {_ ->
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = Color.Blue
+                    Text(
+                        color = Color.DarkGray,
+                        text = "Running time ${movieDetail.runtime.minutes}")
+                    Text(text = "Revenue $${movieDetail.revenue.formatNumberWithSuffix()}")
+                    /** Don't show if there is zero budget*/
+                    if (movieDetail.budget > 0) {
+                        Text(text = "Budget $${movieDetail.budget.formatNumberWithSuffix()}")
+                    }
+
+                    Text(
+                        color = Color.LightGray,
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Bold,
+                        text = "Overview")
+
+
+                    Text(
+                        color = Color.White,
+                        modifier = Modifier.fillMaxWidth(),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        text = movieDetail.overview
+                    )
+                }
+
+                MovieRating(movieDetail)
+            }
+
+           /* Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                MovieButton(
+                    iconRes = Res.drawable.feedback,
+                    text = "6 Reviews",
+                    onClicked = {}
                 )
-            },
-            onFailure = {
-                Image(imageVector = vectorResource(Res.drawable.compose_multiplatform), contentDescription = null)
-            },
-        )
 
-        CircularProgressBar(
-            modifier = Modifier.align(Alignment.TopCenter).offset(y = (-16).dp),
-            percentage = 0.8f,
-            number = 100
-        )
+                MovieButton(
+                    iconRes = Res.drawable.movie,
+                    text = "10 Trailers",
+                    onClicked = {}
+                )
+            }*/
+
     }
 }
 

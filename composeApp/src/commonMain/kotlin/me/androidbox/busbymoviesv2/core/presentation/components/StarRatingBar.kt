@@ -1,12 +1,14 @@
 package me.androidbox.busbymoviesv2.core.presentation.components
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import busbymoviesv2.composeapp.generated.resources.Res
 import busbymoviesv2.composeapp.generated.resources.star
 import busbymoviesv2.composeapp.generated.resources.star_empty
@@ -22,13 +24,24 @@ fun StarRatingBar(
     val startRating = (rating / 2).roundToInt()
 
     Row(modifier = modifier.wrapContentWidth()) {
-        repeat(5) { index ->
+        repeat(startRating) {
             Icon(
-                painter = painterResource(resource = if(index < startRating) Res.drawable.star else Res.drawable.star_empty),
+                modifier = Modifier.size(32.dp),
+                painter = painterResource(resource = Res.drawable.star),
                 contentDescription = "Start Rating",
-                tint = if(index < startRating) Color.Yellow else Color.LightGray
+                tint =  Color.Yellow
             )
         }
+
+       /** Decide whether to display the grayed out stars
+       repeat(5) { index ->
+            Icon(
+                modifier = Modifier.size(32.dp),
+                painter = painterResource(resource = if(index < startRating) Res.drawable.star else Res.drawable.star_empty),
+                contentDescription = "Start Rating",
+                tint = if(index < startRating) Color.Yellow else Color.Gray
+            )
+        }*/
     }
 }
 

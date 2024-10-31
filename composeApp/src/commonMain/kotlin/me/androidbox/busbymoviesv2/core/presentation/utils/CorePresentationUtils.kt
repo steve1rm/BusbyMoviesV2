@@ -36,7 +36,6 @@ fun mapImageSize(configurationResult: ConfigurationModel): String {
     return size
 }
 
-
 /**
  * Appends the provided image size to the base image path and returns the full poster URL.
  *
@@ -46,4 +45,13 @@ fun mapImageSize(configurationResult: ConfigurationModel): String {
 fun String.toMovieWithImageSize(imageSize: String): String {
     val imagePath = "$BASE_IMAGE_PATH$imageSize"
     return "$imagePath$this"
+}
+
+fun Int.formatNumberWithSuffix(): String {
+    return when {
+        this >= 1_000_000_000_000 -> "${(this / 1_000_000_000_000 * 100) / 100} trillion"
+        this >= 1_000_000_000 -> "${(this / 1_000_000_000 * 100) / 100} billion"
+        this >= 1_000_000 -> "${(this / 1_000_000 * 100) / 100} million"
+        else -> this.toString()
+    }
 }

@@ -91,6 +91,7 @@ kotlin {
             implementation(libs.haze)
             implementation(libs.haze.materials)
             implementation(libs.windowSizeMultiplatform)
+            implementation("io.github.oleksandrbalan:textflow-material3:1.2.1")
         }
 
         androidMain.dependencies {
