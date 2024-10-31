@@ -1,20 +1,22 @@
 package me.androidbox.busbymoviesv2.core.presentation.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,32 +30,46 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun MovieButton(
     iconRes: DrawableResource,
     text: String,
+    isLoading: Boolean = false,
+    isEnabled: Boolean = false,
     modifier: Modifier = Modifier,
     onClicked: () -> Unit
 ) {
-    Button(modifier = modifier
-        .wrapContentWidth()
-        .padding(horizontal = 6.dp)
-        .padding(vertical = 4.dp)
-        .background(color = Color.White, shape = RoundedCornerShape(8.dp)),
+    OutlinedButton(modifier = modifier
+        .height(intrinsicSize = IntrinsicSize.Min),
+        enabled = isEnabled,
+        shape = RoundedCornerShape(8.dp),
+
+        colors = ButtonDefaults.outlinedButtonColors(
+            backgroundColor = Color.LightGray
+        ),
+        border = BorderStroke(1.dp, Color.Black),
+        contentPadding = PaddingValues(0.dp),
         onClick = onClicked) {
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Icon(
-                modifier = Modifier.wrapContentSize(),
-                painter = painterResource(iconRes),
-                contentDescription = text
-            )
+        Icon(
+            modifier = Modifier.size(24.dp).padding(start = 4.dp),
+            painter = painterResource(iconRes),
+            contentDescription = text,
+            tint = Color.Black
+        )
 
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .size(20.dp)
+                    .padding(start = 4.dp),
+                strokeWidth = 2.dp,
+                color = Color.Black
+            )
+        } else {
             Text(
-                modifier = Modifier.wrapContentSize(),
-                fontSize = 16.sp,
+                modifier = Modifier.wrapContentSize().padding(start = 4.dp, end = 4.dp),
+                fontSize = 14.sp,
                 textAlign = TextAlign.End,
-                text = text
+                text = text,
+                fontWeight = FontWeight.SemiBold,
+                color = Color.Black
             )
         }
     }
