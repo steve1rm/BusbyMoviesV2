@@ -27,7 +27,7 @@ import org.jetbrains.compose.resources.vectorResource
 fun MovieRating(movieDetail: MovieDetail) {
     Box(modifier = Modifier
         .wrapContentWidth()
-        .padding(top = 16.dp, bottom = 16.dp),
+        .padding(top = 16.dp),
         contentAlignment = Alignment.Center) {
 
         KamelImage(

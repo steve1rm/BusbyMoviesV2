@@ -1,6 +1,7 @@
 package me.androidbox.busbymoviesv2.movie_details.presentation.screens.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,77 +38,85 @@ fun MovieDetailOverview(
     Column(
         modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
     ) {
-        Row(
-            modifier = modifier.fillMaxWidth()
-                .padding(horizontal = 8.dp)
-        ) {
+
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = modifier.fillMaxWidth()
+                    .padding(horizontal = 8.dp)
+            ) {
+
+                Column(
+                    modifier = Modifier.weight(1f).padding(end = 8.dp)
+                ) {
+                    StarRatingBar(movieDetail.voteAverage)
+
+                    Text(
+                        color = Color.Black,
+                        fontWeight = FontWeight.SemiBold,
+                        text = movieDetail.genres.joinToString(" • ") { genre -> genre.name },
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Start
+                    )
+
+                    Text(
+                        color = Color.DarkGray,
+                        text = "Running time ${movieDetail.runtime.minutes}"
+                    )
+
+                    /** Don't show if there is zero budget or revenue */
+                    if (movieDetail.revenue > 0) {
+                        Text(text = "Revenue $${movieDetail.revenue.formatNumberWithSuffix()}")
+                    }
+
+                    if (movieDetail.budget > 0) {
+                        Text(text = "Budget $${movieDetail.budget.formatNumberWithSuffix()}")
+                    }
+
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+
+                        MovieButton(
+                            modifier = Modifier.alpha(0.6f).weight(1f),
+                            iconRes = Res.drawable.feedback,
+                            text = "6 Reviews",
+                            onClicked = {}
+                        )
+
+                        MovieButton(
+                            modifier = Modifier.alpha(0.6f).weight(1f),
+                            iconRes = Res.drawable.movie,
+                            text = "10 Trailers",
+                            onClicked = {}
+                        )
+                    }
+                }
+
+                MovieRating(movieDetail)
+            }
 
             Column(
-                modifier = Modifier.weight(1f).padding(end = 8.dp)
+                modifier = Modifier.align(Alignment.BottomStart)
             ) {
-                StarRatingBar(movieDetail.voteAverage)
 
                 Text(
                     color = Color.Black,
-                    fontWeight = FontWeight.SemiBold,
-                    text = movieDetail.genres.joinToString(" • ") { genre -> genre.name },
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Start
-                )
-
-                Text(
-                    color = Color.DarkGray,
-                    text = "Running time ${movieDetail.runtime.minutes}")
-
-                /** Don't show if there is zero budget or revenue */
-                if (movieDetail.revenue > 0) {
-                    Text(text = "Revenue $${movieDetail.revenue.formatNumberWithSuffix()}")
-                }
-
-                if (movieDetail.budget > 0) {
-                    Text(text = "Budget $${movieDetail.budget.formatNumberWithSuffix()}")
-                }
-
-                Text(
-                    color = Color.LightGray,
                     fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    text = "Overview")
-
-                Row(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-
-                    MovieButton(
-                        modifier = Modifier.alpha(0.6f).weight(1f),
-                        iconRes = Res.drawable.feedback,
-                        text = "6 Reviews",
-                        onClicked = {}
-                    )
-
-                    MovieButton(
-                        modifier = Modifier.alpha(0.6f).weight(1f),
-                        iconRes = Res.drawable.movie,
-                        text = "10 Trailers",
-                        onClicked = {}
-                    )
-                }
-
-                Text(
-                    color = Color.White,
-                    modifier = Modifier.fillMaxWidth(),
-                    fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
-                    text = movieDetail.overview
+                    text = "Overview"
                 )
-
-
             }
-
-            MovieRating(movieDetail)
         }
+
+        Text(
+            color = Color.Black,
+            modifier = Modifier.fillMaxWidth(),
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Light,
+            text = movieDetail.overview
+        )
     }
 }
 
