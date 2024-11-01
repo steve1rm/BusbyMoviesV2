@@ -54,9 +54,9 @@ class MovieDetailViewModel(
                     isLoading = true
                 )
             }
+
             when (val checkResult = movieDetailUseCase.execute(movieId)) {
                 is CheckResult.Failure -> {
-                    checkResult.exceptionError
 
                     _movieDetailState.update { movieDetailState ->
                         movieDetailState.copy(
