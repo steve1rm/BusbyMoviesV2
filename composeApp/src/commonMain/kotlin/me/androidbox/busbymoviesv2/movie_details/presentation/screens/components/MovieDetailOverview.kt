@@ -52,7 +52,7 @@ fun MovieDetailOverview(
         Row(
             modifier = modifier
                 .fillMaxHeight()
-                .height(intrinsicSize = IntrinsicSize.Min)
+                .height(intrinsicSize = IntrinsicSize.Max)
                 .padding(horizontal = 8.dp)
         ) {
             Column(
