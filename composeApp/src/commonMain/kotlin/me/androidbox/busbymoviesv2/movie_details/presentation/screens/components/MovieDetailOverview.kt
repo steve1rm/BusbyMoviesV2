@@ -3,11 +3,15 @@ package me.androidbox.busbymoviesv2.movie_details.presentation.screens.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -46,16 +50,18 @@ fun MovieDetailOverview(
     ) {
 
         Row(
-            modifier = modifier.fillMaxSize()
+            modifier = modifier
+                .fillMaxHeight()
+                .height(intrinsicSize = IntrinsicSize.Min)
                 .padding(horizontal = 8.dp)
         ) {
             Column(
-                modifier = Modifier.weight(1f).padding(end = 8.dp).fillMaxSize(),
+                modifier = Modifier.fillMaxHeight().weight(1f).padding(end = 8.dp),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
 
                 Column(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.wrapContentHeight()
                 ) {
                     StarRatingBar(movieDetail.voteAverage)
 
@@ -116,15 +122,15 @@ fun MovieDetailOverview(
                         }
                     }
                 }
-                //     Spacer(modifier = Modifier.height(32.dp))
 
                 Row(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .wrapContentHeight()
+                        .offset(y = -(32.dp)),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-
-                    MovieButton(
+                   MovieButton(
                         modifier = Modifier.alpha(0.6f).weight(1f),
                         iconRes = Res.drawable.feedback,
                         text = "6 Reviews",

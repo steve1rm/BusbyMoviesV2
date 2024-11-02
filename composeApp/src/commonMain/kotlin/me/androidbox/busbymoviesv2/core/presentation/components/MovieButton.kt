@@ -1,9 +1,7 @@
 package me.androidbox.busbymoviesv2.core.presentation.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -35,11 +33,9 @@ fun MovieButton(
     modifier: Modifier = Modifier,
     onClicked: () -> Unit
 ) {
-    OutlinedButton(modifier = modifier
-        .height(intrinsicSize = IntrinsicSize.Min),
+    OutlinedButton(modifier = modifier,
         enabled = isEnabled,
         shape = RoundedCornerShape(8.dp),
-
         colors = ButtonDefaults.outlinedButtonColors(
             backgroundColor = Color.LightGray
         ),
@@ -68,7 +64,7 @@ fun MovieButton(
                 fontSize = 14.sp,
                 textAlign = TextAlign.End,
                 text = text,
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
         }
