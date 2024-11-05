@@ -36,6 +36,7 @@ import me.androidbox.busbymoviesv2.core.presentation.components.MovieButton
 import me.androidbox.busbymoviesv2.core.presentation.components.StarRatingBar
 import me.androidbox.busbymoviesv2.core.presentation.utils.formatNumberWithSuffix
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.Cast
+import me.androidbox.busbymoviesv2.movie_details.presentation.model.Credits
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.MovieDetail
 import me.androidbox.busbymoviesv2.movie_details.presentation.screens.MovieCastList
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -44,6 +45,7 @@ import kotlin.time.Duration.Companion.minutes
 @Composable
 fun MovieDetailOverview(
     movieDetail: MovieDetail,
+    credits: Credits,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -164,6 +166,8 @@ fun MovieDetailOverview(
                 text = "Overview"
             )
 
+            Spacer(modifier = Modifier.height(4.dp))
+
             Text(
                 color = Color.Black,
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
@@ -173,8 +177,8 @@ fun MovieDetailOverview(
             )
 
             /** Top billed cast */
-            Spacer(modifier = Modifier.height(4.dp))
-            MovieCastList()
+            Spacer(modifier = Modifier.height(8.dp))
+            MovieCastList(credits)
         }
     }
 }
@@ -197,7 +201,8 @@ fun listOfCast(): List<Cast> {
 fun PreviewMovieDetailOverview() {
     MaterialTheme {
         MovieDetailOverview(
-            movieDetail = MovieDetail()
+            movieDetail = MovieDetail(),
+            credits = Credits()
         )
     }
 }

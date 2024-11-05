@@ -57,7 +57,6 @@ class HttpNetworkClientImp(
                 this.contentType(ContentType.Application.Json)
                 this.accept(ContentType.Application.Json)
             }
-
         }
 
         return httpClient

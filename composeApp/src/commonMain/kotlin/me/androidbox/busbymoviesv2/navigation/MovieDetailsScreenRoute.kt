@@ -17,6 +17,7 @@ data class MovieDetailsScreenRoute(private val movieId: Int) : Screen {
 
     @Composable
     override fun Content() {
+        /** We need the movieId to be injected into the viewmodel when loading the details onStart */
         val movieDetailViewModel: MovieDetailViewModel = koinViewModel(parameters = { parametersOf(movieId) })
         val movieDetailState by movieDetailViewModel.movieDetailState.collectAsStateWithLifecycle()
 

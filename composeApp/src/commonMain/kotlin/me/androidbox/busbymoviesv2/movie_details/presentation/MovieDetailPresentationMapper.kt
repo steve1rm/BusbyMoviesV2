@@ -1,8 +1,14 @@
 package me.androidbox.busbymoviesv2.movie_details.presentation
 
 import me.androidbox.busbymoviesv2.core.data.network.Routes.BASE_IMAGE_PATH
+import me.androidbox.busbymoviesv2.movie_details.domain.models.CastModel
+import me.androidbox.busbymoviesv2.movie_details.domain.models.CreditsModel
+import me.androidbox.busbymoviesv2.movie_details.domain.models.CrewModel
 import me.androidbox.busbymoviesv2.movie_details.domain.models.GenreModel
 import me.androidbox.busbymoviesv2.movie_details.domain.models.MovieDetailModel
+import me.androidbox.busbymoviesv2.movie_details.presentation.model.Cast
+import me.androidbox.busbymoviesv2.movie_details.presentation.model.Credits
+import me.androidbox.busbymoviesv2.movie_details.presentation.model.Crew
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.Genre
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.MovieDetail
 
@@ -40,4 +46,39 @@ fun GenreModel.toGenre(): Genre {
     return Genre(
         id = this.id,
         name = this.name)
+}
+
+fun CreditsModel.toCredits(): Credits {
+    return Credits(
+        id = this.id,
+        cast = this.castModel.map { cast ->
+            cast.toCast()
+        },
+        crew = this.crewModel.map { crew ->
+            crew.toCrew()
+        }
+    )
+}
+
+fun CastModel.toCast(): Cast {
+    return Cast(
+        id = this.id,
+        name = this.name,
+        character = this.character,
+        popularity = this.popularity,
+        creditId = this.creditId,
+        castId = this.castId,
+        profilePath = this.profilePath.orEmpty(),
+    )
+}
+
+fun CrewModel.toCrew(): Crew {
+    return Crew(
+        id = this.id,
+        name = this.name,
+        popularity = this.popularity,
+        creditId = this.creditId,
+        job = this.job,
+        profilePath = this.profilePath.orEmpty(),
+    )
 }

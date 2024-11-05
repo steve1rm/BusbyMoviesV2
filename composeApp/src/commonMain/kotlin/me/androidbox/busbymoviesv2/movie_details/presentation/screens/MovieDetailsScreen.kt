@@ -40,20 +40,20 @@ fun MovieDetailsScreen(
             Column(
                 modifier = Modifier.padding(paddingValues).fillMaxSize(),
             ) {
-                if(movieDetailState.isLoading) {
+                if(movieDetailState.isLoadingDetails) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator(
                             color = Color.Blue)
                     }
                 }
                 else {
-                    val rememberSaturation = remember(1f) {
+                    remember(1f) {
                         ColorMatrix().apply {
                             this.setToSaturation(1f)
                         }
                     }
 
-                    val lighteningColorFilter = ColorFilter.lighting(
+                    ColorFilter.lighting(
                         add = Color.White.copy(alpha = 0.2f), // Adjust alpha for lightening intensity
                         multiply = Color.White
                     )
@@ -82,7 +82,10 @@ fun MovieDetailsScreen(
                                )
                                Column(modifier = Modifier.fillMaxSize()) {
                                    Spacer(modifier = Modifier.height(16.dp))
-                                   MovieDetailOverview(movieDetail = movieDetailState.movieDetail)
+                                   MovieDetailOverview(
+                                       movieDetail = movieDetailState.movieDetail,
+                                       credits = movieDetailState.movieCredits
+                                   )
                                }
                            }
                         }

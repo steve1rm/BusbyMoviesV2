@@ -1,6 +1,7 @@
 package me.androidbox.busbymoviesv2.movie_details.presentation.screens
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,12 +44,13 @@ fun CastItem(
         elevation = 4.dp
     ) {
         Column(
-            modifier = Modifier.padding(top = 4.dp, bottom = 10.dp, start = 6.dp, end = 6.dp)
+            modifier = Modifier.padding(top = 4.dp, bottom = 10.dp, start = 6.dp, end = 6.dp),
+            verticalArrangement = Arrangement.Top,
         ) {
             KamelImage(
-                resource = { asyncPainterResource(data = cast.profilePath) },
+                resource = { asyncPainterResource(data = "https://image.tmdb.org/t/p/w500/kU3B75TyRiCgE270EyZnHjfivoq.jpg") },
                 contentDescription = cast.name,
-                modifier = Modifier.size(80.dp).clip(CircleShape),
+                modifier = Modifier.size(80.dp).clip(CircleShape).align(Alignment.CenterHorizontally),
                 contentScale = ContentScale.Crop,
                 contentAlignment = Alignment.Center,
                 onLoading = { _ ->

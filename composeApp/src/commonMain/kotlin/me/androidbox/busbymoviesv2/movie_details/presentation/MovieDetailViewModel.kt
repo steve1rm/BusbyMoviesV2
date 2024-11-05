@@ -13,18 +13,23 @@ import kotlinx.coroutines.launch
 import me.androidbox.busbymoviesv2.configuration.domain.models.ConfigurationModel
 import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUseCase
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
+import me.androidbox.busbymoviesv2.core.domain.utils.onFailure
+import me.androidbox.busbymoviesv2.core.domain.utils.onSuccess
 import me.androidbox.busbymoviesv2.core.presentation.utils.mapImageSize
-import me.androidbox.busbymoviesv2.movie_details.domain.MovieDetailUseCase
+import me.androidbox.busbymoviesv2.movie_details.domain.usecase.MovieCreditsUseCase
+import me.androidbox.busbymoviesv2.movie_details.domain.usecase.MovieDetailUseCase
 
 class MovieDetailViewModel(
     private val movieDetailUseCase: MovieDetailUseCase,
     private val configurationUseCase: ConfigurationUseCase,
+    private val movieCreditsUseCase: MovieCreditsUseCase,
     private val movieId: Int) : ViewModel() {
 
     private val _movieDetailState = MutableStateFlow(MovieDetailState())
     val movieDetailState = _movieDetailState.asStateFlow()
         .onStart {
-           movieDetail(movieId)
+            movieDetail(movieId)
+            movieCredits(movieId)
         }
         .stateIn(
             scope = viewModelScope,
@@ -47,11 +52,33 @@ class MovieDetailViewModel(
         }
     }
 
+    fun movieCredits(movieId: Int) {
+        viewModelScope.launch {
+            _movieDetailState.update { movieDetailState ->
+                movieDetailState.copy(isLoadingCredits = true)
+            }
+
+            movieCreditsUseCase.execute(movieId)
+                .onSuccess { creditsModel ->
+                    println(creditsModel)
+                    _movieDetailState.update { movieDetailState ->
+                        movieDetailState.copy(
+                            movieCredits = creditsModel.toCredits()
+                        )
+                    }
+                }
+                .onFailure { error, errorModel ->
+                    println(error)
+                    println(errorModel)
+                }
+        }
+    }
+
     fun movieDetail(movieId: Int) {
         viewModelScope.launch {
             _movieDetailState.update { movieDetailState ->
                 movieDetailState.copy(
-                    isLoading = true
+                    isLoadingDetails = true
                 )
             }
 
@@ -60,7 +87,7 @@ class MovieDetailViewModel(
 
                     _movieDetailState.update { movieDetailState ->
                         movieDetailState.copy(
-                            isLoading = true
+                            isLoadingDetails = true
                         )
                     }
                 }
@@ -69,7 +96,7 @@ class MovieDetailViewModel(
                     _movieDetailState.update { movieDetailState ->
                         movieDetailState.copy(
                             movieDetail = checkResult.data.toMovieDetail(imageSize),
-                            isLoading = false
+                            isLoadingDetails = false
                         )
                     }
                 }
@@ -86,6 +113,4 @@ class MovieDetailViewModel(
             MovieDetailAction.OnSimilarMovieClicked -> TODO()
         }
     }
-
-
 }

@@ -1,4 +1,4 @@
-package me.androidbox.busbymoviesv2.movie_details.domain
+package me.androidbox.busbymoviesv2.movie_details.domain.usecase
 
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
 import me.androidbox.busbymoviesv2.core.domain.utils.DataError

@@ -9,7 +9,7 @@ data class CastDto(
     val name: String,
     val popularity: Double,
     @SerialName("profile_path")
-    val profilePath: String,
+    val profilePath: String?,
     @SerialName("cast_id")
     val castId: Int,
     val character: String,

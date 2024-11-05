@@ -16,9 +16,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import me.androidbox.busbymoviesv2.movie_details.presentation.model.Credits
 
 @Composable
-fun MovieCastList() {
+fun MovieCastList(
+    credits: Credits
+) {
     Text(
         modifier = Modifier.padding(horizontal = 8.dp),
         text = "Top Billed Cast",
@@ -34,7 +37,7 @@ fun MovieCastList() {
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(
-            items = listOfCastItems(),
+            items = credits.cast,
             key = { cast ->
                 cast.id
             }
