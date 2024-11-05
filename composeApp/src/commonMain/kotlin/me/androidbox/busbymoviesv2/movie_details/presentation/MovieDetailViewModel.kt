@@ -60,14 +60,17 @@ class MovieDetailViewModel(
 
             movieCreditsUseCase.execute(movieId)
                 .onSuccess { creditsModel ->
-                    println(creditsModel)
                     _movieDetailState.update { movieDetailState ->
                         movieDetailState.copy(
-                            movieCredits = creditsModel.toCredits()
+                            movieCredits = creditsModel.toCredits(),
+                            isLoadingCredits = false
                         )
                     }
                 }
                 .onFailure { error, errorModel ->
+                    _movieDetailState.update { movieDetailState ->
+                        movieDetailState.copy(isLoadingCredits = false)
+                    }
                     println(error)
                     println(errorModel)
                 }

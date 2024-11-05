@@ -35,17 +35,15 @@ import busbymoviesv2.composeapp.generated.resources.movie
 import me.androidbox.busbymoviesv2.core.presentation.components.MovieButton
 import me.androidbox.busbymoviesv2.core.presentation.components.StarRatingBar
 import me.androidbox.busbymoviesv2.core.presentation.utils.formatNumberWithSuffix
+import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailState
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.Cast
-import me.androidbox.busbymoviesv2.movie_details.presentation.model.Credits
-import me.androidbox.busbymoviesv2.movie_details.presentation.model.MovieDetail
 import me.androidbox.busbymoviesv2.movie_details.presentation.screens.MovieCastList
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Duration.Companion.minutes
 
 @Composable
 fun MovieDetailOverview(
-    movieDetail: MovieDetail,
-    credits: Credits,
+    movieDetailState: MovieDetailState,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -68,12 +66,12 @@ fun MovieDetailOverview(
                 Column(
                     modifier = Modifier.wrapContentHeight()
                 ) {
-                    StarRatingBar(movieDetail.voteAverage)
+                    StarRatingBar(movieDetailState.movieDetail.voteAverage)
 
                     Text(
                         color = Color.Black,
                         fontWeight = FontWeight.SemiBold,
-                        text = movieDetail.genres.joinToString(" • ") { genre -> genre.name },
+                        text = movieDetailState.movieDetail.genres.joinToString(" • ") { genre -> genre.name },
                         fontSize = 16.sp,
                         textAlign = TextAlign.Start
                     )
@@ -88,13 +86,13 @@ fun MovieDetailOverview(
                         Text(
                             modifier = Modifier.wrapContentWidth(),
                             color = Color.Black,
-                            text = "${movieDetail.runtime.minutes}"
+                            text = "${movieDetailState.movieDetail.runtime.minutes}"
                         )
 
                     }
 
                     /** Don't show if there is zero budget or revenue */
-                    if (movieDetail.revenue > 0) {
+                    if (movieDetailState.movieDetail.revenue > 0) {
                         Row {
                             Text(
                                 modifier = Modifier.weight(1f),
@@ -105,13 +103,13 @@ fun MovieDetailOverview(
                             Text(
                                 modifier = Modifier.wrapContentWidth(),
                                 color = Color.Black,
-                                text = "$${movieDetail.revenue.formatNumberWithSuffix()}"
+                                text = "$${movieDetailState.movieDetail.revenue.formatNumberWithSuffix()}"
                             )
                         }
 
                     }
 
-                    if (movieDetail.budget > 0) {
+                    if (movieDetailState.movieDetail.budget > 0) {
                         Row {
                             Text(
                                 modifier = Modifier.weight(1f),
@@ -122,7 +120,7 @@ fun MovieDetailOverview(
                             Text(
                                 modifier = Modifier.wrapContentWidth(),
                                 color = Color.Black,
-                                text = "$${movieDetail.budget.formatNumberWithSuffix()}"
+                                text = "$${movieDetailState.movieDetail.budget.formatNumberWithSuffix()}"
                             )
                         }
                     }
@@ -152,7 +150,7 @@ fun MovieDetailOverview(
             }
 
             MovieRating(
-                movieDetail = movieDetail)
+                movieDetail = movieDetailState.movieDetail)
         }
 
         Column(modifier = Modifier
@@ -173,12 +171,12 @@ fun MovieDetailOverview(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Light,
-                text = movieDetail.overview
+                text = movieDetailState.movieDetail.overview
             )
 
             /** Top billed cast */
             Spacer(modifier = Modifier.height(8.dp))
-            MovieCastList(credits)
+            MovieCastList(movieDetailState.movieCredits, movieDetailState.isLoadingCredits)
         }
     }
 }
@@ -201,8 +199,7 @@ fun listOfCast(): List<Cast> {
 fun PreviewMovieDetailOverview() {
     MaterialTheme {
         MovieDetailOverview(
-            movieDetail = MovieDetail(),
-            credits = Credits()
+           movieDetailState = MovieDetailState()
         )
     }
 }

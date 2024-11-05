@@ -64,24 +64,24 @@ fun CastItem(
                 },
             )
 
-            Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.height(6.dp))
 
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Start,
-                text = cast.name,
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp
-            )
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Start,
+                    text = cast.name,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp
+                )
 
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Start,
-                text = cast.character,
-                fontSize = 12.sp
-            )
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Start,
+                    text = cast.character,
+                    fontSize = 12.sp
+                )
+            }
         }
-    }
 }
 
 fun listOfCastItems(): List<Cast> {

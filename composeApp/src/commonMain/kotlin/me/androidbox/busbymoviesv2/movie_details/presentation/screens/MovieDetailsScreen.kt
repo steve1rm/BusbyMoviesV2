@@ -83,8 +83,7 @@ fun MovieDetailsScreen(
                                Column(modifier = Modifier.fillMaxSize()) {
                                    Spacer(modifier = Modifier.height(16.dp))
                                    MovieDetailOverview(
-                                       movieDetail = movieDetailState.movieDetail,
-                                       credits = movieDetailState.movieCredits
+                                      movieDetailState = movieDetailState
                                    )
                                }
                            }
