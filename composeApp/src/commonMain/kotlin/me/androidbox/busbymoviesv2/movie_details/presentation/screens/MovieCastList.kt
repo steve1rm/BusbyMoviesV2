@@ -9,14 +9,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.Credits
@@ -47,7 +48,8 @@ fun MovieCastList(
         LazyRow(
             state = rememberLazyListState(),
             modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             items(
                 items = credits.cast.take(9),
@@ -63,10 +65,12 @@ fun MovieCastList(
             }
 
             item {
-                Button(
+                TextButton(
                     onClick = {}
                 ) {
-                    Text(text = "View More", fontSize = 22.sp, color = Color.Black)
+                    Text(
+                        text = "View More ->", fontSize = 18.sp, color = Color.Black,
+                        textAlign = TextAlign.Center)
                 }
             }
         }
