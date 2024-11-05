@@ -54,53 +54,44 @@ fun CircularProgressBar(
     }
 
     Box(
-        modifier = modifier.size(radius).background(color = Color.Black, shape = CircleShape).padding(4.dp),
+        modifier = modifier
+            .size(radius)
+            .background(color = Color.Black, shape = CircleShape).padding(4.dp),
         contentAlignment = Alignment.Center,
     ) {
+        val targetColor = colorRanges.firstOrNull {
+            (number * animateCurrentPercentage) in it.range
+        }?.color ?: Color.Transparent
+
         val progressColor by animateColorAsState(
-            targetValue = when(number * animateCurrentPercentage) {
-                in 0.0..40.0 -> {
-                    Color(0xFFFF0000)
-                }
-
-                in 41.0..60.0 -> {
-                    Color(0xFFFFFF00)
-                }
-
-                in 61.0..80.0 -> {
-                    Color(0xFF008000)
-                }
-
-                else -> {
-                    Color(0xFF90EE90)
-                }
-            },
+            targetValue = targetColor,
             animationSpec = tween(durationMillis = animationDuration / 2)
         )
 
         Canvas(
-            modifier = Modifier.size(radius)) {
+            modifier = Modifier.size(radius),
+            onDraw = {
+                drawArc(
+                    color = Color.LightGray,
+                    startAngle = -90f,
+                    sweepAngle = 360f,
+                    useCenter = false,
+                    style = Stroke(
+                        width = strokeWidth.toPx(),
+                        cap = StrokeCap.Round)
+                )
 
-            drawArc(
-                color = Color.LightGray,
-                startAngle = -90f,
-                sweepAngle = 360f,
-                useCenter = false,
-                style = Stroke(
-                    width = strokeWidth.toPx(),
-                    cap = StrokeCap.Round)
-            )
-
-            drawArc(
-                color = progressColor,
-                startAngle = -90f,
-                sweepAngle = 360 * animateCurrentPercentage,
-                useCenter = false,
-                style = Stroke(
-                    width = strokeWidth.toPx(),
-                    cap = StrokeCap.Round)
-            )
-        }
+                drawArc(
+                    color = progressColor,
+                    startAngle = -90f,
+                    sweepAngle = 360 * animateCurrentPercentage,
+                    useCenter = false,
+                    style = Stroke(
+                        width = strokeWidth.toPx(),
+                        cap = StrokeCap.Round)
+                )
+            }
+        )
 
         Text(text = (animateCurrentPercentage * number).toInt().toString(),
             color = Color.White,
@@ -108,3 +99,12 @@ fun CircularProgressBar(
             fontWeight = FontWeight.SemiBold)
     }
 }
+
+data class ColorRange(val range: ClosedFloatingPointRange<Float>, val color: Color)
+
+private val colorRanges = listOf(
+    ColorRange(0f..40f, Color(0xFFFF0000)),  // Bad
+    ColorRange(40f..60f, Color(0xFFFFFF00)), // A little better
+    ColorRange(60f..80f, Color(0xFF008000)), // This is more like it
+    ColorRange(80f..100f, Color(0xFF90EE90)) // This is what I am talking about
+)
