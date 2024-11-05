@@ -61,6 +61,8 @@ fun CreditsModel.toCredits(): Credits {
 }
 
 fun CastModel.toCast(): Cast {
+    val imagePath = "${BASE_IMAGE_PATH}w500"
+
     return Cast(
         id = this.id,
         name = this.name,
@@ -68,7 +70,7 @@ fun CastModel.toCast(): Cast {
         popularity = this.popularity,
         creditId = this.creditId,
         castId = this.castId,
-        profilePath = this.profilePath.orEmpty(),
+        profilePath = "$imagePath${this.profilePath}",
     )
 }
 

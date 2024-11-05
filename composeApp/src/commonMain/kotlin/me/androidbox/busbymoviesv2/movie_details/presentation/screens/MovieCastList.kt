@@ -50,7 +50,7 @@ fun MovieCastList(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(
-                items = credits.cast,
+                items = credits.cast.take(9),
                 key = { cast ->
                     cast.id
                 }

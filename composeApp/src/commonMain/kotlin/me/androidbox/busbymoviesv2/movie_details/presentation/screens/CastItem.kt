@@ -48,7 +48,7 @@ fun CastItem(
             verticalArrangement = Arrangement.Top,
         ) {
             KamelImage(
-                resource = { asyncPainterResource(data = "https://image.tmdb.org/t/p/w500/kU3B75TyRiCgE270EyZnHjfivoq.jpg") },
+                resource = { asyncPainterResource(data = cast.profilePath) },
                 contentDescription = cast.name,
                 modifier = Modifier.size(80.dp).clip(CircleShape).align(Alignment.CenterHorizontally),
                 contentScale = ContentScale.Crop,
