@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,7 +35,9 @@ import busbymoviesv2.composeapp.generated.resources.movie
 import me.androidbox.busbymoviesv2.core.presentation.components.MovieButton
 import me.androidbox.busbymoviesv2.core.presentation.components.StarRatingBar
 import me.androidbox.busbymoviesv2.core.presentation.utils.formatNumberWithSuffix
+import me.androidbox.busbymoviesv2.movie_details.presentation.model.Cast
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.MovieDetail
+import me.androidbox.busbymoviesv2.movie_details.presentation.screens.MovieCastList
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Duration.Companion.minutes
 
@@ -45,7 +48,7 @@ fun MovieDetailOverview(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .wrapContentHeight()
             .verticalScroll(rememberScrollState()),
     ) {
 
@@ -168,13 +171,30 @@ fun MovieDetailOverview(
                 fontWeight = FontWeight.Light,
                 text = movieDetail.overview
             )
+
+            /** Top billed cast */
+            Spacer(modifier = Modifier.height(4.dp))
+            MovieCastList()
         }
     }
 }
 
+fun listOfCast(): List<Cast> {
+    return listOf(
+        Cast(
+            id = 1,
+            name = "John Doe",
+            character = "Character",
+            popularity = 10.0,
+            creditId = "001",
+            castId = 130,
+            profilePath = "https://image.tmdb.org/t/p/w500/kU3B75TyRiCgE270EyZnHjfivoq.jpg"
+        ))
+}
+
 @Preview
 @Composable
-fun PreviewMovideDetailOverview() {
+fun PreviewMovieDetailOverview() {
     MaterialTheme {
         MovieDetailOverview(
             movieDetail = MovieDetail()
