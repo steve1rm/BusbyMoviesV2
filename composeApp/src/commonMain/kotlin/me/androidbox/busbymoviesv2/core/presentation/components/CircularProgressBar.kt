@@ -1,5 +1,6 @@
 package me.androidbox.busbymoviesv2.core.presentation.components
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -34,9 +35,8 @@ fun CircularProgressBar(
     number: Int,
     fontSize: TextUnit = 12.sp,
     radius: Dp = 32.dp,
-    color: Color = Color.Green,
     strokeWidth: Dp = 4.dp,
-    animationDuration: Int = 2_000,
+    animationDuration: Int = 5_000,
     animationDelay: Int = 0) {
 
     var hasAnimationPlayed by remember { mutableStateOf(false) }
@@ -57,6 +57,27 @@ fun CircularProgressBar(
         modifier = modifier.size(radius).background(color = Color.Black, shape = CircleShape).padding(4.dp),
         contentAlignment = Alignment.Center,
     ) {
+        val progressColor by animateColorAsState(
+            targetValue = when(number * animateCurrentPercentage) {
+                in 0.0..40.0 -> {
+                    Color(0xFFFF0000)
+                }
+
+                in 41.0..60.0 -> {
+                    Color(0xFFFFFF00)
+                }
+
+                in 61.0..80.0 -> {
+                    Color(0xFF008000)
+                }
+
+                else -> {
+                    Color(0xFF90EE90)
+                }
+            },
+            animationSpec = tween(durationMillis = animationDuration / 2)
+        )
+
         Canvas(
             modifier = Modifier.size(radius)) {
 
@@ -70,8 +91,8 @@ fun CircularProgressBar(
                     cap = StrokeCap.Round)
             )
 
-           drawArc(
-                color = color,
+            drawArc(
+                color = progressColor,
                 startAngle = -90f,
                 sweepAngle = 360 * animateCurrentPercentage,
                 useCenter = false,
