@@ -1,7 +1,5 @@
 package me.androidbox.busbymoviesv2.movie_details.presentation.utils
 
-import androidx.compose.ui.text.capitalize
-import androidx.compose.ui.text.intl.Locale
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.Crew
 
 
@@ -30,7 +28,7 @@ fun extractDistinctCrewJobs(crewList: List<Crew>): Map<String, String> {
         }
         .mapValues { mapEntry ->
             mapEntry.value.joinToString(", ") { crew ->
-                crew.job.lowercase().capitalize(Locale.current)
+                crew.job
             }
         }
         .entries
