@@ -1,8 +1,12 @@
+@file:OptIn(ExperimentalLayoutApi::class, ExperimentalLayoutApi::class)
+
 package me.androidbox.busbymoviesv2.movie_details.presentation.screens.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,8 +40,8 @@ import me.androidbox.busbymoviesv2.core.presentation.components.MovieButton
 import me.androidbox.busbymoviesv2.core.presentation.components.StarRatingBar
 import me.androidbox.busbymoviesv2.core.presentation.utils.formatNumberWithSuffix
 import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailState
-import me.androidbox.busbymoviesv2.movie_details.presentation.model.Cast
 import me.androidbox.busbymoviesv2.movie_details.presentation.screens.MovieCastList
+import me.androidbox.busbymoviesv2.movie_details.presentation.utils.extractDistinctCrewJobs
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Duration.Companion.minutes
 
@@ -174,24 +178,24 @@ fun MovieDetailOverview(
                 text = movieDetailState.movieDetail.overview
             )
 
+            /** director and crew details */
+            FlowRow(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                val crewJobs = extractDistinctCrewJobs(movieDetailState.movieCredits.crew)
+                crewJobs.forEach { (name, job) ->
+                    CrewItem(
+                        name = name,
+                        job = job
+                    )
+                }
+            }
+
             /** Top billed cast */
             Spacer(modifier = Modifier.height(8.dp))
             MovieCastList(movieDetailState.movieCredits, movieDetailState.isLoadingCredits)
         }
     }
-}
-
-fun listOfCast(): List<Cast> {
-    return listOf(
-        Cast(
-            id = 1,
-            name = "John Doe",
-            character = "Character",
-            popularity = 10.0,
-            creditId = "001",
-            castId = 130,
-            profilePath = "https://image.tmdb.org/t/p/w500/kU3B75TyRiCgE270EyZnHjfivoq.jpg"
-        ))
 }
 
 @Preview
