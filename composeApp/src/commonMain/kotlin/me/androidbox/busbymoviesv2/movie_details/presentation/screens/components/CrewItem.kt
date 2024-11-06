@@ -15,6 +15,7 @@ fun CrewItem(
     name: String,
     job: String
 ) {
+
     Column(modifier = modifier.wrapContentSize()) {
         Text(text = name, fontWeight = FontWeight.SemiBold, color = Color.Black, fontSize = 16.sp)
         Text(text = job, fontWeight = FontWeight.Medium, color = Color.Black, fontSize = 14.sp)
