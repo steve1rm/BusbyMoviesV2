@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
@@ -21,10 +21,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -37,7 +35,6 @@ import io.kamel.image.asyncPainterResource
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.Cast
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import kotlin.math.max
 import kotlin.random.Random
 
 @Composable
@@ -46,7 +43,6 @@ fun CastItem(
     modifier: Modifier = Modifier,
     onCastClicked: (id: Int) -> Unit
 ) {
-    
     var maxWidth by remember {
         mutableIntStateOf(0)
     }
@@ -79,14 +75,8 @@ fun CastItem(
                 resource = { asyncPainterResource(data = cast.profilePath) },
                 contentDescription = cast.name,
                 modifier = Modifier
-                    .aspectRatio(1f)
-                    .clip(CircleShape)
-                    .align(Alignment.CenterHorizontally)
-                    .onSizeChanged { currentSize -> 
-                        maxWidth = max(maxWidth, currentSize.width)
-                        maxheight = max(maxheight, currentSize.height)
-                        println("MAX_HEIGHT $maxheight")
-                    },
+                    .aspectRatio(16f/9f)
+                    .align(Alignment.CenterHorizontally),
                 contentScale = ContentScale.Crop,
                 contentAlignment = Alignment.Center,
                 onLoading = { _ ->
@@ -97,7 +87,8 @@ fun CastItem(
                 },
                 onFailure = {
                     Image(
-                        modifier = Modifier.height(height = maxHeightDp),
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop,
                         painter = painterResource(Res.drawable.person),
                         contentDescription = "Fall back image"
                     )
