@@ -173,6 +173,7 @@ fun MovieDetailOverview(
                 movieDetail = movieDetailState.movieDetail)
         }
 
+        /** Overview */
         Column(modifier = Modifier
             .fillMaxSize().offset(y = -(24.dp)).zIndex(-1f).alpha(0.9f)
             .background(color = Color.White, shape = RoundedCornerShape(topStart = 22.dp, topEnd = 22.dp))) {
@@ -180,7 +181,7 @@ fun MovieDetailOverview(
                 modifier = Modifier.padding(start = 8.dp, top = 4.dp),
                 color = Color.Black,
                 fontSize = 22.sp,
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.Normal,
                 text = "Overview"
             )
 
@@ -195,6 +196,17 @@ fun MovieDetailOverview(
             )
 
             /** director and crew details */
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                modifier = Modifier.padding(start = 8.dp, top = 4.dp),
+                color = Color.Black,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Normal,
+                text = "Credits"
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
             FlowRow(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -215,6 +227,8 @@ fun MovieDetailOverview(
             /** Top billed cast */
             Spacer(modifier = Modifier.height(8.dp))
             MovieCastList(movieDetailState.movieCredits, movieDetailState.isLoadingCredits)
+
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }

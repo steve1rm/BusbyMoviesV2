@@ -32,7 +32,7 @@ fun MovieCastList(
         text = "Top Billed Cast",
         color = Color.Black,
         fontSize = 22.sp,
-        fontWeight = FontWeight.SemiBold,)
+        fontWeight = FontWeight.Normal)
 
     Spacer(modifier = Modifier.height(4.dp))
 

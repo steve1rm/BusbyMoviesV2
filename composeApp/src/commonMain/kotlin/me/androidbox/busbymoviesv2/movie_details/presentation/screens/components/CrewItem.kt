@@ -1,7 +1,6 @@
 package me.androidbox.busbymoviesv2.movie_details.presentation.screens.components
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,8 +15,8 @@ fun CrewItem(
     job: String
 ) {
 
-    Column(modifier = modifier.wrapContentSize()) {
-        Text(text = name, fontWeight = FontWeight.SemiBold, color = Color.Black, fontSize = 16.sp)
-        Text(text = job, fontWeight = FontWeight.Medium, color = Color.Black, fontSize = 14.sp)
+    Column(modifier = modifier) {
+        Text(text = name, fontWeight = FontWeight.Medium, color = Color.Black, fontSize = 14.sp)
+        Text(text = job, color = Color.Black, fontSize = 14.sp)
     }
 }
