@@ -108,7 +108,9 @@ fun MovieListScreen(
                                     },
                                     itemContent = { index ->
                                         movieListPager[index]?.let { movieResult ->
-                                            MovieListItem(movieResult)
+                                            MovieListItem(movieResult) { movie ->
+                                                onMovieListAction(MovieListAction.OnMovieClicked(movie.id))
+                                            }
                                         }
                                     }
                                 )
@@ -143,9 +145,7 @@ fun MovieListScreen(
 
                                     movieListPager.loadState.refresh is LoadStateNotLoading -> {
                                         /** Stop the refresh indicator as the data has already loaded */
-
-                                            isRefreshing = false
-
+                                        isRefreshing = false
                                     }
 
                                     movieListPager.loadState.refresh is LoadStateError -> {
@@ -243,8 +243,8 @@ fun MovieListScreen(
                             listOfNavigationItems,
                             selectedItemIndex = selectedItemIndex,
                             onItemClicked = { movieCategory, index ->
-                                onMovieListAction(MovieListAction.OnMovieListNavigationItemClicked(movieCategory))
                                 selectedItemIndex = index
+                                onMovieListAction(MovieListAction.OnMovieListNavigationItemClicked(movieCategory))
                             }
                         )
                     }
@@ -257,8 +257,8 @@ fun MovieListScreen(
                 listOfNavigationItems = listOfNavigationItems,
                 selectedItemIndex = selectedItemIndex,
                 onItemClicked = { movieCategory, index ->
-                    onMovieListAction(MovieListAction.OnMovieListNavigationItemClicked(movieCategory))
                     selectedItemIndex = index
+                    onMovieListAction(MovieListAction.OnMovieListNavigationItemClicked(movieCategory))
                 }
             )
         }

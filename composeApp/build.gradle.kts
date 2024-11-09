@@ -86,12 +86,13 @@ kotlin {
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.transitions)
             implementation(libs.font.awesome)
-            implementation("app.cash.paging:paging-common:3.3.0-alpha02-0.5.1")
-            implementation("app.cash.paging:paging-compose-common:3.3.0-alpha02-0.5.1")
 
             implementation(libs.kamel.image.default)
-
+            implementation(libs.haze)
+            implementation(libs.haze.materials)
             implementation(libs.windowSizeMultiplatform)
+            implementation("io.github.oleksandrbalan:textflow-material3:1.2.1")
+            implementation("io.coil-kt.coil3:coil-compose:3.0.0")
         }
 
         androidMain.dependencies {
@@ -101,16 +102,24 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.compose)
             implementation(libs.koin.androidx.compose)
+            implementation(libs.paging.common)
+            implementation(libs.paging.compose.common)
+
         }
 
         nativeMain.dependencies {
             implementation(libs.ktor.engine.cio)
+            implementation(libs.paging.common)
+            implementation(libs.paging.compose.common)
+
         }
 
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.engine.cio)
+            implementation(libs.paging.common)
+            implementation(libs.paging.compose.common)
         }
 
         wasmJsMain.dependencies {

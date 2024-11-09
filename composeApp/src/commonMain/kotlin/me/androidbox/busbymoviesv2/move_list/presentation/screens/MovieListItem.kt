@@ -2,6 +2,7 @@ package me.androidbox.busbymoviesv2.move_list.presentation.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,9 +33,14 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun MovieListItem(
     movie: MovieResult,
     modifier: Modifier = Modifier,
+    onMovieClicked: (movie: MovieResult) -> Unit
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable {
+                onMovieClicked(movie)
+        },
     ) {
         KamelImage(
             resource = { asyncPainterResource(data = movie.posterPath) },
@@ -48,6 +54,7 @@ fun MovieListItem(
                 )
             },
             onFailure = {
+                println("ONFAILURE IMAGE DETAIL ${movie.posterPath}")
                 Image(imageVector = vectorResource(Res.drawable.compose_multiplatform), contentDescription = null)
             },
         )
@@ -87,7 +94,8 @@ fun PreviewMovieListItem() {
                 voteAverage = 9.3,
                 voteCount = 67876,
                 genreIds = emptyList(),
-            )
+            ),
+            onMovieClicked = {}
         )
     }
 }

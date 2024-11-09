@@ -19,6 +19,7 @@ import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUs
 import me.androidbox.busbymoviesv2.core.data.network.Routes
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
 import me.androidbox.busbymoviesv2.core.presentation.utils.mapImageSize
+import me.androidbox.busbymoviesv2.core.presentation.utils.toMovieWithImageSize
 import me.androidbox.busbymoviesv2.move_list.data.repository.imp.MovieListPagingRepositoryImp
 import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListUseCase
 import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieResult
@@ -61,7 +62,7 @@ class MoveListViewModel(
                         id = it.id,
                         title = it.title,
                         overview = it.overview,
-                        posterPath = it.posterPath.toPosterWithImageSize(imageSize),
+                        posterPath = it.posterPath.toMovieWithImageSize(imageSize),
                         backdropPath = it.backdropPath,
                         voteAverage = it.voteAverage,
                         releaseDate = it.releaseDate

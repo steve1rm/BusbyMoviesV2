@@ -1,0 +1,119 @@
+package me.androidbox.busbymoviesv2.movie_details.presentation
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import me.androidbox.busbymoviesv2.configuration.domain.models.ConfigurationModel
+import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUseCase
+import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
+import me.androidbox.busbymoviesv2.core.domain.utils.onFailure
+import me.androidbox.busbymoviesv2.core.domain.utils.onSuccess
+import me.androidbox.busbymoviesv2.core.presentation.utils.mapImageSize
+import me.androidbox.busbymoviesv2.movie_details.domain.usecase.MovieCreditsUseCase
+import me.androidbox.busbymoviesv2.movie_details.domain.usecase.MovieDetailUseCase
+
+class MovieDetailViewModel(
+    private val movieDetailUseCase: MovieDetailUseCase,
+    private val configurationUseCase: ConfigurationUseCase,
+    private val movieCreditsUseCase: MovieCreditsUseCase,
+    private val movieId: Int) : ViewModel() {
+
+    private val _movieDetailState = MutableStateFlow(MovieDetailState())
+    val movieDetailState = _movieDetailState.asStateFlow()
+        .onStart {
+            movieDetail(movieId)
+            movieCredits(movieId)
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000L),
+            initialValue = MovieDetailState()
+        )
+
+    private var configurationModel: ConfigurationModel? = null
+    private var imageSize: String = "w500"
+
+    init {
+        viewModelScope.launch {
+            val configuration = viewModelScope.async {
+                configurationUseCase.execute()
+            }
+            configurationModel = configuration.await()
+            configurationModel?.let {
+                mapImageSize(it)
+            } ?: "original"
+        }
+    }
+
+    fun movieCredits(movieId: Int) {
+        viewModelScope.launch {
+            _movieDetailState.update { movieDetailState ->
+                movieDetailState.copy(isLoadingCredits = true)
+            }
+
+            movieCreditsUseCase.execute(movieId)
+                .onSuccess { creditsModel ->
+                    _movieDetailState.update { movieDetailState ->
+                        movieDetailState.copy(
+                            movieCredits = creditsModel.toCredits(),
+                            isLoadingCredits = false
+                        )
+                    }
+                }
+                .onFailure { error, errorModel ->
+                    _movieDetailState.update { movieDetailState ->
+                        movieDetailState.copy(isLoadingCredits = false)
+                    }
+                    println(error)
+                    println(errorModel)
+                }
+        }
+    }
+
+    fun movieDetail(movieId: Int) {
+        viewModelScope.launch {
+            _movieDetailState.update { movieDetailState ->
+                movieDetailState.copy(
+                    isLoadingDetails = true
+                )
+            }
+
+            when (val checkResult = movieDetailUseCase.execute(movieId)) {
+                is CheckResult.Failure -> {
+
+                    _movieDetailState.update { movieDetailState ->
+                        movieDetailState.copy(
+                            isLoadingDetails = true
+                        )
+                    }
+                }
+
+                is CheckResult.Success -> {
+                    _movieDetailState.update { movieDetailState ->
+                        movieDetailState.copy(
+                            movieDetail = checkResult.data.toMovieDetail(imageSize),
+                            isLoadingDetails = false
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun onMovieDetailAction(movieDetailAction: MovieDetailAction) {
+        when(movieDetailAction) {
+            MovieDetailAction.OnFavourateClicked -> TODO()
+            MovieDetailAction.OnMovieActorClicked -> TODO()
+            MovieDetailAction.OnPlayMainTrailer -> TODO()
+            MovieDetailAction.OnReviewClicked -> TODO()
+            MovieDetailAction.OnSimilarMovieClicked -> TODO()
+        }
+    }
+}
