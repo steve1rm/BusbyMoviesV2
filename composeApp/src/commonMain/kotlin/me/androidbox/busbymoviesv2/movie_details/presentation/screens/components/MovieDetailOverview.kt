@@ -47,6 +47,8 @@ import busbymoviesv2.composeapp.generated.resources.movie
 import me.androidbox.busbymoviesv2.core.presentation.components.MovieButton
 import me.androidbox.busbymoviesv2.core.presentation.components.StarRatingBar
 import me.androidbox.busbymoviesv2.core.presentation.utils.formatNumberWithSuffix
+import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieItem
+import me.androidbox.busbymoviesv2.move_list.presentation.screens.MovieListItem
 import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailState
 import me.androidbox.busbymoviesv2.movie_details.presentation.screens.CastItem
 import me.androidbox.busbymoviesv2.movie_details.presentation.utils.extractDistinctCrewJobs
@@ -258,6 +260,36 @@ fun MovieDetailOverview(
                     }
                 },
                 isLoading = movieDetailState.isLoadingCredits)
+
+            /** Similar Movies */
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                modifier = Modifier.padding(horizontal = 8.dp),
+                text = "Top Billed Cast",
+                color = Color.Black,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Normal)
+            Spacer(modifier = Modifier.height(4.dp))
+
+            MovieAnyItemList(
+                items = movieDetailState.listOfMovieDetails,
+                itemContent = { movieDetail ->
+                    println(movieDetail.title)
+                },
+                viewMoreContent = {
+                    TextButton(
+                        onClick = {
+                            println("Lets seem some more")
+                        }
+                    ) {
+                        Text(
+                            text = "View More ->", fontSize = 18.sp, color = Color.Black,
+                            textAlign = TextAlign.Center)
+                    }
+                },
+                isLoading = movieDetailState.isLoadingSimilarMovies
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
         }

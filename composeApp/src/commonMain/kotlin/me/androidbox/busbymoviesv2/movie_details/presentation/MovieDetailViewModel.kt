@@ -16,13 +16,16 @@ import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
 import me.androidbox.busbymoviesv2.core.domain.utils.onFailure
 import me.androidbox.busbymoviesv2.core.domain.utils.onSuccess
 import me.androidbox.busbymoviesv2.core.presentation.utils.mapImageSize
+import me.androidbox.busbymoviesv2.move_list.presentation.toMovieList
 import me.androidbox.busbymoviesv2.movie_details.domain.usecase.MovieCreditsUseCase
 import me.androidbox.busbymoviesv2.movie_details.domain.usecase.MovieDetailUseCase
+import me.androidbox.busbymoviesv2.movie_details.domain.usecase.SimilarMoviesUseCase
 
 class MovieDetailViewModel(
     private val movieDetailUseCase: MovieDetailUseCase,
     private val configurationUseCase: ConfigurationUseCase,
     private val movieCreditsUseCase: MovieCreditsUseCase,
+    private val similarMoviesUseCase: SimilarMoviesUseCase,
     private val movieId: Int) : ViewModel() {
 
     private val _movieDetailState = MutableStateFlow(MovieDetailState())
@@ -30,6 +33,7 @@ class MovieDetailViewModel(
         .onStart {
             movieDetail(movieId)
             movieCredits(movieId)
+            similarMovies(movieId)
         }
         .stateIn(
             scope = viewModelScope,
@@ -87,7 +91,6 @@ class MovieDetailViewModel(
 
             when (val checkResult = movieDetailUseCase.execute(movieId)) {
                 is CheckResult.Failure -> {
-
                     _movieDetailState.update { movieDetailState ->
                         movieDetailState.copy(
                             isLoadingDetails = true
@@ -104,6 +107,31 @@ class MovieDetailViewModel(
                     }
                 }
             }
+        }
+    }
+
+    fun similarMovies(movieId: Int) {
+        viewModelScope.launch {
+            _movieDetailState.update { movieDetailState ->
+                movieDetailState.copy(isLoadingSimilarMovies = true)
+            }
+
+            similarMoviesUseCase.execute(movieId)
+                .onSuccess { listOfMovieDetails ->
+                    _movieDetailState.update { movieDetailState ->
+                        movieDetailState.copy(
+                            listOfMovieDetails = listOfMovieDetails.toMovieList("w500"),
+                            isLoadingSimilarMovies = false
+                        )
+                    }
+                }
+                .onFailure { error, errorModel ->
+                    _movieDetailState.update { movieDetailState ->
+                        movieDetailState.copy(
+                            isLoadingSimilarMovies = false
+                        )
+                    }
+                }
         }
     }
 

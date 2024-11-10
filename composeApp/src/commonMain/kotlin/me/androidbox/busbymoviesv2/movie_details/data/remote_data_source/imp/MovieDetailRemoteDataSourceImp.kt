@@ -11,6 +11,7 @@ import me.androidbox.busbymoviesv2.core.data.network.safeApiRequest
 import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
 import me.androidbox.busbymoviesv2.core.domain.utils.DataError
 import me.androidbox.busbymoviesv2.core.domain.utils.ErrorModel
+import me.androidbox.busbymoviesv2.move_list.data.dto.MovieListDto
 import me.androidbox.busbymoviesv2.movie_details.data.dto.CreditsDto
 import me.androidbox.busbymoviesv2.movie_details.data.dto.MovieDetailDto
 import me.androidbox.busbymoviesv2.movie_details.data.remote_data_source.MovieDetailRemoteDataSource
@@ -41,6 +42,24 @@ class MovieDetailRemoteDataSourceImp(private val httpClient: HttpClient) : Movie
             val httpResponse = httpClient.get(urlString = Routes.MOVIE_DETAIL) {
                 url {
                     this.appendPathSegments(movieId.toString(), "credits", encodeSlash = true)
+                }
+                headers {
+                    this.append("Authorization", "Bearer ${BuildConfig.TMDB_ACCESS_TOKEN_AUTH}")
+                    this.append("accept", ContentType.Application.Json.contentType)
+                }
+            }
+
+            httpResponse
+        }
+
+        return checkResult
+    }
+
+    override suspend fun similarMovies(movieId: Int): CheckResult<MovieListDto, DataError.Network, ErrorModel> {
+        val checkResult = safeApiRequest<MovieListDto> {
+            val httpResponse = httpClient.get(urlString = Routes.MOVIE_DETAIL) {
+                url {
+                    this.appendPathSegments(movieId.toString(), "similar", encodeSlash = true)
                 }
                 headers {
                     this.append("Authorization", "Bearer ${BuildConfig.TMDB_ACCESS_TOKEN_AUTH}")
