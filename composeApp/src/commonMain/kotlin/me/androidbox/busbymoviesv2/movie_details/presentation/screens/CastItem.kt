@@ -43,22 +43,7 @@ fun CastItem(
     modifier: Modifier = Modifier,
     onCastClicked: (id: Int) -> Unit
 ) {
-    var maxWidth by remember {
-        mutableIntStateOf(0)
-    }
-    
-    val maxWidthDp = with(LocalDensity.current) {
-        maxWidth.toDp()
-    }
 
-    var maxheight by remember {
-        mutableIntStateOf(0)
-    }
-
-    val maxHeightDp = with(LocalDensity.current) {
-        maxheight.toDp()
-    }
-    
     Card(
         modifier = modifier
             .fillMaxHeight()
