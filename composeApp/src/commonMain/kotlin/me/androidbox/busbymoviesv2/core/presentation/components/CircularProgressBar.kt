@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.sp
 fun CircularProgressBar(
     modifier: Modifier = Modifier,
     percentage: Float,
-    number: Int,
+    number: Int = 100,
     fontSize: TextUnit = 12.sp,
     radius: Dp = 32.dp,
     strokeWidth: Dp = 4.dp,
@@ -103,8 +103,8 @@ fun CircularProgressBar(
 data class ColorRange(val range: ClosedFloatingPointRange<Float>, val color: Color)
 
 private val colorRanges = listOf(
-    ColorRange(0f..40f, Color(0xFFFF0000)),  // Bad
-    ColorRange(40f..60f, Color(0xFFFFFF00)), // A little better
-    ColorRange(60f..80f, Color(0xFF008000)), // This is more like it
-    ColorRange(80f..100f, Color(0xFF90EE90)) // This is what I am talking about
+    ColorRange(0f..40f, Color(0xFFff0000)),  // Bad, don't waste your time
+    ColorRange(40f..60f, Color(0xB39225FF)), // A little better, but not great
+    ColorRange(60f..80f, Color(0xFFffff00)), // This is more like it
+    ColorRange(80f..100f, Color(0xFF21d07a)) // Now that is what I am talking about
 )

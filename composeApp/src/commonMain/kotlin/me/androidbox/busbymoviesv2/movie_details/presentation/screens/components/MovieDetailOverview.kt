@@ -47,10 +47,9 @@ import busbymoviesv2.composeapp.generated.resources.movie
 import me.androidbox.busbymoviesv2.core.presentation.components.MovieButton
 import me.androidbox.busbymoviesv2.core.presentation.components.StarRatingBar
 import me.androidbox.busbymoviesv2.core.presentation.utils.formatNumberWithSuffix
-import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieItem
-import me.androidbox.busbymoviesv2.move_list.presentation.screens.MovieListItem
 import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailState
 import me.androidbox.busbymoviesv2.movie_details.presentation.screens.CastItem
+import me.androidbox.busbymoviesv2.movie_details.presentation.screens.MoviePagerCard
 import me.androidbox.busbymoviesv2.movie_details.presentation.utils.extractDistinctCrewJobs
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.max
@@ -71,7 +70,7 @@ fun MovieDetailOverview(
 
     Column(
         modifier = Modifier
-            .wrapContentHeight()
+            .fillMaxSize()
             .verticalScroll(rememberScrollState()),
     ) {
 
@@ -82,12 +81,16 @@ fun MovieDetailOverview(
                 .padding(horizontal = 8.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxHeight().weight(1f).padding(end = 8.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f)
+                    .padding(end = 8.dp),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
 
                 Column(
-                    modifier = Modifier.wrapContentHeight()
+                    modifier = Modifier
+                        .fillMaxSize()
                 ) {
                     StarRatingBar(movieDetailState.movieDetail.voteAverage)
 
@@ -129,7 +132,6 @@ fun MovieDetailOverview(
                                 text = "$${movieDetailState.movieDetail.revenue.formatNumberWithSuffix()}"
                             )
                         }
-
                     }
 
                     if (movieDetailState.movieDetail.budget > 0) {
@@ -199,7 +201,8 @@ fun MovieDetailOverview(
             )
 
             /** director and crew details */
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+
             Text(
                 modifier = Modifier.padding(start = 8.dp, top = 4.dp),
                 color = Color.Black,
@@ -211,7 +214,9 @@ fun MovieDetailOverview(
             Spacer(modifier = Modifier.height(4.dp))
 
             FlowRow(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
@@ -228,7 +233,7 @@ fun MovieDetailOverview(
             }
 
             /** Top billed cast */
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 modifier = Modifier.padding(horizontal = 8.dp),
@@ -262,20 +267,51 @@ fun MovieDetailOverview(
                 isLoading = movieDetailState.isLoadingCredits)
 
             /** Similar Movies */
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                text = "Top Billed Cast",
+                text = "Recommended Movies",
                 color = Color.Black,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Normal)
             Spacer(modifier = Modifier.height(4.dp))
 
-            MovieAnyItemList(
+            if(movieDetailState.listOfMovieDetails.isNotEmpty()) {
+                GenericItemPager(
+                    listOfItems = movieDetailState.listOfMovieDetails.take(9),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    content = { movieResult ->
+                        MoviePagerCard(
+                            movieResult.backdropPath,
+                            title = movieResult.title,
+                            releaseDate = movieResult.releaseDate,
+                            rating = 0.81f
+                        )
+                    }
+                )
+            }
+
+ /*           MovieAnyItemList(
                 items = movieDetailState.listOfMovieDetails,
                 itemContent = { movieDetail ->
-                    println(movieDetail.title)
+                    ListMovieItem(
+                        item = movieDetail,
+                        title = {
+                            it.title
+                        },
+                        subTitle = {
+                            it.releaseDate
+                        },
+                        imagePath = {
+                            it.posterPath
+                        },
+                        onClicked = {
+                            println(it.id)
+                        },
+                        modifier = Modifier.height(300.dp))
                 },
                 viewMoreContent = {
                     TextButton(
@@ -289,9 +325,9 @@ fun MovieDetailOverview(
                     }
                 },
                 isLoading = movieDetailState.isLoadingSimilarMovies
-            )
+            )*/
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
