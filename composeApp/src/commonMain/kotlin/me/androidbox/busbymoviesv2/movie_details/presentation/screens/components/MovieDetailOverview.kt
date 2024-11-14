@@ -266,32 +266,35 @@ fun MovieDetailOverview(
                 },
                 isLoading = movieDetailState.isLoadingCredits)
 
-            /** Similar Movies */
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                text = "Recommended Movies",
-                color = Color.Black,
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Normal)
-            Spacer(modifier = Modifier.height(4.dp))
-
             if(movieDetailState.listOfMovieDetails.isNotEmpty()) {
-                GenericItemPager(
-                    listOfItems = movieDetailState.listOfMovieDetails.take(9),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp),
-                    content = { movieResult ->
-                        MoviePagerCard(
-                            movieResult.backdropPath,
-                            title = movieResult.title,
-                            releaseDate = movieResult.releaseDate,
-                            rating = 0.81f
-                        )
-                    }
+                /** Similar Movies */
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    text = "Recommended Movies",
+                    color = Color.Black,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Normal
                 )
+                Spacer(modifier = Modifier.height(4.dp))
+
+                if (movieDetailState.listOfMovieDetails.isNotEmpty()) {
+                    GenericItemPager(
+                        listOfItems = movieDetailState.listOfMovieDetails.take(9),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp),
+                        content = { movieResult ->
+                            MoviePagerCard(
+                                movieResult.backdropPath,
+                                title = movieResult.title,
+                                releaseDate = movieResult.releaseDate,
+                                rating = 0.81f
+                            )
+                        }
+                    )
+                }
             }
 
  /*           MovieAnyItemList(
