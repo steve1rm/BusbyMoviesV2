@@ -1,6 +1,7 @@
 package me.androidbox.busbymoviesv2.movie_details.presentation.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -40,15 +41,22 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MoviePagerCard(
+    movieId: Int,
     imageUrl: String,
     title: String,
     releaseDate: String,
     rating: Float,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onMovieClicked: (movieId: Int) -> Unit
 ) {
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
+            .clickable(
+                onClick = {
+                    onMovieClicked(movieId)
+                }
+            )
     ) {
 
         KamelImage(
@@ -128,9 +136,11 @@ fun MoviePagerCard(
 @Composable
 fun MoviePagerCardPreview() {
     MoviePagerCard(
+        movieId = 102020,
         imageUrl = "",
         title = "Movie Title Movie Title Movie Title Movie Title Movie Title Movie Title",
         releaseDate = "2023-10-27",
-        rating = 0.81f
+        rating = 0.81f,
+        onMovieClicked = {}
     )
 }

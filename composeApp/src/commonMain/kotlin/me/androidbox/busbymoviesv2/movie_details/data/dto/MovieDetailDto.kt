@@ -8,12 +8,12 @@ data class MovieDetailDto(
     @SerialName("adult")
     val isAdult: Boolean,
     @SerialName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String = "", /** some cases the API will return null for an nullable type  coerceInputValues = true will set to the default value i.e. empty string */
     val budget: Int,
     val homepage: String,
     val id: Int,
     @SerialName("imdb_id")
-    val imdbId: String,
+    val imdbId: String = "",
     @SerialName("original_language")
     val originalLanguage: String,
     @SerialName("original_title")

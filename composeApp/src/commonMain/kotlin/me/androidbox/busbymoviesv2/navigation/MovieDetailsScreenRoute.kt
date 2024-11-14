@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.Screen
+import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailAction
 import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailViewModel
 import me.androidbox.busbymoviesv2.movie_details.presentation.screens.MovieDetailsScreen
 import org.koin.compose.viewmodel.koinViewModel
@@ -23,7 +24,17 @@ data class MovieDetailsScreenRoute(private val movieId: Int) : Screen {
 
         MovieDetailsScreen(
             movieDetailState = movieDetailState,
-            movieDetailAction = movieDetailViewModel::onMovieDetailAction
+            movieDetailAction = { action ->
+                when(action) {
+                    MovieDetailAction.OnFavouriteClicked -> TODO()
+                    MovieDetailAction.OnMovieActorClicked -> TODO()
+                    MovieDetailAction.OnPlayMainTrailer -> TODO()
+                    MovieDetailAction.OnReviewClicked -> TODO()
+                    is MovieDetailAction.OnSimilarMovieClicked -> {
+                        movieDetailViewModel.onMovieDetailAction(action)
+                    }
+                }
+            }
         )
     }
 }

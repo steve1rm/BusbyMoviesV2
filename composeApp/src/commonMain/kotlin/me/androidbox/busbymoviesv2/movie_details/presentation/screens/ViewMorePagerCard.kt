@@ -41,9 +41,11 @@ fun ViewMorePagerCard(
 @Composable
 fun ViewMorePagerCardPreview() {
     MoviePagerCard(
+        movieId = 48485,
         imageUrl = "",
         title = "Movie Title Movie Title Movie Title Movie Title Movie Title Movie Title",
         releaseDate = "2023-10-27",
-        rating = 0.81f
+        rating = 0.81f,
+        onMovieClicked = {}
     )
 }

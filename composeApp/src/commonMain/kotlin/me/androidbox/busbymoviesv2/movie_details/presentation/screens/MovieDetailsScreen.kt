@@ -83,7 +83,10 @@ fun MovieDetailsScreen(
                                Column(modifier = Modifier.fillMaxSize()) {
                                    Spacer(modifier = Modifier.height(16.dp))
                                    MovieDetailOverview(
-                                      movieDetailState = movieDetailState
+                                       movieDetailState = movieDetailState,
+                                       onMovieClicked = { movieId ->
+                                           movieDetailAction(MovieDetailAction.OnSimilarMovieClicked(movieId))
+                                       }
                                    )
                                }
                            }

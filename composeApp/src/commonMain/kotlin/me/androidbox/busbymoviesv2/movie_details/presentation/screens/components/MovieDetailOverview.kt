@@ -59,6 +59,7 @@ import kotlin.time.Duration.Companion.minutes
 @Composable
 fun MovieDetailOverview(
     movieDetailState: MovieDetailState,
+    onMovieClicked: (movieId: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var maxWidth by remember {
@@ -288,10 +289,14 @@ fun MovieDetailOverview(
                             .padding(horizontal = 8.dp),
                         content = { movieResult ->
                             MoviePagerCard(
-                                movieResult.backdropPath,
+                                movieId = movieResult.id,
+                                imageUrl = movieResult.backdropPath,
                                 title = movieResult.title,
                                 releaseDate = movieResult.releaseDate,
-                                rating = (movieResult.voteAverage / 10).toFloat()
+                                rating = (movieResult.voteAverage / 10).toFloat(),
+                                onMovieClicked = { movieId ->
+                                    onMovieClicked(movieId)
+                                }
                             )
                         },
                         viewMoreContent = {
@@ -313,7 +318,8 @@ fun MovieDetailOverview(
 fun PreviewMovieDetailOverview() {
     MaterialTheme {
         MovieDetailOverview(
-           movieDetailState = MovieDetailState()
+           movieDetailState = MovieDetailState(),
+            onMovieClicked = {}
         )
     }
 }

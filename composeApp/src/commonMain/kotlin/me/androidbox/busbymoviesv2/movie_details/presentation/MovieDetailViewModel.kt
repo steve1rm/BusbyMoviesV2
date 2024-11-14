@@ -137,11 +137,15 @@ class MovieDetailViewModel(
 
     fun onMovieDetailAction(movieDetailAction: MovieDetailAction) {
         when(movieDetailAction) {
-            MovieDetailAction.OnFavourateClicked -> TODO()
+            MovieDetailAction.OnFavouriteClicked -> TODO()
             MovieDetailAction.OnMovieActorClicked -> TODO()
             MovieDetailAction.OnPlayMainTrailer -> TODO()
             MovieDetailAction.OnReviewClicked -> TODO()
-            MovieDetailAction.OnSimilarMovieClicked -> TODO()
+            is MovieDetailAction.OnSimilarMovieClicked -> {
+                movieDetail(movieDetailAction.movieId)
+                movieCredits(movieDetailAction.movieId)
+                similarMovies(movieDetailAction.movieId)
+            }
         }
     }
 }
