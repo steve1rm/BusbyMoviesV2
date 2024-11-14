@@ -13,8 +13,9 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun <T> GenericItemPager(
-    listOfItems: List<T>,
+    items: List<T>,
     content: @Composable (list: T) -> Unit,
+    viewMoreContent: @Composable () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -22,7 +23,7 @@ fun <T> GenericItemPager(
         initialPage = 0,
         pageCount = {
             /** Always plus 1 for the view all page as the final page */
-            listOfItems.count()
+            items.count() + 1
         }
     )
 
@@ -32,8 +33,15 @@ fun <T> GenericItemPager(
         contentPadding = PaddingValues(end = 40.dp),
         modifier = modifier.wrapContentHeight()
     ) { pageIndex ->
-        if(pageIndex <= listOfItems.count() - 1) {
-            content(listOfItems[pageIndex])
+
+        when(pageIndex) {
+            in items.indices -> {
+                content(items[pageIndex])
+            }
+
+            else -> {
+                viewMoreContent()
+            }
         }
     }
 }

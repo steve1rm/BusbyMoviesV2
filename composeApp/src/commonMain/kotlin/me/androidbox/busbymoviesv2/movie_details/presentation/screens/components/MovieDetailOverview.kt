@@ -50,6 +50,7 @@ import me.androidbox.busbymoviesv2.core.presentation.utils.formatNumberWithSuffi
 import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailState
 import me.androidbox.busbymoviesv2.movie_details.presentation.screens.CastItem
 import me.androidbox.busbymoviesv2.movie_details.presentation.screens.MoviePagerCard
+import me.androidbox.busbymoviesv2.movie_details.presentation.screens.ViewMorePagerCard
 import me.androidbox.busbymoviesv2.movie_details.presentation.utils.extractDistinctCrewJobs
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.max
@@ -281,7 +282,7 @@ fun MovieDetailOverview(
 
                 if (movieDetailState.listOfMovieDetails.isNotEmpty()) {
                     GenericItemPager(
-                        listOfItems = movieDetailState.listOfMovieDetails.take(9),
+                        items = movieDetailState.listOfMovieDetails.take(9),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 8.dp),
@@ -290,45 +291,17 @@ fun MovieDetailOverview(
                                 movieResult.backdropPath,
                                 title = movieResult.title,
                                 releaseDate = movieResult.releaseDate,
-                                rating = 0.81f
+                                rating = (movieResult.voteAverage / 10).toFloat()
                             )
+                        },
+                        viewMoreContent = {
+                            ViewMorePagerCard {
+                                println("View More Clicked")
+                            }
                         }
                     )
                 }
             }
-
- /*           MovieAnyItemList(
-                items = movieDetailState.listOfMovieDetails,
-                itemContent = { movieDetail ->
-                    ListMovieItem(
-                        item = movieDetail,
-                        title = {
-                            it.title
-                        },
-                        subTitle = {
-                            it.releaseDate
-                        },
-                        imagePath = {
-                            it.posterPath
-                        },
-                        onClicked = {
-                            println(it.id)
-                        },
-                        modifier = Modifier.height(300.dp))
-                },
-                viewMoreContent = {
-                    TextButton(
-                        onClick = {
-                            println("Lets seem some more")
-                        }
-                    ) {
-                        Text(
-                            text = "View More ->", fontSize = 18.sp, color = Color.Black,
-                            textAlign = TextAlign.Center)
-                    }
-                },
-                isLoading = movieDetailState.isLoadingSimilarMovies
-            )*/
 
             Spacer(modifier = Modifier.height(16.dp))
         }

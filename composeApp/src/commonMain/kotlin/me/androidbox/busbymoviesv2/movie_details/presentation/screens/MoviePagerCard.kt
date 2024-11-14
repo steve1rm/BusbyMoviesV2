@@ -95,8 +95,9 @@ fun MoviePagerCard(
             Spacer(modifier = Modifier.width(4.dp))
 
             Text(
-                text = LocalDate.parse(
-                    input = releaseDate).format(
+                text = if(releaseDate.isNotBlank()) {
+                    LocalDate.parse(
+                        input = releaseDate).format(
                         format = LocalDate.Format {
                             dayOfMonth(padding = Padding.NONE)
                             char(' ')
@@ -104,7 +105,7 @@ fun MoviePagerCard(
                             char(' ')
                             year()
                         }
-                    ),
+                    ) } else { ""},
                 fontWeight = FontWeight.Medium,
                 color = Color.Black
             )
