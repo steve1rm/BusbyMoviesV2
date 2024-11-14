@@ -90,7 +90,7 @@ fun MovieDetailOverview(
 
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .wrapContentHeight()
                 ) {
                     StarRatingBar(movieDetailState.movieDetail.voteAverage)
 

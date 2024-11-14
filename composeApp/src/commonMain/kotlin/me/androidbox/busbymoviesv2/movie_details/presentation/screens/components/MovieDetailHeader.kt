@@ -16,6 +16,11 @@ import dev.chrisbanes.haze.haze
 import dev.chrisbanes.haze.hazeChild
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.format
+import kotlinx.datetime.format.MonthNames
+import kotlinx.datetime.format.Padding
+import kotlinx.datetime.format.char
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.MovieDetail
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -48,7 +53,18 @@ fun MovieDetailHeader(
         MovieTitleHeader(
             title = movieDetail.title,
             tagline = movieDetail.tagline,
-            releaseDate = movieDetail.releaseDate,
+            releaseDate = if(movieDetail.releaseDate.isNotBlank()) {
+                LocalDate.parse(input = movieDetail.releaseDate)
+                    .format(
+                        format = LocalDate.Format {
+                            monthNumber(padding = Padding.NONE)
+                            char(' ')
+                            monthName(names = MonthNames.ENGLISH_ABBREVIATED)
+                            char(' ')
+                            year()
+                        }
+                    )
+            } else { ""},
             modifier = Modifier.align(Alignment.BottomCenter).hazeChild(
                 state = hazeState,
                 shape = RoundedCornerShape(topStart = 60f, topEnd = 60f)

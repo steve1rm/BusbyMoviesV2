@@ -93,6 +93,7 @@ kotlin {
             implementation(libs.windowSizeMultiplatform)
             implementation("io.github.oleksandrbalan:textflow-material3:1.2.1")
             implementation("io.coil-kt.coil3:coil-compose:3.0.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
         }
 
         androidMain.dependencies {

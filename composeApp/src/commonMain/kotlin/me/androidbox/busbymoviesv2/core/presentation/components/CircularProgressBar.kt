@@ -34,8 +34,8 @@ fun CircularProgressBar(
     percentage: Float,
     number: Int = 100,
     fontSize: TextUnit = 12.sp,
-    radius: Dp = 32.dp,
-    strokeWidth: Dp = 4.dp,
+    radius: Dp = 38.dp,
+    strokeWidth: Dp = 2.dp,
     animationDuration: Int = 5_000,
     animationDelay: Int = 0) {
 
