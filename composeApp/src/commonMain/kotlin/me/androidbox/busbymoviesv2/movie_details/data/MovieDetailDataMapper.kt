@@ -14,7 +14,7 @@ import me.androidbox.busbymoviesv2.movie_details.domain.models.MovieDetailModel
 fun MovieDetailDto.toMovieDetailModel(): MovieDetailModel {
     return MovieDetailModel(
         isAdult = this.isAdult,
-        backdropPath = this.backdropPath,
+        backdropPath = this.backdropPath.orEmpty(),
         budget = this.budget,
         homepage = this.homepage,
         id = this.id,

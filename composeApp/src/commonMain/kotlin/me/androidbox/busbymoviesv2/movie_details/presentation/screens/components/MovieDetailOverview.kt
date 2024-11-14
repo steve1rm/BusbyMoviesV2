@@ -24,6 +24,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -47,7 +48,9 @@ import me.androidbox.busbymoviesv2.core.presentation.components.MovieButton
 import me.androidbox.busbymoviesv2.core.presentation.components.StarRatingBar
 import me.androidbox.busbymoviesv2.core.presentation.utils.formatNumberWithSuffix
 import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailState
-import me.androidbox.busbymoviesv2.movie_details.presentation.screens.MovieCastList
+import me.androidbox.busbymoviesv2.movie_details.presentation.screens.CastItem
+import me.androidbox.busbymoviesv2.movie_details.presentation.screens.MoviePagerCard
+import me.androidbox.busbymoviesv2.movie_details.presentation.screens.ViewMorePagerCard
 import me.androidbox.busbymoviesv2.movie_details.presentation.utils.extractDistinctCrewJobs
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.max
@@ -56,6 +59,7 @@ import kotlin.time.Duration.Companion.minutes
 @Composable
 fun MovieDetailOverview(
     movieDetailState: MovieDetailState,
+    onMovieClicked: (movieId: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var maxWidth by remember {
@@ -68,7 +72,7 @@ fun MovieDetailOverview(
 
     Column(
         modifier = Modifier
-            .wrapContentHeight()
+            .fillMaxSize()
             .verticalScroll(rememberScrollState()),
     ) {
 
@@ -79,12 +83,16 @@ fun MovieDetailOverview(
                 .padding(horizontal = 8.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxHeight().weight(1f).padding(end = 8.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f)
+                    .padding(end = 8.dp),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
 
                 Column(
-                    modifier = Modifier.wrapContentHeight()
+                    modifier = Modifier
+                        .wrapContentHeight()
                 ) {
                     StarRatingBar(movieDetailState.movieDetail.voteAverage)
 
@@ -126,7 +134,6 @@ fun MovieDetailOverview(
                                 text = "$${movieDetailState.movieDetail.revenue.formatNumberWithSuffix()}"
                             )
                         }
-
                     }
 
                     if (movieDetailState.movieDetail.budget > 0) {
@@ -196,7 +203,8 @@ fun MovieDetailOverview(
             )
 
             /** director and crew details */
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+
             Text(
                 modifier = Modifier.padding(start = 8.dp, top = 4.dp),
                 color = Color.Black,
@@ -208,7 +216,9 @@ fun MovieDetailOverview(
             Spacer(modifier = Modifier.height(4.dp))
 
             FlowRow(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
@@ -225,10 +235,80 @@ fun MovieDetailOverview(
             }
 
             /** Top billed cast */
-            Spacer(modifier = Modifier.height(8.dp))
-            MovieCastList(movieDetailState.movieCredits, movieDetailState.isLoadingCredits)
+            Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                modifier = Modifier.padding(horizontal = 8.dp),
+                text = "Top Billed Cast",
+                color = Color.Black,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Normal)
+            Spacer(modifier = Modifier.height(4.dp))
+
+            MovieAnyItemList(
+                items = movieDetailState.movieCredits.cast,
+                itemContent = { cast ->
+                    CastItem(
+                        cast = cast,
+                        onCastClicked = {
+                            println("Cast item clicked $it")
+                        }
+                    )
+                },
+                viewMoreContent = {
+                    TextButton(
+                        onClick = {
+                            println("Lets seem some more")
+                        }
+                    ) {
+                        Text(
+                            text = "View More ->", fontSize = 18.sp, color = Color.Black,
+                            textAlign = TextAlign.Center)
+                    }
+                },
+                isLoading = movieDetailState.isLoadingCredits)
+
+            if(movieDetailState.listOfMovieDetails.isNotEmpty()) {
+                /** Similar Movies */
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    text = "Recommended Movies",
+                    color = Color.Black,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Normal
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+
+                if (movieDetailState.listOfMovieDetails.isNotEmpty()) {
+                    GenericItemPager(
+                        items = movieDetailState.listOfMovieDetails.take(9),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp),
+                        content = { movieResult ->
+                            MoviePagerCard(
+                                movieId = movieResult.id,
+                                imageUrl = movieResult.backdropPath,
+                                title = movieResult.title,
+                                releaseDate = movieResult.releaseDate,
+                                rating = (movieResult.voteAverage / 10).toFloat(),
+                                onMovieClicked = { movieId ->
+                                    onMovieClicked(movieId)
+                                }
+                            )
+                        },
+                        viewMoreContent = {
+                            ViewMorePagerCard {
+                                println("View More Clicked")
+                            }
+                        }
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -238,7 +318,8 @@ fun MovieDetailOverview(
 fun PreviewMovieDetailOverview() {
     MaterialTheme {
         MovieDetailOverview(
-           movieDetailState = MovieDetailState()
+           movieDetailState = MovieDetailState(),
+            onMovieClicked = {}
         )
     }
 }

@@ -1,4 +1,5 @@
-package me.androidbox.busbymoviesv2.movie_details.presentation.screens
+package me.androidbox.busbymoviesv2.movie_details.presentation.screens.components
+
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -6,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,15 +15,10 @@ import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -33,22 +28,26 @@ import busbymoviesv2.composeapp.generated.resources.person
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.Cast
+import me.androidbox.busbymoviesv2.movie_details.presentation.screens.CastItem
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.random.Random
 
+
 @Composable
-fun CastItem(
-    cast: Cast,
+fun <T> ListMovieItem(
+    item: T,
+    title: (item: T) -> String,
+    subTitle: (item: T) -> String,
+    imagePath: (item: T) -> String,
     modifier: Modifier = Modifier,
-    onCastClicked: (id: Int) -> Unit
+    onClicked: (item: T) -> Unit
 ) {
 
     Card(
         modifier = modifier
-            .fillMaxHeight()
             .clickable {
-                onCastClicked(cast.id)
+                onClicked(item)
             },
         elevation = 2.dp
     ) {
@@ -57,8 +56,8 @@ fun CastItem(
             verticalArrangement = Arrangement.Top,
         ) {
             KamelImage(
-                resource = { asyncPainterResource(data = cast.profilePath) },
-                contentDescription = cast.name,
+                resource = { asyncPainterResource(data = imagePath(item)) },
+                contentDescription = title(item),
                 modifier = Modifier
                     .aspectRatio(16f/9f)
                     .align(Alignment.CenterHorizontally),
@@ -86,7 +85,7 @@ fun CastItem(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Start,
-                text = cast.name,
+                text = title(item),
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp
             )
@@ -94,7 +93,7 @@ fun CastItem(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Start,
-                text = cast.character,
+                text = subTitle(item),
                 fontSize = 14.sp
             )
         }

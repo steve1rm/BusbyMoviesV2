@@ -64,6 +64,8 @@ fun MovieListScreen(
         mutableIntStateOf(0)
     }
 
+    val scrollState = rememberLazyGridState()
+
     /** TODO Remove this calculate window class as its part of the latest version of compose
      * https://github.com/steve1rm/BusbyMoviesV2/issues/30
      * */
@@ -99,7 +101,7 @@ fun MovieListScreen(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(start = if(showNavigationRail) 68.dp else 0.dp),
-                            state = rememberLazyGridState(),
+                            state = scrollState,
                             content = {
                                 items(
                                     count = movieListPager.itemCount,
