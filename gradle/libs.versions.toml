@@ -1,32 +1,55 @@
 [versions]
-agp = "8.6.1"
+#Kotlin Multiplatform <-> Android Gradle Plugin compatibility issue:
+#The applied Android Gradle Plugin version (8.6.1) is higher
+#than the maximum known to the Kotlin Gradle Plugin.
+#Tooling stability in such configuration isn't tested, please report encountered issues to https://kotl.in/issue
+#
+#Minimum supported Android Gradle Plugin version: 7.1
+#Maximum tested Android Gradle Plugin version: 8.5
+agp = "8.5.2"
 android-compileSdk = "34"
-android-minSdk = "24"
+android-minSdk = "28"
 android-targetSdk = "34"
-androidx-activityCompose = "1.9.2"
+androidx-activityCompose = "1.9.3"
 androidx-appcompat = "1.7.0"
 androidx-constraintlayout = "2.1.4"
 androidx-core-ktx = "1.13.1"
 androidx-espresso-core = "3.6.1"
-androidx-lifecycle = "2.8.0"
+androidx-lifecycle = "2.8.3"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
+coilCompose = "2.7.0"
 compose-plugin = "1.6.11"
+fontAwesome = "1.1.1"
+haze = "0.7.3"
 junit = "4.13.2"
+kamelImage = "1.0.0-beta.7"
 kotlin = "2.0.20"
 kotlinx-coroutines = "1.8.1"
 ktor = "3.0.0-rc-1" # Only this version works for wasm https://github.com/ktorio/ktor/releases?q=3.0.0-wasm2&expanded=true
 logback = "1.5.7"
-androidKotlinMultiplatformLibrary = "8.6.1"
+androidKotlinMultiplatformLibrary = "8.7.1"
 kotlinStdlib = "2.0.20"
+pagingCommon = "3.3.0-alpha02-0.5.1"
 runner = "1.6.2"
 core = "1.6.1"
 kermit = "2.0.4"
+statelyConcurrentCollections = "2.1.0"
 windowSizeMultiplatform = "0.5.0"
-koin = "4.0.0" # Only this version works for wasm https://github.com/InsertKoinIO/koin/releases/tag/3.6.0-wasm-alpha2
+koin = "3.6.0-wasm-alpha2" # Only this version works for wasm https://github.com/InsertKoinIO/koin/releases/tag/3.6.0-wasm-alpha2
 koinComposeMultiplatform = "1.2.0-Beta5"
+serializationVersion = "1.9.0"
+gmazzo-buildconfig-version = "5.3.5" # BuildConfig for local.properties
+kmpalette = "3.1.0"
+voyager = "1.1.0-alpha04"
 
 [libraries]
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+font-awesome = { module = "br.com.devsrsouza.compose.icons:font-awesome", version.ref = "fontAwesome" }
+haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
+haze-materials = { module = "dev.chrisbanes.haze:haze-materials", version.ref = "haze" }
+kamel-image = { module = "media.kamel:kamel-image", version.ref = "kamelImage" }
+kamel-image-default = { module = "media.kamel:kamel-image-default", version.ref = "kamelImage" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -34,12 +57,13 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso-core" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
-androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidx-material" }
+androidx-material = { group = "androidx.compose.material3", name = "material3-android", version.ref = "androidx-material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
 # Dependency injection
@@ -51,7 +75,15 @@ koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", ver
 
 # Utils
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+paging-common = { module = "app.cash.paging:paging-common", version.ref = "pagingCommon" }
+paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "pagingCommon" }
+stately-concurrent-collections = { module = "co.touchlab:stately-concurrent-collections", version.ref = "statelyConcurrentCollections" }
 windowSizeMultiplatform = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "windowSizeMultiplatform" }
+kmpalette-core = { module = "com.kmpalette:kmpalette-core", version.ref = "kmpalette" }
+
+# Navigation
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 
 # Ktor
 ktor-engine-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
@@ -88,3 +120,5 @@ kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "androidKotlinMultiplatformLibrary" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serializationVersion" }
+gmazzo-buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "gmazzo-buildconfig-version" }

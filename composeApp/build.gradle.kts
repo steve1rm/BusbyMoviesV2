@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.serialization)
+    alias(libs.plugins.gmazzo.buildconfig)
 }
 
 kotlin {
@@ -49,20 +51,28 @@ kotlin {
             isStatic = true
         }
     }
-    
+
+    buildConfig {
+        /* Retrieves API from local.properties */
+        val properties = org.jetbrains.kotlin.konan.properties.Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+
+        buildConfigField("String", "TMDB_ACCESS_TOKEN_AUTH", properties.getProperty("TMDB_ACCESS_TOKEN_AUTH"))
+    }
+
     sourceSets {
         val desktopMain by getting
 
         commonMain.dependencies {
             implementation(projects.shared)
+            // NOT WORKING, NEED TO CHECK implementation(projects.core)
+
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.bundles.ktor.common)
             implementation(libs.kermit)
             implementation(libs.windowSizeMultiplatform)
@@ -70,6 +80,20 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+            implementation(libs.lifecycle.viewmodel.compose)
+            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.transitions)
+            implementation(libs.font.awesome)
+
+            implementation(libs.kamel.image.default)
+            implementation(libs.haze)
+            implementation(libs.haze.materials)
+            implementation(libs.windowSizeMultiplatform)
+            implementation("io.github.oleksandrbalan:textflow-material3:1.2.1")
+            implementation("io.coil-kt.coil3:coil-compose:3.0.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
         }
 
         androidMain.dependencies {
@@ -78,20 +102,31 @@ kotlin {
             implementation(libs.ktor.engine.cio)
             implementation(libs.koin.android)
             implementation(libs.koin.compose)
+            implementation(libs.koin.androidx.compose)
+            implementation(libs.paging.common)
+            implementation(libs.paging.compose.common)
+
         }
 
         nativeMain.dependencies {
             implementation(libs.ktor.engine.cio)
+            implementation(libs.paging.common)
+            implementation(libs.paging.compose.common)
+
         }
 
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.engine.cio)
+            implementation(libs.paging.common)
+            implementation(libs.paging.compose.common)
         }
 
         wasmJsMain.dependencies {
             implementation(libs.ktor.engine.js)
+            /** KLIB resolver: Could not find "co.touchlab:stately-concurrent-collections" */
+            implementation(libs.stately.concurrent.collections)
         }
     }
 }

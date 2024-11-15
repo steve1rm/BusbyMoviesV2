@@ -1,0 +1,107 @@
+package me.androidbox.busbymoviesv2.movie_details.presentation.screens.components
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import busbymoviesv2.composeapp.generated.resources.Res
+import busbymoviesv2.composeapp.generated.resources.favourite
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
+
+@Composable
+fun MovieTitleHeader(
+    title: String,
+    tagline: String,
+    releaseDate: String,
+    modifier: Modifier = Modifier
+) {
+        Column(
+            modifier = modifier
+                .padding(horizontal = 10.dp)
+                .padding(top = 8.dp, bottom = 4.dp)
+        ) {
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    text = tagline,
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Thin
+                )
+
+                IconButton(
+                    modifier = Modifier.wrapContentSize().size(24.dp),
+                    onClick = {}
+                ) {
+                    Icon(
+                        painter = painterResource(resource = Res.drawable.favourite),
+                        contentDescription = "Favourite",
+                        tint = Color.White
+                    )
+                }
+            }
+
+            Divider(
+                modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp),
+                color = Color.LightGray,
+                thickness = 1.dp
+            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = title,
+                    color = Color.White,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+
+                Text(
+                    modifier = Modifier.wrapContentWidth(),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    text = releaseDate,
+                    color = Color.White,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+        }
+}
+
+@Preview
+@Composable
+fun MovieTitleHeaderPreview() {
+    MovieTitleHeader(
+        title = "Seven Samurai",
+        tagline = "The Mighty Warriors who became Heroes",
+        releaseDate = "26 April 1964",
+        modifier = Modifier)
+}

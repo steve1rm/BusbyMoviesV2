@@ -7,6 +7,8 @@ import org.koin.dsl.module
 
 val androidModule = module {
     single<HttpClientEngine> {
+        /** As we are using specific engines,
+         * might as well use the specific ones for each platform i.e android, iso, desktop, js */
         HttpClient(CIO).engine
     }
 }

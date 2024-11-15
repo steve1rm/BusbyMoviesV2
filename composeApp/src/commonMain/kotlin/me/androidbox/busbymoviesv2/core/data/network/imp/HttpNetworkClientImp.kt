@@ -12,7 +12,6 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import me.androidbox.busbymoviesv2.core.data.network.HttpNetworkClient
 import me.androidbox.busbymoviesv2.isDebug
 
 
@@ -26,7 +25,13 @@ class HttpNetworkClientImp(
                 json(
                     json = Json {
                         prettyPrint = true
+
+                        /** Specifies whether encounters of unknown properties in the input JSON should be ignored instead of throwing SerializationException */
                         ignoreUnknownKeys = true
+
+                        /** JSON value is null but the property type is non-nullable.
+                        Property type is an enum type, but JSON value contains an unknown enum member. */
+                        coerceInputValues = true
                     }
                 )
             }
@@ -52,7 +57,6 @@ class HttpNetworkClientImp(
                 this.contentType(ContentType.Application.Json)
                 this.accept(ContentType.Application.Json)
             }
-
         }
 
         return httpClient

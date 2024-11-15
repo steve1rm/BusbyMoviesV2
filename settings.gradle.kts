@@ -30,7 +30,7 @@ dependencyResolutionManagement {
 
 include(":composeApp")
 include(":shared")
-/*
+
 include(":core")
-include(":core:data")
-*/
+// include(":core:data")
+
