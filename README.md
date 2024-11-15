@@ -1,26 +1,46 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop, Server.
+# Busby Movies
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+# In a Nutshell
+Your movie companion, everywhere. Browse and discover movies on Android, iOS, desktop, and even in your browser with Wasm support. Explore curated collections, get personalized recommendations, and dive into detailed movie information. Currently under development, but poised to become your go-to movie app on the go.
 
-* `/iosApp` contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform, 
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+# Features:
+1. Browse now playing, top rated, popular, and upcoming
+2. Easy to browse and scroll using a grid
+3. Get to see the movie ratings and stars
+4. Pull to refresh the latest movies
+5. See the credits, actors for each movie
+6. Show a list of recommended movies based on your search
+7. Lots more features currently in development, so stay tuned :)
+ 
+# Libraries and tech stack
+- [x] Jetpack Compose
+- [X] Compose KMP (Android, iOS, Desktop, Wasm) 
+- [x] Koin dependency injection
+- [x] Voyager for navigation
+- [x] Ktor client
+- [x] Clean architecture
+- [x] Gradle version catalog
+- [x] kotlin coroutines
+- [x] Flows
+- [x] MVI
+- [x] Pager3 for pagnation
+- [x] Material design 3
+- [X] kermit for logging
+- [X] Horizontal pager
+- [X] kamel for image loading
 
-* `/server` is for the Ktor server application.
+# API Key usage
+Update your `local.properties` file to include the follwing:
+</br>
+TMDB_ACCESS_TOKEN_AUTH = "Add your own api key after registering with TMDB"
+</br>
+https://developer.themoviedb.org
 
-* `/shared` is for the code that will be shared between all targets in the project.
-  The most important subfolder is `commonMain`. If preferred, you can add code to the platform-specific folders here too.
+# Screenshots
+![Screenshot From 2024-11-15 13-11-39](https://github.com/user-attachments/assets/085eaade-9a76-42a3-b7fb-c00f8ad96907)
+
+![Screenshot From 2024-11-15 13-10-36](https://github.com/user-attachments/assets/76ec6307-33ed-492d-ad96-cc102879e375)
+
+![Screenshot From 2024-11-15 13-11-07](https://github.com/user-attachments/assets/625a4d55-361a-487c-90cf-aa1998903c2e)
 
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
-
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [GitHub](https://github.com/JetBrains/compose-multiplatform/issues).
-
-You can open the web application by running the `:composeApp:wasmJsBrowserDevelopmentRun` Gradle task.
