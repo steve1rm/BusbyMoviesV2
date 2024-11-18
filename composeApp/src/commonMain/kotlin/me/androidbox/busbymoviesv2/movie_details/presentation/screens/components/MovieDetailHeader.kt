@@ -4,15 +4,20 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import chaintech.videoplayer.model.PlayerConfig
 import chaintech.videoplayer.ui.video.VideoPlayerView
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.haze
 import dev.chrisbanes.haze.hazeChild
+import io.kamel.image.KamelImage
+import io.kamel.image.asyncPainterResource
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.format
 import kotlinx.datetime.format.MonthNames
@@ -31,30 +36,35 @@ fun MovieDetailHeader(
         modifier = Modifier.fillMaxWidth()
     ) {
 
-        VideoPlayerView(
-            modifier = Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
-            url = "https://www.youtube.com/watch?v=F7QZTj0k2Ng",
-            playerConfig = PlayerConfig(
-                isDurationVisible = false,
-                isSeekBarVisible = false,
-                isScreenResizeEnabled = false
-            )
-        )
-       /* KamelImage(
-            resource = { asyncPainterResource(data = movieDetail.backdropPath) },
-            contentDescription = movieDetail.title,
-            modifier = Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
-            contentScale = ContentScale.FillHeight,
-            onLoading = {_ ->
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = Color.Blue
+        /** If no videos are available display the image instead */
+        if(movieDetail.videos.results.isNotEmpty()) {
+            VideoPlayerView(
+                modifier = Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
+                url = "https://www.youtube.com/watch?v=${movieDetail.videos.results.first().key}",
+                playerConfig = PlayerConfig(
+                    isDurationVisible = false,
+                    isSeekBarVisible = false,
+                    isScreenResizeEnabled = false
                 )
-            },
-            onFailure = {
-                it.printStackTrace()
-            },
-        )*/
+            )
+        }
+        else {
+            KamelImage(
+                resource = { asyncPainterResource(data = movieDetail.backdropPath) },
+                contentDescription = movieDetail.title,
+                modifier = Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
+                contentScale = ContentScale.FillHeight,
+                onLoading = {_ ->
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = Color.Blue
+                    )
+                },
+                onFailure = {
+                    it.printStackTrace()
+                },
+            )
+        }
 
         MovieTitleHeader(
             title = movieDetail.title,
