@@ -11,8 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import chaintech.videoplayer.model.PlayerConfig
-import chaintech.videoplayer.ui.video.VideoPlayerView
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.haze
 import dev.chrisbanes.haze.hazeChild
@@ -38,15 +36,17 @@ fun MovieDetailHeader(
 
         /** If no videos are available display the image instead */
         if(movieDetail.videos.results.isNotEmpty()) {
-            VideoPlayerView(
+            /*VideoPlayerView(
                 modifier = Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
                 url = "https://www.youtube.com/watch?v=${movieDetail.videos.results.first().key}",
                 playerConfig = PlayerConfig(
                     isDurationVisible = false,
                     isSeekBarVisible = false,
-                    isScreenResizeEnabled = false
+                    isScreenResizeEnabled = false,
+                    isPause = true,
+                    loop = false
                 )
-            )
+            )*/
         }
         else {
             KamelImage(
