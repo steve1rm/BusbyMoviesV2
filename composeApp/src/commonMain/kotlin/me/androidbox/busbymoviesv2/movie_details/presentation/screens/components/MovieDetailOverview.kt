@@ -116,7 +116,6 @@ fun MovieDetailOverview(
                             color = Color.Black,
                             text = "${movieDetailState.movieDetail.runtime.minutes}"
                         )
-
                     }
 
                     /** Don't show if there is zero budget or revenue */
