@@ -131,7 +131,12 @@ fun MovieDetailsScreen(
                                     },
                                     onTrailerClicked = {
                                         coroutineScope.launch {
-                                            bottomSheetState.bottomSheetState.expand()
+                                            if(bottomSheetState.bottomSheetState.isCollapsed) {
+                                                bottomSheetState.bottomSheetState.expand()
+                                            }
+                                            else {
+                                                bottomSheetState.bottomSheetState.collapse()
+                                            }
                                         }
                                     }
                                 )
