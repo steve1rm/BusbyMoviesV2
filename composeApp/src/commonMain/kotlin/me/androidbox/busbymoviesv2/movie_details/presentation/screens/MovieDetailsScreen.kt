@@ -5,16 +5,18 @@ package me.androidbox.busbymoviesv2.movie_details.presentation.screens
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.runtime.Composable
@@ -27,7 +29,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import chaintech.videoplayer.model.PlayerConfig
+import chaintech.videoplayer.ui.youtube.YouTubePlayerView
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import kotlinx.coroutines.launch
@@ -62,6 +65,12 @@ fun MovieDetailsScreen(
     )
 
     val coroutineScope = rememberCoroutineScope()
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        pageCount = {
+            movieDetailState.movieDetail.videos.results.count()
+        }
+    )
 
     @OptIn(ExperimentalMaterialApi::class)
     BottomSheetScaffold(
@@ -69,14 +78,28 @@ fun MovieDetailsScreen(
         sheetPeekHeight = 0.dp,
         scaffoldState = bottomSheetState,
         sheetContent = {
-            Text(text = "Movie Trailers", fontSize = 24.sp)
+            Spacer(modifier = Modifier.height(16.dp))
 
-            Text(text = "Movie Trailers 1", fontSize = 20.sp)
-            Text(text = "Movie Trailers 2", fontSize = 20.sp)
-            Text(text = "Movie Trailers 3", fontSize = 20.sp)
-            Text(text = "Movie Trailers 4", fontSize = 20.sp)
+            HorizontalPager(
+                state = pagerState,
+                pageContent = {page ->
+                    YouTubePlayerView(
+                        modifier = Modifier.aspectRatio(16f / 9f),
+                        videoId = movieDetailState.movieDetail.videos.results[page].key,
+                        playerConfig = PlayerConfig(
+                            isDurationVisible = false,
+                            isSeekBarVisible = false,
+                            isScreenResizeEnabled = false,
+                            isPause = true,
+                            loop = false,
+                            fastBackwardIconResource = null,
+                            fastForwardIconResource = null,
+                        )
+                    )
+                }
+            )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(16.dp))
         },
         content = { paddingValues ->
             Column(
