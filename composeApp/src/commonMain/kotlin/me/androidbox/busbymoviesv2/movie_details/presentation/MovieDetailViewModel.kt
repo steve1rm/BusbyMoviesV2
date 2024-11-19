@@ -46,6 +46,7 @@ class MovieDetailViewModel(
 
     init {
         viewModelScope.launch {
+            println("LAUNCH NETWORK STATUS CANCELLATION")
             val configuration = viewModelScope.async {
                 configurationUseCase.execute()
             }
