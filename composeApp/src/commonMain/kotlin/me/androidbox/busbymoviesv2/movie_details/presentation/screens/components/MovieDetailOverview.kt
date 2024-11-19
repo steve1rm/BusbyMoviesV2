@@ -60,6 +60,7 @@ import kotlin.time.Duration.Companion.minutes
 fun MovieDetailOverview(
     movieDetailState: MovieDetailState,
     onMovieClicked: (movieId: Int) -> Unit,
+    onTrailerClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var maxWidth by remember {
@@ -170,7 +171,7 @@ fun MovieDetailOverview(
                         modifier = Modifier.alpha(0.6f).weight(1f),
                         iconRes = Res.drawable.movie,
                         text = "10 Trailers",
-                        onClicked = {}
+                        onClicked = onTrailerClicked
                     )
                 }
             }
@@ -318,7 +319,8 @@ fun PreviewMovieDetailOverview() {
     MaterialTheme {
         MovieDetailOverview(
            movieDetailState = MovieDetailState(),
-            onMovieClicked = {}
+            onMovieClicked = {},
+            onTrailerClicked = {}
         )
     }
 }

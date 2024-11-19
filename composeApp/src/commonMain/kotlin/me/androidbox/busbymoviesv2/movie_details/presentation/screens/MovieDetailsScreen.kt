@@ -127,10 +127,12 @@ fun MovieDetailsScreen(
                                 MovieDetailOverview(
                                     movieDetailState = movieDetailState,
                                     onMovieClicked = { movieId ->
-                                       // movieDetailAction(MovieDetailAction.OnSimilarMovieClicked(movieId))
-                                       coroutineScope.launch {
-                                           bottomSheetState.bottomSheetState.expand()
-                                       }
+                                       movieDetailAction(MovieDetailAction.OnSimilarMovieClicked(movieId))
+                                    },
+                                    onTrailerClicked = {
+                                        coroutineScope.launch {
+                                            bottomSheetState.bottomSheetState.expand()
+                                        }
                                     }
                                 )
                             }

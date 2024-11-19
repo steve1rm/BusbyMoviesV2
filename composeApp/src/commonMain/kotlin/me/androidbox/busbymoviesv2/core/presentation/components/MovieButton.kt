@@ -29,7 +29,7 @@ fun MovieButton(
     iconRes: DrawableResource,
     text: String,
     isLoading: Boolean = false,
-    isEnabled: Boolean = false,
+    isEnabled: Boolean = true,
     modifier: Modifier = Modifier,
     onClicked: () -> Unit
 ) {
