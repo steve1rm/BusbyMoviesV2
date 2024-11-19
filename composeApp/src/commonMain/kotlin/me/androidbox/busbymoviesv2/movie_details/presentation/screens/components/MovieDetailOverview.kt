@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +20,8 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -44,6 +47,8 @@ import androidx.compose.ui.zIndex
 import busbymoviesv2.composeapp.generated.resources.Res
 import busbymoviesv2.composeapp.generated.resources.feedback
 import busbymoviesv2.composeapp.generated.resources.movie
+import chaintech.videoplayer.model.PlayerConfig
+import chaintech.videoplayer.ui.youtube.YouTubePlayerView
 import me.androidbox.busbymoviesv2.core.presentation.components.MovieButton
 import me.androidbox.busbymoviesv2.core.presentation.components.StarRatingBar
 import me.androidbox.busbymoviesv2.core.presentation.utils.formatNumberWithSuffix
@@ -170,7 +175,7 @@ fun MovieDetailOverview(
                     MovieButton(
                         modifier = Modifier.alpha(0.6f).weight(1f),
                         iconRes = Res.drawable.movie,
-                        text = "10 Trailers",
+                        text = "${movieDetailState.movieDetail.videos.results.count()} Trailers",
                         onClicked = onTrailerClicked
                     )
                 }
@@ -306,6 +311,37 @@ fun MovieDetailOverview(
                         }
                     )
                 }
+
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                val pagerState = rememberPagerState(
+                    initialPage = 0,
+                    pageCount = {
+                        movieDetailState.movieDetail.videos.results.count()
+                    }
+                )
+
+                HorizontalPager(
+                    state = pagerState,
+                    pageContent = {page ->
+                        YouTubePlayerView(
+                            modifier = Modifier.aspectRatio(16f / 9f),
+                            videoId = movieDetailState.movieDetail.videos.results[page].key,
+                            playerConfig = PlayerConfig(
+                                isDurationVisible = false,
+                                isSeekBarVisible = false,
+                                isScreenResizeEnabled = false,
+                                isPause = true,
+                                loop = false,
+                                fastBackwardIconResource = null,
+                                fastForwardIconResource = null,
+                            )
+                        )
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
             }
 
             Spacer(modifier = Modifier.height(16.dp))

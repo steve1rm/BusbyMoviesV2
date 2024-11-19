@@ -17,6 +17,7 @@ import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.runtime.Composable
@@ -78,11 +79,14 @@ fun MovieDetailsScreen(
         sheetPeekHeight = 0.dp,
         scaffoldState = bottomSheetState,
         sheetContent = {
+
             Spacer(modifier = Modifier.height(16.dp))
 
             HorizontalPager(
                 state = pagerState,
-                pageContent = {page ->
+                pageContent = { page ->
+                    Text(text = movieDetailState.movieDetail.videos.results[page].name)
+
                     YouTubePlayerView(
                         modifier = Modifier.aspectRatio(16f / 9f),
                         videoId = movieDetailState.movieDetail.videos.results[page].key,
@@ -100,6 +104,7 @@ fun MovieDetailsScreen(
             )
 
             Spacer(modifier = Modifier.height(16.dp))
+
         },
         content = { paddingValues ->
             Column(
