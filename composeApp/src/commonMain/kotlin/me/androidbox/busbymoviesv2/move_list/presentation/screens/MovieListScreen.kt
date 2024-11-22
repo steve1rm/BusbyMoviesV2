@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.BottomNavigation
@@ -60,11 +61,11 @@ fun MovieListScreen(
     movieListPager: LazyPagingItems<MovieResult>,
     modifier: Modifier = Modifier
 ) {
+    val scrollState = movieListPager.rememberLazyGridScrollState()
+
     var selectedItemIndex by rememberSaveable {
         mutableIntStateOf(0)
     }
-
-    val scrollState = rememberLazyGridState()
 
     /** TODO Remove this calculate window class as its part of the latest version of compose
      * https://github.com/steve1rm/BusbyMoviesV2/issues/30
@@ -263,6 +264,23 @@ fun MovieListScreen(
                     onMovieListAction(MovieListAction.OnMovieListNavigationItemClicked(movieCategory))
                 }
             )
+        }
+    }
+}
+
+@Composable
+fun <T : Any> LazyPagingItems<T>.rememberLazyGridScrollState(): LazyGridState {
+    // After recreation, LazyPagingItems first return 0 items, then the cached items.
+    // This behavior/issue is resetting the LazyListState scroll position.
+    // Below is a workaround. More info: https://issuetracker.google.com/issues/177245496.
+    return when (this.itemCount) {
+        // Return a different LazyListState instance.
+        0 -> remember(this) {
+            LazyGridState()
+        }
+        // Return rememberLazyListState (normal case).
+        else -> {
+            rememberLazyGridState()
         }
     }
 }
