@@ -4,6 +4,7 @@ package me.androidbox.busbymoviesv2.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.Screen
 import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailAction
@@ -21,6 +22,7 @@ data class MovieDetailsScreenRoute(private val movieId: Int) : Screen {
         /** We need the movieId to be injected into the viewmodel when loading the details onStart */
         val movieDetailViewModel: MovieDetailViewModel = koinViewModel(parameters = { parametersOf(movieId) })
         val movieDetailState by movieDetailViewModel.movieDetailState.collectAsStateWithLifecycle()
+        val urlHandler = LocalUriHandler.current
 
         MovieDetailsScreen(
             movieDetailState = movieDetailState,
@@ -28,7 +30,9 @@ data class MovieDetailsScreenRoute(private val movieId: Int) : Screen {
                 when(action) {
                     MovieDetailAction.OnFavouriteClicked -> TODO()
                     MovieDetailAction.OnMovieActorClicked -> TODO()
-                    MovieDetailAction.OnPlayMainTrailer -> TODO()
+                    is MovieDetailAction.OnHomePageClicked -> {
+                        urlHandler.openUri(action.url)
+                    }
                     MovieDetailAction.OnReviewClicked -> TODO()
                     is MovieDetailAction.OnSimilarMovieClicked -> {
                         movieDetailViewModel.onMovieDetailAction(action)

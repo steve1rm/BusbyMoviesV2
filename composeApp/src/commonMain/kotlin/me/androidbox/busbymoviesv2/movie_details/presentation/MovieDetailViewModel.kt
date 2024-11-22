@@ -139,7 +139,7 @@ class MovieDetailViewModel(
         when(movieDetailAction) {
             MovieDetailAction.OnFavouriteClicked -> TODO()
             MovieDetailAction.OnMovieActorClicked -> TODO()
-            MovieDetailAction.OnPlayMainTrailer -> TODO()
+            is MovieDetailAction.OnHomePageClicked -> TODO()
             MovieDetailAction.OnReviewClicked -> TODO()
             is MovieDetailAction.OnSimilarMovieClicked -> {
                 movieDetail(movieDetailAction.movieId)

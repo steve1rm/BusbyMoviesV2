@@ -86,6 +86,9 @@ fun MovieDetailsScreen(
                                        movieDetailState = movieDetailState,
                                        onMovieClicked = { movieId ->
                                            movieDetailAction(MovieDetailAction.OnSimilarMovieClicked(movieId))
+                                       },
+                                       onHomePageClicked = { url ->
+                                           movieDetailAction(MovieDetailAction.OnHomePageClicked(url))
                                        }
                                    )
                                }
