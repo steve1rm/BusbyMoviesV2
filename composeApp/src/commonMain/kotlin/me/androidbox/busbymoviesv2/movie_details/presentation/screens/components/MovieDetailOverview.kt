@@ -205,7 +205,7 @@ fun MovieDetailOverview(
 
         /** Overview */
         Column(modifier = Modifier
-            .fillMaxSize().offset(y = -(24.dp)).zIndex(-1f).alpha(0.9f)
+            .fillMaxSize().offset(y = -(24.dp)).zIndex(-1f).alpha(0.8f)
             .background(color = Color.White, shape = RoundedCornerShape(topStart = 22.dp, topEnd = 22.dp))) {
             Text(
                 modifier = Modifier.padding(start = 8.dp, top = 4.dp),
