@@ -69,7 +69,7 @@ fun MovieDetailsScreen(
                                    modifier = Modifier.fillMaxSize(),
                                    contentScale = ContentScale.Crop,
                                    colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }),
-                                   alpha = 0.5f,
+                                   alpha = 0.2f,
                                    onLoading = {_ ->
                                        CircularProgressIndicator(
                                            modifier = Modifier.align(Alignment.Center),
@@ -86,6 +86,9 @@ fun MovieDetailsScreen(
                                        movieDetailState = movieDetailState,
                                        onMovieClicked = { movieId ->
                                            movieDetailAction(MovieDetailAction.OnSimilarMovieClicked(movieId))
+                                       },
+                                       onHomePageClicked = { url ->
+                                           movieDetailAction(MovieDetailAction.OnHomePageClicked(url))
                                        }
                                    )
                                }
