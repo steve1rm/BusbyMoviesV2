@@ -11,8 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import chaintech.videoplayer.model.PlayerConfig
-import chaintech.videoplayer.ui.video.VideoPlayerView
+import chaintech.videoplayer.ui.youtube.YouTubePlayerView
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.haze
 import dev.chrisbanes.haze.hazeChild
@@ -38,18 +39,24 @@ fun MovieDetailHeader(
 
         /** If no videos are available display the image instead */
         if(movieDetail.videos.results.isNotEmpty()) {
-            VideoPlayerView(
+            YouTubePlayerView(
                 modifier = Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
-                url = "https://www.youtube.com/watch?v=${movieDetail.videos.results.first().key}",
+                videoId = movieDetail.videos.results.first().key,
                 playerConfig = PlayerConfig(
-                    isDurationVisible = false,
-                    isSeekBarVisible = false,
-                    isScreenResizeEnabled = false,
-                    loop = false,
-                    fastBackwardIconResource = null,
-                    fastForwardIconResource = null,
+                    isPauseResumeEnabled = true,
+                    isSeekBarVisible = true,
+                    isDurationVisible = true,
+                    seekBarThumbColor = Color.Red,
+                    seekBarActiveTrackColor = Color.Red,
+                    seekBarInactiveTrackColor = Color.White,
+                    durationTextColor = Color.White,
+                    seekBarBottomPadding = 10.dp,
+                    pauseResumeIconSize = 40.dp,
                     isAutoHideControlEnabled = true,
-                    isPauseResumeEnabled = true
+                    controlHideIntervalSeconds = 5,
+                    isFastForwardBackwardEnabled = false,
+                    isPause = true,
+                    startTimeInSeconds = 0
                 )
             )
         }

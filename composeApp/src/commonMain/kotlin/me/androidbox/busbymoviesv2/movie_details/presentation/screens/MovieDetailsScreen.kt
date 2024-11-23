@@ -5,7 +5,6 @@ package me.androidbox.busbymoviesv2.movie_details.presentation.screens
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,8 +29,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import chaintech.videoplayer.model.PlayerConfig
-import chaintech.videoplayer.ui.youtube.YouTubePlayerView
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import kotlinx.coroutines.launch
@@ -87,7 +84,7 @@ fun MovieDetailsScreen(
                 pageContent = { page ->
                     Text(text = movieDetailState.movieDetail.videos.results[page].name)
 
-                    YouTubePlayerView(
+                  /*  YouTubePlayerView(
                         modifier = Modifier.aspectRatio(16f / 9f),
                         videoId = movieDetailState.movieDetail.videos.results[page].key,
                         playerConfig = PlayerConfig(
@@ -99,7 +96,7 @@ fun MovieDetailsScreen(
                             fastBackwardIconResource = null,
                             fastForwardIconResource = null,
                         )
-                    )
+                    )*/
                 }
             )
 

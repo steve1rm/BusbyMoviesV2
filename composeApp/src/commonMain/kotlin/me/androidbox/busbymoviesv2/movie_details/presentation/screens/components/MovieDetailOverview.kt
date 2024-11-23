@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +20,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -50,8 +48,6 @@ import androidx.compose.ui.zIndex
 import busbymoviesv2.composeapp.generated.resources.Res
 import busbymoviesv2.composeapp.generated.resources.feedback
 import busbymoviesv2.composeapp.generated.resources.movie
-import chaintech.videoplayer.model.PlayerConfig
-import chaintech.videoplayer.ui.youtube.YouTubePlayerView
 import me.androidbox.busbymoviesv2.core.presentation.components.MovieButton
 import me.androidbox.busbymoviesv2.core.presentation.components.StarRatingBar
 import me.androidbox.busbymoviesv2.core.presentation.utils.formatNumberWithSuffix
@@ -345,7 +341,7 @@ fun MovieDetailOverview(
                     }
                 )
 
-                HorizontalPager(
+               /* HorizontalPager(
                     state = pagerState,
                     pageContent = {page ->
                         YouTubePlayerView(
@@ -362,7 +358,7 @@ fun MovieDetailOverview(
                             )
                         )
                     }
-                )
+                )*/
 
                 Spacer(modifier = Modifier.height(16.dp))
             }
