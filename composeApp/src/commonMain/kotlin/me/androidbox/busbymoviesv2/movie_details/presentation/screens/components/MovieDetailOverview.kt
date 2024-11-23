@@ -3,6 +3,7 @@
 package me.androidbox.busbymoviesv2.movie_details.presentation.screens.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -39,8 +40,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -66,6 +69,7 @@ fun MovieDetailOverview(
     movieDetailState: MovieDetailState,
     onMovieClicked: (movieId: Int) -> Unit,
     onTrailerClicked: () -> Unit,
+    onHomePageClicked: (url: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var maxWidth by remember {
@@ -156,6 +160,25 @@ fun MovieDetailOverview(
                             )
                         }
                     }
+
+                    Spacer(modifier = Modifier.height(6.dp))
+
+                    if(movieDetailState.movieDetail.homepage.isNotBlank()) {
+                        Text(
+                            modifier = Modifier.clickable(
+                                onClick = {
+                                    onHomePageClicked(movieDetailState.movieDetail.homepage)
+                                }
+                            ),
+                            text = "Movie Homepage",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            fontStyle = FontStyle.Italic,
+                            textDecoration = TextDecoration.Underline,
+                            textAlign = TextAlign.Center,
+                            color = Color(0xFF38A0FF))
+                    }
+
                 }
 
                 Row(
@@ -187,7 +210,7 @@ fun MovieDetailOverview(
 
         /** Overview */
         Column(modifier = Modifier
-            .fillMaxSize().offset(y = -(24.dp)).zIndex(-1f).alpha(0.9f)
+            .fillMaxSize().offset(y = -(24.dp)).zIndex(-1f).alpha(0.8f)
             .background(color = Color.White, shape = RoundedCornerShape(topStart = 22.dp, topEnd = 22.dp))) {
             Text(
                 modifier = Modifier.padding(start = 8.dp, top = 4.dp),
@@ -356,6 +379,7 @@ fun PreviewMovieDetailOverview() {
         MovieDetailOverview(
            movieDetailState = MovieDetailState(),
             onMovieClicked = {},
+            onHomePageClicked = {},
             onTrailerClicked = {}
         )
     }
