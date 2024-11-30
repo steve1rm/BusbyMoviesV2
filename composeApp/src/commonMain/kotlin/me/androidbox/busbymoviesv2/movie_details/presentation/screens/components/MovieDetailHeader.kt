@@ -11,9 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
-import chaintech.videoplayer.model.PlayerConfig
-import chaintech.videoplayer.ui.youtube.YouTubePlayerView
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.haze
 import dev.chrisbanes.haze.hazeChild
@@ -24,6 +21,7 @@ import kotlinx.datetime.format
 import kotlinx.datetime.format.MonthNames
 import kotlinx.datetime.format.Padding
 import kotlinx.datetime.format.char
+import me.androidbox.busbymoviesv2.VideoPlayer
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.MovieDetail
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -39,7 +37,12 @@ fun MovieDetailHeader(
 
         /** If no videos are available display the image instead */
         if(movieDetail.videos.results.isNotEmpty()) {
-            YouTubePlayerView(
+            VideoPlayer(
+                Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
+                url = movieDetail.videos.results.first().key
+            )
+
+           /* YouTubePlayerView(
                 modifier = Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
                 videoId = movieDetail.videos.results.first().key,
                 playerConfig = PlayerConfig(
@@ -58,7 +61,7 @@ fun MovieDetailHeader(
                     isPause = true,
                     startTimeInSeconds = 0
                 )
-            )
+            )*/
         }
         else {
             KamelImage(
