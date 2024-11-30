@@ -9,8 +9,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +23,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailAction
 import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailState
 import me.androidbox.busbymoviesv2.movie_details.presentation.screens.components.MovieDetailHeader
@@ -31,6 +36,12 @@ fun MovieDetailsScreen(
     movieDetailState: MovieDetailState,
     movieDetailAction: (movieDetailAction: MovieDetailAction) -> Unit
 ) {
+
+    val coroutineScope = rememberCoroutineScope()
+    val snackBarHostState = remember {
+        SnackbarHostState()
+    }
+    var job: Job? = null
 
     Scaffold(
         topBar = {
@@ -59,7 +70,13 @@ fun MovieDetailsScreen(
                     )
                        Column(modifier = Modifier.fillMaxSize()) {
                             MovieDetailHeader(
-                                movieDetail = movieDetailState.movieDetail
+                                movieDetail = movieDetailState.movieDetail,
+                                onFavouriteClicked = {
+                                    job?.cancel()
+                                    job = coroutineScope.launch {
+                                        snackBarHostState.showSnackbar("This is a snack bar")
+                                    }
+                                }
                             )
 
                            Box(modifier = Modifier.fillMaxSize()) {
@@ -96,6 +113,9 @@ fun MovieDetailsScreen(
                         }
                     }
             }
+        },
+        snackbarHost = { _ ->
+            SnackbarHost(snackBarHostState)
         }
     )
 }

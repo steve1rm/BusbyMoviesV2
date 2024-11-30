@@ -30,7 +30,8 @@ fun MovieTitleHeader(
     title: String,
     tagline: String,
     releaseDate: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onFavouriteClicked: () -> Unit
 ) {
         Column(
             modifier = modifier
@@ -55,7 +56,9 @@ fun MovieTitleHeader(
 
                 IconButton(
                     modifier = Modifier.wrapContentSize().size(24.dp),
-                    onClick = {}
+                    onClick = {
+                        onFavouriteClicked()
+                    }
                 ) {
                     Icon(
                         painter = painterResource(resource = Res.drawable.favourite),
@@ -103,5 +106,6 @@ fun MovieTitleHeaderPreview() {
         title = "Seven Samurai",
         tagline = "The Mighty Warriors who became Heroes",
         releaseDate = "26 April 1964",
-        modifier = Modifier)
+        modifier = Modifier,
+        onFavouriteClicked = {})
 }
