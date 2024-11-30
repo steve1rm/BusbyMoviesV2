@@ -16,13 +16,13 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 actual fun VideoPlayer(modifier: Modifier, url: String) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
-    println("VideoPlayer")
+    println("VideoPlayer $url")
     val youtubePlayerView = remember { YouTubePlayerView(context) }
 
     val youTubePlayerListener = object : AbstractYouTubePlayerListener() {
         override fun onReady(youTubePlayer: YouTubePlayer) {
             super.onReady(youTubePlayer)
-            println("VideoPlayer Ready")
+            println("VideoPlayer Ready $url")
 
             /** Prevents flickering by using the GPU hard acceleration */
             youtubePlayerView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
@@ -33,11 +33,11 @@ actual fun VideoPlayer(modifier: Modifier, url: String) {
 
     DisposableEffect(lifecycleOwner, youtubePlayerView) {
         youtubePlayerView.addYouTubePlayerListener(youTubePlayerListener)
-        println("VideoPlayer add")
+        println("VideoPlayer add $url")
 
         onDispose {
             youtubePlayerView.removeYouTubePlayerListener(youTubePlayerListener)
-            println("VideoPlayer remove")
+            println("VideoPlayer remove $url")
         }
     }
 
