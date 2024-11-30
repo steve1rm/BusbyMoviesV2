@@ -5,7 +5,9 @@ package me.androidbox.busbymoviesv2.movie_details.presentation.screens
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
@@ -28,10 +30,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import kotlinx.coroutines.launch
+import me.androidbox.busbymoviesv2.VideoPlayer
 import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailAction
 import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailState
 import me.androidbox.busbymoviesv2.movie_details.presentation.screens.components.MovieDetailHeader
@@ -76,27 +80,23 @@ fun MovieDetailsScreen(
         sheetPeekHeight = 0.dp,
         scaffoldState = bottomSheetState,
         sheetContent = {
-
             Spacer(modifier = Modifier.height(16.dp))
 
             HorizontalPager(
                 state = pagerState,
                 pageContent = { page ->
-                    Text(text = movieDetailState.movieDetail.videos.results[page].name)
+                    Column(
+                        modifier = Modifier.fillMaxWidth()) {
 
-                  /*  YouTubePlayerView(
-                        modifier = Modifier.aspectRatio(16f / 9f),
-                        videoId = movieDetailState.movieDetail.videos.results[page].key,
-                        playerConfig = PlayerConfig(
-                            isDurationVisible = false,
-                            isSeekBarVisible = false,
-                            isScreenResizeEnabled = false,
-                            isPause = true,
-                            loop = false,
-                            fastBackwardIconResource = null,
-                            fastForwardIconResource = null,
+                        Text(text = movieDetailState.movieDetail.videos.results[page].name,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis)
+
+                        VideoPlayer(
+                            Modifier.aspectRatio(16f / 9f),
+                            url = movieDetailState.movieDetail.videos.results[page].key
                         )
-                    )*/
+                    }
                 }
             )
 

@@ -41,27 +41,6 @@ fun MovieDetailHeader(
                 Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
                 url = movieDetail.videos.results.first().key
             )
-
-           /* YouTubePlayerView(
-                modifier = Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
-                videoId = movieDetail.videos.results.first().key,
-                playerConfig = PlayerConfig(
-                    isPauseResumeEnabled = true,
-                    isSeekBarVisible = true,
-                    isDurationVisible = true,
-                    seekBarThumbColor = Color.Red,
-                    seekBarActiveTrackColor = Color.Red,
-                    seekBarInactiveTrackColor = Color.White,
-                    durationTextColor = Color.White,
-                    seekBarBottomPadding = 10.dp,
-                    pauseResumeIconSize = 40.dp,
-                    isAutoHideControlEnabled = true,
-                    controlHideIntervalSeconds = 5,
-                    isFastForwardBackwardEnabled = false,
-                    isPause = true,
-                    startTimeInSeconds = 0
-                )
-            )*/
         }
         else {
             KamelImage(

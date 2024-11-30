@@ -1,5 +1,6 @@
 package me.androidbox.busbymoviesv2
 
+import android.view.View
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
@@ -21,7 +22,11 @@ actual fun VideoPlayer(modifier: Modifier, url: String) {
     val youTubePlayerListener = object : AbstractYouTubePlayerListener() {
         override fun onReady(youTubePlayer: YouTubePlayer) {
             super.onReady(youTubePlayer)
-            println("VideoPlayer ready")
+            println("VideoPlayer Ready")
+
+            /** Prevents flickering by using the GPU hard acceleration */
+            youtubePlayerView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+
             youTubePlayer.cueVideo(url, 0f)
         }
     }
