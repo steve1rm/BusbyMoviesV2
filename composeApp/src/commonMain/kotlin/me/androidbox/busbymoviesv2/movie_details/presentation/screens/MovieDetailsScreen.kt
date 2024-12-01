@@ -18,7 +18,6 @@ import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.runtime.Composable
@@ -30,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
@@ -80,17 +78,11 @@ fun MovieDetailsScreen(
         sheetPeekHeight = 0.dp,
         scaffoldState = bottomSheetState,
         sheetContent = {
-            Spacer(modifier = Modifier.height(16.dp))
-
             HorizontalPager(
                 state = pagerState,
                 pageContent = { page ->
                     Column(
                         modifier = Modifier.fillMaxWidth()) {
-
-                        Text(text = movieDetailState.otherVideoTrailers[page].name,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis)
 
                         VideoPlayer(
                             Modifier.aspectRatio(16f / 9f),
@@ -99,9 +91,6 @@ fun MovieDetailsScreen(
                     }
                 }
             )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
         },
         content = { paddingValues ->
             Column(

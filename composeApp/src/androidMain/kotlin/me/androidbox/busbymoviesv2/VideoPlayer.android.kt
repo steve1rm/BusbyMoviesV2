@@ -37,6 +37,7 @@ actual fun VideoPlayer(modifier: Modifier, url: String) {
 
         onDispose {
             youtubePlayerView.removeYouTubePlayerListener(youTubePlayerListener)
+            youtubePlayerView.release()
             println("VideoPlayer remove $url")
         }
     }
