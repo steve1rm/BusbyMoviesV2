@@ -191,12 +191,15 @@ fun MovieDetailOverview(
                         onClicked = {}
                     )
 
-                    MovieButton(
-                        modifier = Modifier.alpha(0.6f).weight(1f),
-                        iconRes = Res.drawable.movie,
-                        text = "${movieDetailState.movieDetail.videos.results.count()} Trailers",
-                        onClicked = onTrailerClicked
-                    )
+                    /** Show trailers (excluding the first, which is in the header) only if available */
+                    if(movieDetailState.otherVideoTrailers.isNotEmpty()) {
+                        MovieButton(
+                            modifier = Modifier.alpha(0.6f).weight(1f),
+                            iconRes = Res.drawable.movie,
+                            text = "${movieDetailState.otherVideoTrailers.count()} Trailers",
+                            onClicked = onTrailerClicked
+                        )
+                    }
                 }
             }
 

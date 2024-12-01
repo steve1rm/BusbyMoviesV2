@@ -70,7 +70,7 @@ fun MovieDetailsScreen(
     val pagerState = rememberPagerState(
         initialPage = 0,
         pageCount = {
-            movieDetailState.movieDetail.videos.results.count()
+            movieDetailState.otherVideoTrailers.count()
         }
     )
 
@@ -88,13 +88,13 @@ fun MovieDetailsScreen(
                     Column(
                         modifier = Modifier.fillMaxWidth()) {
 
-                        Text(text = movieDetailState.movieDetail.videos.results[page].name,
+                        Text(text = movieDetailState.otherVideoTrailers[page].name,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis)
 
                         VideoPlayer(
                             Modifier.aspectRatio(16f / 9f),
-                            url = movieDetailState.movieDetail.videos.results[page].key
+                            url = movieDetailState.otherVideoTrailers[page].key
                         )
                     }
                 }

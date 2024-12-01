@@ -103,6 +103,7 @@ class MovieDetailViewModel(
                     _movieDetailState.update { movieDetailState ->
                         movieDetailState.copy(
                             movieDetail = checkResult.data.toMovieDetail(imageSize),
+                            otherVideoTrailers = checkResult.data.toMovieDetail(imageSize).videos.results.drop(1),
                             isLoadingDetails = false
                         )
                     }
