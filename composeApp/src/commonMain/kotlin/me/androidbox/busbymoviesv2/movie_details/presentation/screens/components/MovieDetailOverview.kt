@@ -192,14 +192,13 @@ fun MovieDetailOverview(
                     )
 
                     /** Show trailers (excluding the first, which is in the header) only if available */
-                    if(movieDetailState.otherVideoTrailers.isNotEmpty()) {
-                        MovieButton(
-                            modifier = Modifier.alpha(0.6f).weight(1f),
-                            iconRes = Res.drawable.movie,
-                            text = "${movieDetailState.otherVideoTrailers.count()} Trailers",
-                            onClicked = onTrailerClicked
-                        )
-                    }
+                    val alpha = if(movieDetailState.otherVideoTrailers.isNotEmpty()) 0.6f else 0.0f
+                    MovieButton(
+                        modifier = Modifier.alpha(alpha).weight(1f),
+                        iconRes = Res.drawable.movie,
+                        text = "${movieDetailState.otherVideoTrailers.count()} Trailers",
+                        onClicked = onTrailerClicked
+                    )
                 }
             }
 

@@ -76,8 +76,6 @@ class MovieDetailViewModel(
                     _movieDetailState.update { movieDetailState ->
                         movieDetailState.copy(isLoadingCredits = false)
                     }
-                    println(error)
-                    println(errorModel)
                 }
         }
     }
