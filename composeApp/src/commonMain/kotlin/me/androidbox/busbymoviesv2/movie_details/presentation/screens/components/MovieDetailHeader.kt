@@ -21,6 +21,7 @@ import kotlinx.datetime.format
 import kotlinx.datetime.format.MonthNames
 import kotlinx.datetime.format.Padding
 import kotlinx.datetime.format.char
+import me.androidbox.busbymoviesv2.VideoPlayer
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.MovieDetail
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -35,21 +36,30 @@ fun MovieDetailHeader(
         modifier = Modifier.fillMaxWidth()
     ) {
 
-        KamelImage(
-            resource = { asyncPainterResource(data = movieDetail.backdropPath) },
-            contentDescription = movieDetail.title,
-            modifier = Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
-            contentScale = ContentScale.FillHeight,
-            onLoading = {_ ->
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = Color.Blue
-                )
-            },
-            onFailure = {
-                it.printStackTrace()
-            },
-        )
+        /** If no videos are available display the image instead */
+        if(movieDetail.videos.results.isNotEmpty()) {
+            VideoPlayer(
+                Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
+                url = movieDetail.videos.results.first().key
+            )
+        }
+        else {
+            KamelImage(
+                resource = { asyncPainterResource(data = movieDetail.backdropPath) },
+                contentDescription = movieDetail.title,
+                modifier = Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
+                contentScale = ContentScale.FillHeight,
+                onLoading = {_ ->
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = Color.Blue
+                    )
+                },
+                onFailure = {
+                    it.printStackTrace()
+                },
+            )
+        }
 
         MovieTitleHeader(
             title = movieDetail.title,

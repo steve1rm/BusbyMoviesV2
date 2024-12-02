@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -63,6 +64,7 @@ import kotlin.time.Duration.Companion.minutes
 fun MovieDetailOverview(
     movieDetailState: MovieDetailState,
     onMovieClicked: (movieId: Int) -> Unit,
+    onTrailerClicked: () -> Unit,
     onHomePageClicked: (url: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -120,7 +122,6 @@ fun MovieDetailOverview(
                             color = Color.Black,
                             text = "${movieDetailState.movieDetail.runtime.minutes}"
                         )
-
                     }
 
                     /** Don't show if there is zero budget or revenue */
@@ -190,11 +191,13 @@ fun MovieDetailOverview(
                         onClicked = {}
                     )
 
+                    /** Show trailers (excluding the first, which is in the header) only if available */
+                    val alpha = if(movieDetailState.otherVideoTrailers.isNotEmpty()) 0.6f else 0.0f
                     MovieButton(
-                        modifier = Modifier.alpha(0.6f).weight(1f),
+                        modifier = Modifier.alpha(alpha).weight(1f),
                         iconRes = Res.drawable.movie,
-                        text = "10 Trailers",
-                        onClicked = {}
+                        text = "${movieDetailState.otherVideoTrailers.count()} Trailers",
+                        onClicked = onTrailerClicked
                     )
                 }
             }
@@ -329,6 +332,37 @@ fun MovieDetailOverview(
                         }
                     )
                 }
+
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                val pagerState = rememberPagerState(
+                    initialPage = 0,
+                    pageCount = {
+                        movieDetailState.movieDetail.videos.results.count()
+                    }
+                )
+
+               /* HorizontalPager(
+                    state = pagerState,
+                    pageContent = {page ->
+                        YouTubePlayerView(
+                            modifier = Modifier.aspectRatio(16f / 9f),
+                            videoId = movieDetailState.movieDetail.videos.results[page].key,
+                            playerConfig = PlayerConfig(
+                                isDurationVisible = false,
+                                isSeekBarVisible = false,
+                                isScreenResizeEnabled = false,
+                                isPause = true,
+                                loop = false,
+                                fastBackwardIconResource = null,
+                                fastForwardIconResource = null,
+                            )
+                        )
+                    }
+                )*/
+
+                Spacer(modifier = Modifier.height(16.dp))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -343,7 +377,8 @@ fun PreviewMovieDetailOverview() {
         MovieDetailOverview(
            movieDetailState = MovieDetailState(),
             onMovieClicked = {},
-            onHomePageClicked = {}
+            onHomePageClicked = {},
+            onTrailerClicked = {}
         )
     }
 }

@@ -46,6 +46,7 @@ class MovieDetailViewModel(
 
     init {
         viewModelScope.launch {
+            println("LAUNCH NETWORK STATUS CANCELLATION")
             val configuration = viewModelScope.async {
                 configurationUseCase.execute()
             }
@@ -75,8 +76,6 @@ class MovieDetailViewModel(
                     _movieDetailState.update { movieDetailState ->
                         movieDetailState.copy(isLoadingCredits = false)
                     }
-                    println(error)
-                    println(errorModel)
                 }
         }
     }
@@ -102,6 +101,7 @@ class MovieDetailViewModel(
                     _movieDetailState.update { movieDetailState ->
                         movieDetailState.copy(
                             movieDetail = checkResult.data.toMovieDetail(imageSize),
+                            otherVideoTrailers = checkResult.data.toMovieDetail(imageSize).videos.results.drop(1),
                             isLoadingDetails = false
                         )
                     }

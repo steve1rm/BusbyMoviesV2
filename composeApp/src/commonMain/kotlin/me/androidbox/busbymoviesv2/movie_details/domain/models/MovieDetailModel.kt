@@ -22,4 +22,5 @@ data class MovieDetailModel(
     val voteAverage: Double,
     val voteCount: Int,
     val genres: List<GenreModel>,
+    val videos: VideoResultsModel
 )
