@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [MovieDetailEntity::class],
+    entities = [MovieFavouriteEntity::class],
     version = 1
 )
 abstract class MovieDetailDatabase : RoomDatabase() {

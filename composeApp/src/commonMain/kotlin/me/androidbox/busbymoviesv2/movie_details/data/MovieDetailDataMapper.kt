@@ -1,16 +1,22 @@
 package me.androidbox.busbymoviesv2.movie_details.data
 
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import me.androidbox.busbymoviesv2.movie_details.data.dto.CastDto
 import me.androidbox.busbymoviesv2.movie_details.data.dto.CreditsDto
 import me.androidbox.busbymoviesv2.movie_details.data.dto.CrewDto
 import me.androidbox.busbymoviesv2.movie_details.data.dto.GenreDto
 import me.androidbox.busbymoviesv2.movie_details.data.dto.MovieDetailDto
 import me.androidbox.busbymoviesv2.movie_details.data.dto.VideoResultsDto
+import me.androidbox.busbymoviesv2.movie_details.data.entities.MovieFavouriteEntity
 import me.androidbox.busbymoviesv2.movie_details.domain.models.CastModel
 import me.androidbox.busbymoviesv2.movie_details.domain.models.CreditsModel
 import me.androidbox.busbymoviesv2.movie_details.domain.models.CrewModel
 import me.androidbox.busbymoviesv2.movie_details.domain.models.GenreModel
 import me.androidbox.busbymoviesv2.movie_details.domain.models.MovieDetailModel
+import me.androidbox.busbymoviesv2.movie_details.domain.models.MovieFavouriteModel
 import me.androidbox.busbymoviesv2.movie_details.domain.models.VideoResultsModel
 import me.androidbox.busbymoviesv2.movie_details.domain.models.VideosModel
 
@@ -96,5 +102,46 @@ fun VideoResultsDto.toVideosResultsModel(): VideoResultsModel {
                 publishedAt = videosDto.publishedAt
             )
         }
+    )
+}
+
+fun MovieDetailModel.toMovieDetailEntity(): MovieFavouriteEntity {
+    return MovieFavouriteEntity(
+        id = this.id,
+        releaseDate = this.releaseDate,
+        tagline = this.tagline,
+        title = this.title,
+        voteAverage = this.voteAverage,
+        voteCount = this.voteCount,
+        dateAdded = Clock.System.now().toEpochMilliseconds()
+    )
+}
+
+fun MovieFavouriteEntity.toMovieFavouriteModel(): MovieFavouriteModel {
+    return MovieFavouriteModel(
+        id = this.id,
+        releaseDate = this.releaseDate,
+        tagline = this.tagline,
+        title = this.title,
+        voteAverage = this.voteAverage,
+        voteCount = this.voteCount,
+        dateAdded = this.dateAdded
+    )
+}
+
+fun MovieFavouriteModel.toMovieFavouriteEntity(): MovieFavouriteEntity {
+    val currentTime = Clock.System.now()
+
+    return MovieFavouriteEntity(
+        id = this.id,
+        releaseDate = this.releaseDate,
+        tagline = this.tagline,
+        title = this.title,
+        voteAverage = this.voteAverage,
+        voteCount = this.voteCount,
+        dateAdded = currentTime
+            .toLocalDateTime(TimeZone.currentSystemDefault())
+            .toInstant(TimeZone.currentSystemDefault())
+            .toEpochMilliseconds()
     )
 }

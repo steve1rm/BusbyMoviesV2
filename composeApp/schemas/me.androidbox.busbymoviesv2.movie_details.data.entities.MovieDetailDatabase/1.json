@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f9d078a95ef1cf8da14ce0980459657d",
+    "identityHash": "3d3dfdfde61f7dea897b8e625accca81",
     "entities": [
       {
-        "tableName": "MovieDetailEntity",
+        "tableName": "MovieFavouriteEntity",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `tagline` TEXT NOT NULL, `releaseDate` TEXT NOT NULL, `voteCount` INTEGER NOT NULL, `voteAverage` REAL NOT NULL, `dateAdded` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -61,7 +61,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f9d078a95ef1cf8da14ce0980459657d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3d3dfdfde61f7dea897b8e625accca81')"
     ]
   }
 }

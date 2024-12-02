@@ -5,6 +5,7 @@ import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.cio.CIO
+import me.androidbox.busbymoviesv2.movie_details.data.entities.MovieDetailDao
 import me.androidbox.busbymoviesv2.movie_details.data.entities.MovieDetailDatabase
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -16,13 +17,15 @@ val androidModule = module {
         HttpClient(CIO).engine
     }
 
-    single<MovieDetailDatabase> {
+    single<MovieDetailDao> {
         val dbFile = androidContext().getDatabasePath("movieDetail.db")
 
-        Room.databaseBuilder<MovieDetailDatabase>(
+        val database = Room.databaseBuilder<MovieDetailDatabase>(
             context = androidContext(),
             name = dbFile.absolutePath)
             .setDriver(BundledSQLiteDriver())
             .build()
+
+        database.movieDetailDao()
     }
 }

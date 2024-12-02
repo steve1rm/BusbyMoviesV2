@@ -4,16 +4,17 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieDetailDao {
 
     @Upsert
-    suspend fun upsert(movieDetailEntity: MovieDetailEntity)
+    suspend fun upsertFavourite(movieFavouriteEntity: MovieFavouriteEntity)
 
     @Delete
-    suspend fun delete(movieDetailEntity: MovieDetailEntity)
+    suspend fun deleteFavourite(movieFavouriteEntity: MovieFavouriteEntity)
 
-    @Query("SELECT * FROM MovieDetailEntity")
-    fun getAllMovies(): List<MovieDetailEntity>
+    @Query("SELECT * FROM MovieFavouriteEntity")
+    fun getAllFavouriteMovies(): Flow<List<MovieFavouriteEntity>>
 }

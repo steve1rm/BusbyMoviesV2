@@ -16,7 +16,7 @@ val desktopSpecificModule = module {
 
     single<MovieDetailDatabase> {
         val dbFile = File(System.getProperty("java.io.tmpdir"), "movieDetail.db.db")
-        
+
         Room.databaseBuilder<MovieDetailDatabase>(
             name = dbFile.absolutePath)
             .setDriver(BundledSQLiteDriver())

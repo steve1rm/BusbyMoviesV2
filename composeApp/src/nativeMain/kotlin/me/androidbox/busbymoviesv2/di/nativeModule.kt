@@ -18,7 +18,7 @@ val nativeModule = module {
     single<MovieDetailDatabase> {
         val dbFile = NSHomeDirectory() + "/movieDetail.db"
 
-        return Room.databaseBuilder<MovieDetailDatabase>(
+        Room.databaseBuilder<MovieDetailDatabase>(
             name = dbFile,
             factory = {
                 MovieDetailDatabase::class.instantiateImpl()
