@@ -18,8 +18,11 @@ import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Snackbar
+import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
+import androidx.compose.material.SnackbarResult
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.runtime.Composable
@@ -129,7 +132,19 @@ fun MovieDetailsScreen(
                             onFavouriteClicked = {
                                 job?.cancel()
                                 job = coroutineScope.launch {
-                                    snackBarHostState.showSnackbar("This is a snack bar")
+                                    val result = snackBarHostState.showSnackbar(
+                                        message = "${movieDetailState.movieDetail.title} Saved to favourite",
+                                        actionLabel = "Undo",
+                                        duration = SnackbarDuration.Short)
+
+                                    when(result) {
+                                        SnackbarResult.Dismissed -> {
+                                            /* no-op */
+                                        }
+                                        SnackbarResult.ActionPerformed -> {
+                                            println("Undo from saved, remove from db")
+                                        }
+                                    }
                                 }
                             }
                         )
@@ -180,7 +195,14 @@ fun MovieDetailsScreen(
             }
         },
         snackbarHost = { _ ->
-            SnackbarHost(snackBarHostState)
+            SnackbarHost(
+               hostState = snackBarHostState,
+            ) { snackBarData ->
+                Snackbar(
+                    actionColor = Color.Green,
+                    snackbarData = snackBarData
+                )
+            }
         }
     )
 }
