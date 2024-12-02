@@ -22,4 +22,5 @@ data class MovieDetail(
     val voteAverage: Double = 0.0,
     val voteCount: Int = 0,
     val genres: List<Genre> = emptyList(),
+    val videos: VideoResults = VideoResults()
 )

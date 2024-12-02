@@ -93,7 +93,8 @@ kotlin {
             implementation(libs.windowSizeMultiplatform)
             implementation("io.github.oleksandrbalan:textflow-material3:1.2.1")
             implementation("io.coil-kt.coil3:coil-compose:3.0.0")
-            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+            implementation(libs.kotlinx.datetime)
+       //     implementation("network.chaintech:compose-multiplatform-media-player:1.0.26")
         }
 
         androidMain.dependencies {
@@ -105,7 +106,7 @@ kotlin {
             implementation(libs.koin.androidx.compose)
             implementation(libs.paging.common)
             implementation(libs.paging.compose.common)
-
+            implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.1")
         }
 
         nativeMain.dependencies {
