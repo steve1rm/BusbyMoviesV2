@@ -7,8 +7,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -21,10 +19,12 @@ import me.androidbox.busbymoviesv2.core.domain.utils.onFailure
 import me.androidbox.busbymoviesv2.core.domain.utils.onSuccess
 import me.androidbox.busbymoviesv2.core.presentation.utils.mapImageSize
 import me.androidbox.busbymoviesv2.move_list.presentation.toMovieList
-import me.androidbox.busbymoviesv2.movie_details.data.repository.MovieDetailRepository
 import me.androidbox.busbymoviesv2.movie_details.domain.models.MovieFavouriteModel
+import me.androidbox.busbymoviesv2.movie_details.domain.usecase.DeleteFavouriteMovieUseCase
+import me.androidbox.busbymoviesv2.movie_details.domain.usecase.IsFavouriteMovieUseCase
 import me.androidbox.busbymoviesv2.movie_details.domain.usecase.MovieCreditsUseCase
 import me.androidbox.busbymoviesv2.movie_details.domain.usecase.MovieDetailUseCase
+import me.androidbox.busbymoviesv2.movie_details.domain.usecase.SaveFavouriteMovieUseCase
 import me.androidbox.busbymoviesv2.movie_details.domain.usecase.SimilarMoviesUseCase
 
 class MovieDetailViewModel(
@@ -32,7 +32,9 @@ class MovieDetailViewModel(
     private val configurationUseCase: ConfigurationUseCase,
     private val movieCreditsUseCase: MovieCreditsUseCase,
     private val similarMoviesUseCase: SimilarMoviesUseCase,
-    private val movieDetailRepository: MovieDetailRepository,
+    private val isFavouriteMovieUseCase: IsFavouriteMovieUseCase,
+    private val deleteFavouriteMovieUseCase: DeleteFavouriteMovieUseCase,
+    private val saveFavouriteMovieUseCase: SaveFavouriteMovieUseCase,
     private val movieId: Int) : ViewModel() {
 
     private val _movieDetailState = MutableStateFlow(MovieDetailState())
@@ -55,12 +57,14 @@ class MovieDetailViewModel(
     private var imageSize: String = "w500"
 
     init {
-        movieDetailRepository.getAllFavouriteMovies()
-            .onEach { models ->
-                models.map { model ->
-                    println("movieDetail ${model.title}")
-                }
-            }.launchIn(viewModelScope)
+        viewModelScope.launch {
+            val isFavourite = isFavouriteMovieUseCase.execute(movieId)
+            _movieDetailState.update { movieDetailState ->
+                movieDetailState.copy(
+                    isFavourite = isFavourite
+                )
+            }
+        }
 
         viewModelScope.launch {
             println("LAUNCH NETWORK STATUS CANCELLATION")
@@ -175,7 +179,7 @@ class MovieDetailViewModel(
 
     private fun deleteFavouriteMovie() {
         viewModelScope.launch {
-            movieDetailRepository.deleteFavouriteMovie(
+            deleteFavouriteMovieUseCase.execute(
                 MovieFavouriteModel(
                     id = movieDetailState.value.movieDetail.id,
                     title = movieDetailState.value.movieDetail.title,
@@ -185,12 +189,19 @@ class MovieDetailViewModel(
                     voteAverage = movieDetailState.value.movieDetail.voteAverage
                 )
             )
+
+            _movieDetailState.update { movieDetailState ->
+                movieDetailState.copy(
+                    isFavourite = false
+                )
+            }
+            _movieDetailEvent.send(MovieDetailEvent.OnFavouriteDeleted)
         }
     }
 
     private fun saveFavouriteMovie() {
         viewModelScope.launch {
-            movieDetailRepository.insertFavouriteMovie(
+            saveFavouriteMovieUseCase.execute(
                 MovieFavouriteModel(
                     id = movieDetailState.value.movieDetail.id,
                     title = movieDetailState.value.movieDetail.title,
@@ -201,6 +212,11 @@ class MovieDetailViewModel(
                 )
             )
 
+            _movieDetailState.update { movieDetailState ->
+                movieDetailState.copy(
+                    isFavourite = true
+                )
+            }
             _movieDetailEvent.send(MovieDetailEvent.OnFavouriteSaved)
         }
     }

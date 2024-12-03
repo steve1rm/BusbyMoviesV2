@@ -43,19 +43,28 @@ data class MovieDetailsScreenRoute(private val movieId: Int) : Screen {
                 when(movieDetailEvent) {
                     MovieDetailEvent.OnFavouriteSaved -> {
                         coroutineScope.launch {
-                            val result = snackBarHostState.showSnackbar(
+                            val snackBarResult = snackBarHostState.showSnackbar(
                                 message = "${movieDetailState.movieDetail.title} Saved to favourites",
                                 actionLabel = "Undo",
-                                duration = SnackbarDuration.Long
+                                duration = SnackbarDuration.Short
                             )
 
-                            when (result) {
-                                SnackbarResult.Dismissed -> { /* no-op */ }
+                            when (snackBarResult) {
+                                SnackbarResult.Dismissed -> { /* no-op */
+                                }
+
                                 SnackbarResult.ActionPerformed -> {
-                                    println("Undo from saved, remove from db")
                                     movieDetailViewModel.onMovieDetailAction(MovieDetailAction.OnDeleteFavouriteClicked)
                                 }
                             }
+                        }
+                    }
+                    MovieDetailEvent.OnFavouriteDeleted -> {
+                        coroutineScope.launch {
+                            snackBarHostState.showSnackbar(
+                                message = "${movieDetailState.movieDetail.title} Removed from favourites",
+                                duration = SnackbarDuration.Short
+                            )
                         }
                     }
                 }

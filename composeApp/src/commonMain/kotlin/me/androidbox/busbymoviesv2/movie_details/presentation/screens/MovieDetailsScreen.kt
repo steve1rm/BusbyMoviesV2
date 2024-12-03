@@ -124,8 +124,14 @@ fun MovieDetailsScreen(
                         MovieDetailHeader(
                             movieDetail = movieDetailState.movieDetail,
                             onFavouriteClicked = {
-                                movieDetailAction(MovieDetailAction.OnSaveFavouriteClicked)
-                            }
+                                if(movieDetailState.isFavourite) {
+                                    movieDetailAction(MovieDetailAction.OnDeleteFavouriteClicked)
+                                }
+                                else {
+                                    movieDetailAction(MovieDetailAction.OnSaveFavouriteClicked)
+                                }
+                            },
+                            isFavourite = movieDetailState.isFavourite
                         )
 
                         Box(modifier = Modifier.fillMaxSize()) {

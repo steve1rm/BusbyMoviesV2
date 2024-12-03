@@ -18,9 +18,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,16 +40,12 @@ fun MovieTitleHeader(
     modifier: Modifier = Modifier,
     onFavouriteClicked: () -> Unit
 ) {
-    var savedState by remember {
-        mutableStateOf(false)
-    }
 
     Column(
         modifier = modifier
             .padding(horizontal = 10.dp)
             .padding(top = 4.dp, bottom = 4.dp)
     ) {
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -68,7 +62,7 @@ fun MovieTitleHeader(
             )
 
             val transition = updateTransition(
-                targetState = savedState
+                targetState = isFavourite
             )
 
             val iconColor by transition.animateColor(
@@ -76,7 +70,7 @@ fun MovieTitleHeader(
                     tween(durationMillis = 500)
                 },
                 targetValueByState = {
-                    if(savedState) Color.Red else Color.White
+                    if(isFavourite) Color.Red else Color.White
                 })
 
             val iconSize by transition.animateDp(
@@ -84,7 +78,7 @@ fun MovieTitleHeader(
                     tween(durationMillis = 500)
                 },
                 targetValueByState = {
-                    if(savedState) 44.dp else 34.dp
+                    if(isFavourite) 44.dp else 34.dp
                 })
 
             Icon(
@@ -93,7 +87,6 @@ fun MovieTitleHeader(
                     .clickable(
                         onClick = {
                             onFavouriteClicked()
-                            savedState = !savedState
                         },
                         indication = null,
                         interactionSource = remember {
