@@ -149,9 +149,14 @@ class MovieDetailViewModel(
 
     fun onMovieDetailAction(movieDetailAction: MovieDetailAction) {
         when(movieDetailAction) {
-            MovieDetailAction.OnFavouriteClicked -> {
+            MovieDetailAction.OnSaveFavouriteClicked -> {
                 saveFavouriteMovie()
             }
+
+            MovieDetailAction.OnDeleteFavouriteClicked -> {
+                deleteFavouriteMovie()
+            }
+
             MovieDetailAction.OnMovieActorClicked -> TODO()
             is MovieDetailAction.OnHomePageClicked -> TODO()
             MovieDetailAction.OnReviewClicked -> TODO()
@@ -160,6 +165,21 @@ class MovieDetailViewModel(
                 movieCredits(movieDetailAction.movieId)
                 similarMovies(movieDetailAction.movieId)
             }
+        }
+    }
+
+    private fun deleteFavouriteMovie() {
+        viewModelScope.launch {
+            movieDetailRepository.deleteFavouriteMovie(
+                MovieFavouriteModel(
+                    id = movieDetailState.value.movieDetail.id,
+                    title = movieDetailState.value.movieDetail.title,
+                    tagline = movieDetailState.value.movieDetail.tagline,
+                    releaseDate = movieDetailState.value.movieDetail.releaseDate,
+                    voteCount = movieDetailState.value.movieDetail.voteCount,
+                    voteAverage = movieDetailState.value.movieDetail.voteAverage
+                )
+            )
         }
     }
 

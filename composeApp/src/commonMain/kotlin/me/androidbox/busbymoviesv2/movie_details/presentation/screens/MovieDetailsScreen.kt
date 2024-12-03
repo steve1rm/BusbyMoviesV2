@@ -130,7 +130,7 @@ fun MovieDetailsScreen(
                         MovieDetailHeader(
                             movieDetail = movieDetailState.movieDetail,
                             onFavouriteClicked = {
-                                movieDetailAction(MovieDetailAction.OnFavouriteClicked)
+                                movieDetailAction(MovieDetailAction.OnSaveFavouriteClicked)
                                 job?.cancel()
                                 job = coroutineScope.launch {
                                     val result = snackBarHostState.showSnackbar(
@@ -144,6 +144,7 @@ fun MovieDetailsScreen(
                                         }
                                         SnackbarResult.ActionPerformed -> {
                                             println("Undo from saved, remove from db")
+                                            movieDetailAction(MovieDetailAction.OnDeleteFavouriteClicked)
                                         }
                                     }
                                 }
