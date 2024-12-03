@@ -1,7 +1,9 @@
 package me.androidbox.busbymoviesv2.movie_details.presentation.screens.components
 
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -65,24 +67,39 @@ fun MovieTitleHeader(
                     fontWeight = FontWeight.Thin
                 )
 
-                val iconColor by animateColorAsState(
-                    targetValue = if(savedState) Color.Red else Color.White,
-                    animationSpec = tween(
-                        durationMillis = 1_000
-                    )
+                val transition = updateTransition(
+                    targetState = savedState
                 )
 
+                val iconColor by transition.animateColor(
+                    transitionSpec = {
+                        tween(durationMillis = 500)
+                    },
+                    targetValueByState = {
+                        if(savedState) Color.Red else Color.White
+                    })
+
+                val iconSize by transition.animateDp(
+                    transitionSpec = {
+                        tween(durationMillis = 500)
+                    },
+                    targetValueByState = {
+                        if(savedState) 44.dp else 34.dp
+                    })
+
                 Icon(
-                    modifier = Modifier.size(34.dp).clickable(
-                        onClick = {
-                            onFavouriteClicked()
-                            savedState = !savedState
-                        },
-                        indication = null,
-                        interactionSource = remember {
-                            MutableInteractionSource()
-                        }
-                    ),
+                    modifier = Modifier
+                        .size(iconSize)
+                        .clickable(
+                            onClick = {
+                                onFavouriteClicked()
+                                savedState = !savedState
+                            },
+                            indication = null,
+                            interactionSource = remember {
+                                MutableInteractionSource()
+                            }
+                        ),
                     painter = painterResource(resource = Res.drawable.favourite),
                     contentDescription = "Favourite",
                     tint = iconColor
