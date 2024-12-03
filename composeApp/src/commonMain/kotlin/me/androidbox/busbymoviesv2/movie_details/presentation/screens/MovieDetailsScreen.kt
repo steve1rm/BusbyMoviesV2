@@ -19,10 +19,8 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.SnackbarResult
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.runtime.Composable
@@ -37,7 +35,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import me.androidbox.busbymoviesv2.VideoPlayer
 import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailAction
@@ -49,6 +46,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun MovieDetailsScreen(
     movieDetailState: MovieDetailState,
+    snackBarHostState: SnackbarHostState,
     movieDetailAction: (movieDetailAction: MovieDetailAction) -> Unit
 ) {
 
@@ -71,10 +69,27 @@ fun MovieDetailsScreen(
     )
 
     val coroutineScope = rememberCoroutineScope()
-    val snackBarHostState = remember {
-        SnackbarHostState()
-    }
-    var job: Job? = null
+/*
+    LaunchedEffect(movieDetailState.hasSavedFavourite) {
+        if(movieDetailState.hasSavedFavourite) {
+            val result = snackBarHostState.showSnackbar(
+                message = "${movieDetailState.movieDetail.title} Saved to favourites",
+                actionLabel = "Undo",
+                duration = SnackbarDuration.Long
+            )
+
+            when (result) {
+                SnackbarResult.Dismissed -> {
+                    *//* no-op *//*
+                }
+
+                SnackbarResult.ActionPerformed -> {
+                    println("Undo from saved, remove from db")
+                    movieDetailAction(MovieDetailAction.OnDeleteFavouriteClicked)
+                }
+            }
+        }
+    }*/
 
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -131,23 +146,6 @@ fun MovieDetailsScreen(
                             movieDetail = movieDetailState.movieDetail,
                             onFavouriteClicked = {
                                 movieDetailAction(MovieDetailAction.OnSaveFavouriteClicked)
-                                job?.cancel()
-                                job = coroutineScope.launch {
-                                    val result = snackBarHostState.showSnackbar(
-                                        message = "${movieDetailState.movieDetail.title} Saved to favourite",
-                                        actionLabel = "Undo",
-                                        duration = SnackbarDuration.Short)
-
-                                    when(result) {
-                                        SnackbarResult.Dismissed -> {
-                                            /* no-op */
-                                        }
-                                        SnackbarResult.ActionPerformed -> {
-                                            println("Undo from saved, remove from db")
-                                            movieDetailAction(MovieDetailAction.OnDeleteFavouriteClicked)
-                                        }
-                                    }
-                                }
                             }
                         )
 
@@ -215,7 +213,8 @@ fun PreviewMovieDetailsScreen() {
     MaterialTheme {
         MovieDetailsScreen(
             movieDetailState = MovieDetailState(),
-            movieDetailAction = {}
+            movieDetailAction = {},
+            snackBarHostState = SnackbarHostState()
         )
     }
 }

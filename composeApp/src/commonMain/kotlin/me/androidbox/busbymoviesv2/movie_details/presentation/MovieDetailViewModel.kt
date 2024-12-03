@@ -3,12 +3,14 @@ package me.androidbox.busbymoviesv2.movie_details.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -45,6 +47,9 @@ class MovieDetailViewModel(
             started = SharingStarted.WhileSubscribed(5_000L),
             initialValue = MovieDetailState()
         )
+
+    private val _movieDetailEvent = Channel<MovieDetailEvent>()
+    val movieDetailEvent = _movieDetailEvent.receiveAsFlow()
 
     private var configurationModel: ConfigurationModel? = null
     private var imageSize: String = "w500"
@@ -184,17 +189,35 @@ class MovieDetailViewModel(
     }
 
     private fun saveFavouriteMovie() {
-        viewModelScope.launch {
-            movieDetailRepository.insertFavouriteMovie(
-                MovieFavouriteModel(
-                    id = movieDetailState.value.movieDetail.id,
-                    title = movieDetailState.value.movieDetail.title,
-                    tagline = movieDetailState.value.movieDetail.tagline,
-                    releaseDate = movieDetailState.value.movieDetail.releaseDate,
-                    voteCount = movieDetailState.value.movieDetail.voteCount,
-                    voteAverage = movieDetailState.value.movieDetail.voteAverage
+        if (!movieDetailState.value.isSavingFavourite) {
+            viewModelScope.launch {
+                _movieDetailState.update { movieDetailState ->
+                    movieDetailState.copy(
+                        isSavingFavourite = true,
+                        hasSavedFavourite = false
+                    )
+                }
+
+                movieDetailRepository.insertFavouriteMovie(
+                    MovieFavouriteModel(
+                        id = movieDetailState.value.movieDetail.id,
+                        title = movieDetailState.value.movieDetail.title,
+                        tagline = movieDetailState.value.movieDetail.tagline,
+                        releaseDate = movieDetailState.value.movieDetail.releaseDate,
+                        voteCount = movieDetailState.value.movieDetail.voteCount,
+                        voteAverage = movieDetailState.value.movieDetail.voteAverage
+                    )
                 )
-            )
+
+                _movieDetailState.update { movieDetailState ->
+                    movieDetailState.copy(
+                        isSavingFavourite = false,
+                        hasSavedFavourite = true
+                    )
+                }
+
+                _movieDetailEvent.send(MovieDetailEvent.OnFavouriteSaved)
+            }
         }
     }
 }
