@@ -8,6 +8,5 @@ import androidx.room.RoomDatabase
     version = 1
 )
 abstract class MovieDetailDatabase : RoomDatabase() {
-
     abstract fun movieDetailDao(): MovieDetailDao
 }

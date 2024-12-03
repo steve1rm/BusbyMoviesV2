@@ -130,6 +130,7 @@ fun MovieDetailsScreen(
                         MovieDetailHeader(
                             movieDetail = movieDetailState.movieDetail,
                             onFavouriteClicked = {
+                                movieDetailAction(MovieDetailAction.OnFavouriteClicked)
                                 job?.cancel()
                                 job = coroutineScope.launch {
                                     val result = snackBarHostState.showSnackbar(

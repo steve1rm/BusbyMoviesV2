@@ -28,13 +28,13 @@ data class MovieDetailsScreenRoute(private val movieId: Int) : Screen {
             movieDetailState = movieDetailState,
             movieDetailAction = { action ->
                 when(action) {
-                    MovieDetailAction.OnFavouriteClicked -> TODO()
                     MovieDetailAction.OnMovieActorClicked -> TODO()
                     is MovieDetailAction.OnHomePageClicked -> {
                         urlHandler.openUri(action.url)
                     }
                     MovieDetailAction.OnReviewClicked -> TODO()
-                    is MovieDetailAction.OnSimilarMovieClicked -> {
+                    else -> {
+                        /** Handle these in the viewmodel as they require any navigation */
                         movieDetailViewModel.onMovieDetailAction(action)
                     }
                 }

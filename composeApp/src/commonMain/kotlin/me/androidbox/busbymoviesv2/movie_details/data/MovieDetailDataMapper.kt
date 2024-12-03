@@ -105,18 +105,6 @@ fun VideoResultsDto.toVideosResultsModel(): VideoResultsModel {
     )
 }
 
-fun MovieDetailModel.toMovieDetailEntity(): MovieFavouriteEntity {
-    return MovieFavouriteEntity(
-        id = this.id,
-        releaseDate = this.releaseDate,
-        tagline = this.tagline,
-        title = this.title,
-        voteAverage = this.voteAverage,
-        voteCount = this.voteCount,
-        dateAdded = Clock.System.now().toEpochMilliseconds()
-    )
-}
-
 fun MovieFavouriteEntity.toMovieFavouriteModel(): MovieFavouriteModel {
     return MovieFavouriteModel(
         id = this.id,

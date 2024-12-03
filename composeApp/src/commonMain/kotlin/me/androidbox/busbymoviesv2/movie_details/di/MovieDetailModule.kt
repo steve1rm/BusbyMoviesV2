@@ -2,7 +2,7 @@ package me.androidbox.busbymoviesv2.movie_details.di
 
 import io.ktor.client.HttpClient
 import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUseCase
-import me.androidbox.busbymoviesv2.movie_details.data.entities.MovieDetailDao
+import me.androidbox.busbymoviesv2.movie_details.data.entities.MovieDetailDatabase
 import me.androidbox.busbymoviesv2.movie_details.data.local_data_source.imp.MovieDetailLocalDataSource
 import me.androidbox.busbymoviesv2.movie_details.data.local_data_source.imp.MovieDetailLocalDataSourceImp
 import me.androidbox.busbymoviesv2.movie_details.data.remote_data_source.MovieDetailRemoteDataSource
@@ -33,7 +33,7 @@ val movieDetailModule = module {
     }
 
     factory<MovieDetailLocalDataSource> {
-        MovieDetailLocalDataSourceImp(get<MovieDetailDao>())
+        MovieDetailLocalDataSourceImp(get<MovieDetailDatabase>())
     }
 
     factory<MovieDetailRepository> {
@@ -48,6 +48,7 @@ val movieDetailModule = module {
             configurationUseCase = get<ConfigurationUseCase>(),
             movieCreditsUseCase = get<MovieCreditsUseCase>(),
             similarMoviesUseCase = get<SimilarMoviesUseCase>(),
+            movieDetailRepository = get<MovieDetailRepository>(),
             movieId = movieId
         )
     }

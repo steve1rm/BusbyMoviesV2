@@ -3,7 +3,7 @@ package me.androidbox.busbymoviesv2.movie_details.data.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "MovieFavouriteEntity")
 data class MovieFavouriteEntity(
     @PrimaryKey
     val id: Int,

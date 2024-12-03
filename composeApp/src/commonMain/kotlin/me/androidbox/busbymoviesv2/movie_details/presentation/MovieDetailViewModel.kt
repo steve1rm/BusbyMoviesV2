@@ -6,6 +6,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -17,6 +19,8 @@ import me.androidbox.busbymoviesv2.core.domain.utils.onFailure
 import me.androidbox.busbymoviesv2.core.domain.utils.onSuccess
 import me.androidbox.busbymoviesv2.core.presentation.utils.mapImageSize
 import me.androidbox.busbymoviesv2.move_list.presentation.toMovieList
+import me.androidbox.busbymoviesv2.movie_details.data.repository.MovieDetailRepository
+import me.androidbox.busbymoviesv2.movie_details.domain.models.MovieFavouriteModel
 import me.androidbox.busbymoviesv2.movie_details.domain.usecase.MovieCreditsUseCase
 import me.androidbox.busbymoviesv2.movie_details.domain.usecase.MovieDetailUseCase
 import me.androidbox.busbymoviesv2.movie_details.domain.usecase.SimilarMoviesUseCase
@@ -26,6 +30,7 @@ class MovieDetailViewModel(
     private val configurationUseCase: ConfigurationUseCase,
     private val movieCreditsUseCase: MovieCreditsUseCase,
     private val similarMoviesUseCase: SimilarMoviesUseCase,
+    private val movieDetailRepository: MovieDetailRepository,
     private val movieId: Int) : ViewModel() {
 
     private val _movieDetailState = MutableStateFlow(MovieDetailState())
@@ -45,6 +50,13 @@ class MovieDetailViewModel(
     private var imageSize: String = "w500"
 
     init {
+        movieDetailRepository.getAllFavouriteMovies()
+            .onEach { models ->
+                models.map { model ->
+                    println("movieDetail ${model.title}")
+                }
+            }.launchIn(viewModelScope)
+
         viewModelScope.launch {
             println("LAUNCH NETWORK STATUS CANCELLATION")
             val configuration = viewModelScope.async {
@@ -137,7 +149,9 @@ class MovieDetailViewModel(
 
     fun onMovieDetailAction(movieDetailAction: MovieDetailAction) {
         when(movieDetailAction) {
-            MovieDetailAction.OnFavouriteClicked -> TODO()
+            MovieDetailAction.OnFavouriteClicked -> {
+                saveFavouriteMovie()
+            }
             MovieDetailAction.OnMovieActorClicked -> TODO()
             is MovieDetailAction.OnHomePageClicked -> TODO()
             MovieDetailAction.OnReviewClicked -> TODO()
@@ -146,6 +160,21 @@ class MovieDetailViewModel(
                 movieCredits(movieDetailAction.movieId)
                 similarMovies(movieDetailAction.movieId)
             }
+        }
+    }
+
+    private fun saveFavouriteMovie() {
+        viewModelScope.launch {
+            movieDetailRepository.insertFavouriteMovie(
+                MovieFavouriteModel(
+                    id = movieDetailState.value.movieDetail.id,
+                    title = movieDetailState.value.movieDetail.title,
+                    tagline = movieDetailState.value.movieDetail.tagline,
+                    releaseDate = movieDetailState.value.movieDetail.releaseDate,
+                    voteCount = movieDetailState.value.movieDetail.voteCount,
+                    voteAverage = movieDetailState.value.movieDetail.voteAverage
+                )
+            )
         }
     }
 }
