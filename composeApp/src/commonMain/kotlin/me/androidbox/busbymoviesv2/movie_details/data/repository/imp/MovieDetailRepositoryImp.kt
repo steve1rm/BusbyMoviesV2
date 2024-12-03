@@ -62,4 +62,8 @@ class MovieDetailRepositoryImp(
     override fun getAllFavouriteMovies(): Flow<List<MovieFavouriteModel>> {
         return movieDetailLocalDataSource.getAllFavouriteMovies()
     }
+
+    override suspend fun isFavouriteMovie(movieId: Int): Boolean {
+        return movieDetailLocalDataSource.isFavouriteMovie(movieId)
+    }
 }

@@ -81,7 +81,7 @@ fun MovieDetailHeader(
                 shape = RoundedCornerShape(topStart = 60f, topEnd = 60f)
             ),
             onFavouriteClicked = onFavouriteClicked,
-            hasSaved = true
+            isFavourite = true
         )
     }
 }

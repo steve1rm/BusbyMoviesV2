@@ -189,35 +189,19 @@ class MovieDetailViewModel(
     }
 
     private fun saveFavouriteMovie() {
-        if (!movieDetailState.value.isSavingFavourite) {
-            viewModelScope.launch {
-                _movieDetailState.update { movieDetailState ->
-                    movieDetailState.copy(
-                        isSavingFavourite = true,
-                        hasSavedFavourite = false
-                    )
-                }
-
-                movieDetailRepository.insertFavouriteMovie(
-                    MovieFavouriteModel(
-                        id = movieDetailState.value.movieDetail.id,
-                        title = movieDetailState.value.movieDetail.title,
-                        tagline = movieDetailState.value.movieDetail.tagline,
-                        releaseDate = movieDetailState.value.movieDetail.releaseDate,
-                        voteCount = movieDetailState.value.movieDetail.voteCount,
-                        voteAverage = movieDetailState.value.movieDetail.voteAverage
-                    )
+        viewModelScope.launch {
+            movieDetailRepository.insertFavouriteMovie(
+                MovieFavouriteModel(
+                    id = movieDetailState.value.movieDetail.id,
+                    title = movieDetailState.value.movieDetail.title,
+                    tagline = movieDetailState.value.movieDetail.tagline,
+                    releaseDate = movieDetailState.value.movieDetail.releaseDate,
+                    voteCount = movieDetailState.value.movieDetail.voteCount,
+                    voteAverage = movieDetailState.value.movieDetail.voteAverage
                 )
+            )
 
-                _movieDetailState.update { movieDetailState ->
-                    movieDetailState.copy(
-                        isSavingFavourite = false,
-                        hasSavedFavourite = true
-                    )
-                }
-
-                _movieDetailEvent.send(MovieDetailEvent.OnFavouriteSaved)
-            }
+            _movieDetailEvent.send(MovieDetailEvent.OnFavouriteSaved)
         }
     }
 }

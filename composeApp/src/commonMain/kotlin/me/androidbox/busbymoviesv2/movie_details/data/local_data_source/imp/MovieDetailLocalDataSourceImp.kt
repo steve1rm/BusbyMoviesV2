@@ -25,4 +25,8 @@ class MovieDetailLocalDataSourceImp(
             }
         }
     }
+
+    override suspend fun isFavouriteMovie(movieId: Int): Boolean {
+        return movieDetailDatabase.movieDetailDao().isFavouriteMovie(movieId)
+    }
 }

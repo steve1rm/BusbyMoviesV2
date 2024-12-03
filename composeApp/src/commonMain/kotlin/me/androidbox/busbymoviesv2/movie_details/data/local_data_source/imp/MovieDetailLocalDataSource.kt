@@ -9,4 +9,6 @@ interface MovieDetailLocalDataSource {
     suspend fun deleteFavouriteMovie(movieFavouriteModel: MovieFavouriteModel)
 
     fun getAllFavouriteMovies(): Flow<List<MovieFavouriteModel>>
+
+    suspend fun isFavouriteMovie(movieId: Int): Boolean
 }

@@ -38,7 +38,7 @@ fun MovieTitleHeader(
     title: String,
     tagline: String,
     releaseDate: String,
-    hasSaved: Boolean,
+    isFavourite: Boolean,
     modifier: Modifier = Modifier,
     onFavouriteClicked: () -> Unit
 ) {
@@ -146,5 +146,5 @@ fun MovieTitleHeaderPreview() {
         releaseDate = "26 April 1964",
         modifier = Modifier,
         onFavouriteClicked = {},
-        hasSaved = true)
+        isFavourite = true)
 }

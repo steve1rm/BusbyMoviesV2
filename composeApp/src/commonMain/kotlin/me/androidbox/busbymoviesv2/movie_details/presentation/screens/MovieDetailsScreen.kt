@@ -69,27 +69,6 @@ fun MovieDetailsScreen(
     )
 
     val coroutineScope = rememberCoroutineScope()
-/*
-    LaunchedEffect(movieDetailState.hasSavedFavourite) {
-        if(movieDetailState.hasSavedFavourite) {
-            val result = snackBarHostState.showSnackbar(
-                message = "${movieDetailState.movieDetail.title} Saved to favourites",
-                actionLabel = "Undo",
-                duration = SnackbarDuration.Long
-            )
-
-            when (result) {
-                SnackbarResult.Dismissed -> {
-                    *//* no-op *//*
-                }
-
-                SnackbarResult.ActionPerformed -> {
-                    println("Undo from saved, remove from db")
-                    movieDetailAction(MovieDetailAction.OnDeleteFavouriteClicked)
-                }
-            }
-        }
-    }*/
 
     val pagerState = rememberPagerState(
         initialPage = 0,

@@ -16,5 +16,7 @@ interface MovieDetailRepository {
 
     suspend fun insertFavouriteMovie(movieFavouriteModel: MovieFavouriteModel)
     suspend fun deleteFavouriteMovie(movieFavouriteModel: MovieFavouriteModel)
+
+    suspend fun isFavouriteMovie(movieId: Int): Boolean
     fun getAllFavouriteMovies(): Flow<List<MovieFavouriteModel>>
 }
