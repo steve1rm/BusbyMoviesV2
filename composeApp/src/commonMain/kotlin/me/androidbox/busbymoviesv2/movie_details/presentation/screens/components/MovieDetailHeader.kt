@@ -80,7 +80,8 @@ fun MovieDetailHeader(
                 state = hazeState,
                 shape = RoundedCornerShape(topStart = 60f, topEnd = 60f)
             ),
-            onFavouriteClicked = onFavouriteClicked
+            onFavouriteClicked = onFavouriteClicked,
+            hasSaved = true
         )
     }
 }

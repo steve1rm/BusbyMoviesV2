@@ -1,18 +1,24 @@
 package me.androidbox.busbymoviesv2.movie_details.presentation.screens.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,13 +36,18 @@ fun MovieTitleHeader(
     title: String,
     tagline: String,
     releaseDate: String,
+    hasSaved: Boolean,
     modifier: Modifier = Modifier,
     onFavouriteClicked: () -> Unit
 ) {
+    var savedState by remember {
+        mutableStateOf(false)
+    }
+
         Column(
             modifier = modifier
                 .padding(horizontal = 10.dp)
-                .padding(top = 8.dp, bottom = 4.dp)
+                .padding(top = 4.dp, bottom = 4.dp)
         ) {
 
             Row(
@@ -54,18 +65,28 @@ fun MovieTitleHeader(
                     fontWeight = FontWeight.Thin
                 )
 
-                IconButton(
-                    modifier = Modifier.wrapContentSize().size(24.dp),
-                    onClick = {
-                        onFavouriteClicked()
-                    }
-                ) {
-                    Icon(
-                        painter = painterResource(resource = Res.drawable.favourite),
-                        contentDescription = "Favourite",
-                        tint = Color.White
+                val iconColor by animateColorAsState(
+                    targetValue = if(savedState) Color.Red else Color.White,
+                    animationSpec = tween(
+                        durationMillis = 1_000
                     )
-                }
+                )
+
+                Icon(
+                    modifier = Modifier.size(34.dp).clickable(
+                        onClick = {
+                            onFavouriteClicked()
+                            savedState = !savedState
+                        },
+                        indication = null,
+                        interactionSource = remember {
+                            MutableInteractionSource()
+                        }
+                    ),
+                    painter = painterResource(resource = Res.drawable.favourite),
+                    contentDescription = "Favourite",
+                    tint = iconColor
+                )
             }
 
             Divider(
@@ -107,5 +128,6 @@ fun MovieTitleHeaderPreview() {
         tagline = "The Mighty Warriors who became Heroes",
         releaseDate = "26 April 1964",
         modifier = Modifier,
-        onFavouriteClicked = {})
+        onFavouriteClicked = {},
+        hasSaved = true)
 }
