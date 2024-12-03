@@ -46,95 +46,95 @@ fun MovieTitleHeader(
         mutableStateOf(false)
     }
 
-        Column(
-            modifier = modifier
-                .padding(horizontal = 10.dp)
-                .padding(top = 4.dp, bottom = 4.dp)
+    Column(
+        modifier = modifier
+            .padding(horizontal = 10.dp)
+            .padding(top = 4.dp, bottom = 4.dp)
+    ) {
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    modifier = Modifier.weight(1f),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    text = tagline,
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Thin
-                )
-
-                val transition = updateTransition(
-                    targetState = savedState
-                )
-
-                val iconColor by transition.animateColor(
-                    transitionSpec = {
-                        tween(durationMillis = 500)
-                    },
-                    targetValueByState = {
-                        if(savedState) Color.Red else Color.White
-                    })
-
-                val iconSize by transition.animateDp(
-                    transitionSpec = {
-                        tween(durationMillis = 500)
-                    },
-                    targetValueByState = {
-                        if(savedState) 44.dp else 34.dp
-                    })
-
-                Icon(
-                    modifier = Modifier
-                        .size(iconSize)
-                        .clickable(
-                            onClick = {
-                                onFavouriteClicked()
-                                savedState = !savedState
-                            },
-                            indication = null,
-                            interactionSource = remember {
-                                MutableInteractionSource()
-                            }
-                        ),
-                    painter = painterResource(resource = Res.drawable.favourite),
-                    contentDescription = "Favourite",
-                    tint = iconColor
-                )
-            }
-
-            Divider(
-                modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp),
-                color = Color.LightGray,
-                thickness = 1.dp
+            Text(
+                modifier = Modifier.weight(1f),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                text = tagline,
+                color = Color.White,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Thin
             )
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    modifier = Modifier.weight(1f),
-                    text = title,
-                    color = Color.White,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
+            val transition = updateTransition(
+                targetState = savedState
+            )
 
-                Text(
-                    modifier = Modifier.wrapContentWidth(),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    text = releaseDate,
-                    color = Color.White,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
+            val iconColor by transition.animateColor(
+                transitionSpec = {
+                    tween(durationMillis = 500)
+                },
+                targetValueByState = {
+                    if(savedState) Color.Red else Color.White
+                })
+
+            val iconSize by transition.animateDp(
+                transitionSpec = {
+                    tween(durationMillis = 500)
+                },
+                targetValueByState = {
+                    if(savedState) 44.dp else 34.dp
+                })
+
+            Icon(
+                modifier = Modifier
+                    .size(iconSize)
+                    .clickable(
+                        onClick = {
+                            onFavouriteClicked()
+                            savedState = !savedState
+                        },
+                        indication = null,
+                        interactionSource = remember {
+                            MutableInteractionSource()
+                        }
+                    ),
+                painter = painterResource(resource = Res.drawable.favourite),
+                contentDescription = "Favourite",
+                tint = iconColor
+            )
         }
+
+        Divider(
+            modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp),
+            color = Color.LightGray,
+            thickness = 1.dp
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = title,
+                color = Color.White,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+
+            Text(
+                modifier = Modifier.wrapContentWidth(),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                text = releaseDate,
+                color = Color.White,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+    }
 }
 
 @Preview
