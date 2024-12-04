@@ -2,10 +2,12 @@ package me.androidbox.busbymoviesv2.move_list.presentation.screens
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.ThumbUp
@@ -37,7 +39,6 @@ val listOfNavigationItems = listOf(
         selectedIcon = Icons.Filled.Star,
         unSelectedIcon = Icons.Outlined.Star,
         hasExtra = false,
-        badgeCount = 5
     ),
     MovieListNavigationItem(
         title = MovieCategories.POPULAR.titleRes,
@@ -52,5 +53,13 @@ val listOfNavigationItems = listOf(
         selectedIcon = Icons.Filled.DateRange,
         unSelectedIcon = Icons.Outlined.DateRange,
         hasExtra = true
+    ),
+    MovieListNavigationItem(
+        title = MovieCategories.FAVOURITE.titleRes,
+        movieCategory = MovieCategories.FAVOURITE,
+        selectedIcon = Icons.Filled.Favorite,
+        unSelectedIcon = Icons.Outlined.Favorite,
+        hasExtra = true,
+        badgeCount = 6
     )
 )
