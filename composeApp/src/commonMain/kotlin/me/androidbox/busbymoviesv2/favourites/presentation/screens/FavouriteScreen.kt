@@ -10,6 +10,7 @@ import me.androidbox.busbymoviesv2.movie_details.domain.models.MovieFavouriteMod
 @Composable
 fun FavouriteScreen(
     listOfFavouriteMovies: List<MovieFavouriteModel>,
+    onMovieClicked: (movieId: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -22,7 +23,10 @@ fun FavouriteScreen(
             items = listOfFavouriteMovies,
             itemContent = { movieFavouriteModel ->
                 FavouriteMovieItem(
-                    movieFavouriteModel
+                    movieFavouriteModel,
+                    onMovieClicked = { movieId ->
+                        onMovieClicked(movieId)
+                    }
                 )
             }
         )

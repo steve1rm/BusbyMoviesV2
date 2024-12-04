@@ -60,7 +60,7 @@ fun MovieListScreen(
     movieListState: MovieListState,
     onMovieListAction: (MovieListAction) -> Unit,
     movieListPager: LazyPagingItems<MovieResult>,
-    onFavoruiteItemClicked: () -> Unit,
+    onFavouriteItemClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollState = movieListPager.rememberLazyGridScrollState()
@@ -246,13 +246,14 @@ fun MovieListScreen(
                     ) {
                         NavigationBottomBar(
                             listOfNavigationItems,
+                            favouriteMovieCount = 4,
                             selectedItemIndex = selectedItemIndex,
                             onItemClicked = { movieCategory, index ->
                                 selectedItemIndex = index
 
                                 when (movieCategory) {
                                     MovieCategories.FAVOURITE -> {
-                                        onFavoruiteItemClicked()
+                                        onFavouriteItemClicked()
                                     }
                                     else -> {
                                         onMovieListAction(MovieListAction.OnMovieListNavigationItemClicked(movieCategory))
