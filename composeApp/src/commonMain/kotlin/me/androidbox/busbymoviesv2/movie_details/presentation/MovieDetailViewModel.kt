@@ -186,7 +186,8 @@ class MovieDetailViewModel(
                     tagline = movieDetailState.value.movieDetail.tagline,
                     releaseDate = movieDetailState.value.movieDetail.releaseDate,
                     voteCount = movieDetailState.value.movieDetail.voteCount,
-                    voteAverage = movieDetailState.value.movieDetail.voteAverage
+                    voteAverage = movieDetailState.value.movieDetail.voteAverage,
+                    imageUrl = movieDetailState.value.movieDetail.posterPath
                 )
             )
 
@@ -208,7 +209,8 @@ class MovieDetailViewModel(
                     tagline = movieDetailState.value.movieDetail.tagline,
                     releaseDate = movieDetailState.value.movieDetail.releaseDate,
                     voteCount = movieDetailState.value.movieDetail.voteCount,
-                    voteAverage = movieDetailState.value.movieDetail.voteAverage
+                    voteAverage = movieDetailState.value.movieDetail.voteAverage,
+                    imageUrl = movieDetailState.value.movieDetail.posterPath
                 )
             )
 

@@ -7,5 +7,6 @@ data class MovieFavouriteModel(
     val releaseDate: String,
     val voteCount: Int,
     val voteAverage: Double,
-    val dateAdded: Long = 0
+    val dateAdded: Long = 0,
+    val imageUrl: String
 )

@@ -113,7 +113,8 @@ fun MovieFavouriteEntity.toMovieFavouriteModel(): MovieFavouriteModel {
         title = this.title,
         voteAverage = this.voteAverage,
         voteCount = this.voteCount,
-        dateAdded = this.dateAdded
+        dateAdded = this.dateAdded,
+        imageUrl = this.imageUrl
     )
 }
 
@@ -127,6 +128,7 @@ fun MovieFavouriteModel.toMovieFavouriteEntity(): MovieFavouriteEntity {
         title = this.title,
         voteAverage = this.voteAverage,
         voteCount = this.voteCount,
+        imageUrl = this.imageUrl,
         dateAdded = currentTime
             .toLocalDateTime(TimeZone.currentSystemDefault())
             .toInstant(TimeZone.currentSystemDefault())

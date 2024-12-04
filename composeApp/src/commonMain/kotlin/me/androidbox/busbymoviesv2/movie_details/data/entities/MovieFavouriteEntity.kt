@@ -12,5 +12,6 @@ data class MovieFavouriteEntity(
     val releaseDate: String,
     val voteCount: Int,
     val voteAverage: Double,
-    val dateAdded: Long
+    val dateAdded: Long,
+    val imageUrl: String
 )
