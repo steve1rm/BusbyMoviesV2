@@ -7,11 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.cash.paging.PagingData
 import app.cash.paging.cachedIn
+import app.cash.paging.map
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.androidbox.busbymoviesv2.configuration.domain.models.ConfigurationModel
 import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUseCase
@@ -41,6 +44,7 @@ class MoveListViewModel(
     private var imageSize: String = "w500"
 
     init {
+        println("Favourites init")
         viewModelScope.launch {
             val configuration = viewModelScope.async {
                 configurationUseCase.execute()
@@ -50,14 +54,18 @@ class MoveListViewModel(
                 mapImageSize(it)
             } ?: "original"
 
-            observePaging(imageSize, Routes.NOW_PLAYING)
-
+            println("Favourites before")
             getFavouriteMoviesUseCase.execute()
-                .collect { listOfFavouriteMovies ->
-                    movieListState.copy(
+                .onEach { listOfFavouriteMovies ->
+                    println("Favourites ${listOfFavouriteMovies.count()}")
+                    movieListState = movieListState.copy(
                         favouriteMovieCount = listOfFavouriteMovies.count()
                     )
-                }
+                    println("Favourites movieListState ${movieListState.favouriteMovieCount}")
+                }.launchIn(viewModelScope)
+            println("Favourites after")
+
+            observePaging(imageSize, Routes.NOW_PLAYING)
         }
     }
 

@@ -46,6 +46,7 @@ import app.cash.paging.LoadStateError
 import app.cash.paging.LoadStateLoading
 import app.cash.paging.LoadStateNotLoading
 import app.cash.paging.compose.LazyPagingItems
+import me.androidbox.busbymoviesv2.favourites.di.favouriteMovieModule
 import me.androidbox.busbymoviesv2.move_list.presentation.MovieCategories
 import me.androidbox.busbymoviesv2.move_list.presentation.MovieListAction
 import me.androidbox.busbymoviesv2.move_list.presentation.MovieListState
@@ -244,9 +245,11 @@ fun MovieListScreen(
                     BottomNavigation(
                         elevation = BottomNavigationDefaults.Elevation
                     ) {
+                        println("Favourites navigation ${movieListState.favouriteMovieCount}")
+
                         NavigationBottomBar(
                             listOfNavigationItems,
-                            favouriteMovieCount = 4,
+                            favouriteMovieCount = movieListState.favouriteMovieCount,
                             selectedItemIndex = selectedItemIndex,
                             onItemClicked = { movieCategory, index ->
                                 selectedItemIndex = index
