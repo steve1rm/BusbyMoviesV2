@@ -6,6 +6,7 @@ import me.androidbox.busbymoviesv2.move_list.data.repository.imp.MovieListPaging
 import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListUseCase
 import me.androidbox.busbymoviesv2.move_list.domain.usecases.imp.MovieListUseCaseImp
 import me.androidbox.busbymoviesv2.move_list.presentation.MoveListViewModel
+import me.androidbox.busbymoviesv2.movie_details.domain.usecase.GetFavouriteMoviesUseCase
 import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -18,6 +19,11 @@ val movieListModule = module {
     // factoryOf(::MovieListNowPlayingUseCaseImp).bind(MovieListNowPlayingUseCase::class)
 
     viewModel {
-        MoveListViewModel(get<MovieListUseCase>(), get<ConfigurationUseCase>(), get<MovieListPagingRepositoryImp>())
+        MoveListViewModel(
+            get<MovieListUseCase>(),
+            get<ConfigurationUseCase>(),
+            get<MovieListPagingRepositoryImp>(),
+            get<GetFavouriteMoviesUseCase>()
+        )
     }
 }

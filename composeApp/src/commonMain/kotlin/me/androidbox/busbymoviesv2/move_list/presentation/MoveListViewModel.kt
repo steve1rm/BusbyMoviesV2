@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.cash.paging.PagingData
 import app.cash.paging.cachedIn
-import app.cash.paging.map
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -23,11 +22,13 @@ import me.androidbox.busbymoviesv2.core.presentation.utils.toMovieWithImageSize
 import me.androidbox.busbymoviesv2.move_list.data.repository.imp.MovieListPagingRepositoryImp
 import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListUseCase
 import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieResult
+import me.androidbox.busbymoviesv2.movie_details.domain.usecase.GetFavouriteMoviesUseCase
 
 class MoveListViewModel(
     private val movieListUseCase: MovieListUseCase,
     private val configurationUseCase: ConfigurationUseCase,
-    private val movieListPagingRepositoryImp: MovieListPagingRepositoryImp
+    private val movieListPagingRepositoryImp: MovieListPagingRepositoryImp,
+    private val getFavouriteMoviesUseCase: GetFavouriteMoviesUseCase
 ) : ViewModel() {
 
     private val _movieListFlow = MutableStateFlow<PagingData<MovieResult>>(PagingData.empty())
@@ -50,6 +51,13 @@ class MoveListViewModel(
             } ?: "original"
 
             observePaging(imageSize, Routes.NOW_PLAYING)
+
+            getFavouriteMoviesUseCase.execute()
+                .collect { listOfFavouriteMovies ->
+                    movieListState.copy(
+                        favouriteMovieCount = listOfFavouriteMovies.count()
+                    )
+                }
         }
     }
 

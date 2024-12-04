@@ -60,6 +60,6 @@ val listOfNavigationItems = listOf(
         selectedIcon = Icons.Filled.Favorite,
         unSelectedIcon = Icons.Outlined.Favorite,
         hasExtra = true,
-        badgeCount = 6
+        badgeCount = 0
     )
 )
