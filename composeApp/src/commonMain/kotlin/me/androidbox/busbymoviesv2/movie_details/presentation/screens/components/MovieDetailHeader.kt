@@ -27,7 +27,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MovieDetailHeader(
-    movieDetail: MovieDetail
+    movieDetail: MovieDetail,
+    isFavourite: Boolean,
+    onFavouriteClicked: () -> Unit
 ) {
     val hazeState = remember { HazeState() }
 
@@ -78,7 +80,9 @@ fun MovieDetailHeader(
             modifier = Modifier.align(Alignment.BottomCenter).hazeChild(
                 state = hazeState,
                 shape = RoundedCornerShape(topStart = 60f, topEnd = 60f)
-            )
+            ),
+            onFavouriteClicked = onFavouriteClicked,
+            isFavourite = isFavourite
         )
     }
 }
@@ -86,5 +90,5 @@ fun MovieDetailHeader(
 @Preview
 @Composable
 fun MovieDetailHeaderPreview() {
-    MovieDetailHeader(movieDetail = MovieDetail())
+    MovieDetailHeader(movieDetail = MovieDetail(), onFavouriteClicked = {}, isFavourite = true)
 }

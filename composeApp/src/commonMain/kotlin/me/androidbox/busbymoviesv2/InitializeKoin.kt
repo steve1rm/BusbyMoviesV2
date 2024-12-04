@@ -2,6 +2,7 @@ package me.androidbox.busbymoviesv2
 
 import me.androidbox.busbymoviesv2.configuration.di.configurationModule
 import me.androidbox.busbymoviesv2.core.data.di.coreDataModule
+import me.androidbox.busbymoviesv2.favourites.di.favouriteMovieModule
 import me.androidbox.busbymoviesv2.move_list.data.di.movieListDataModule
 import me.androidbox.busbymoviesv2.move_list.di.movieListModule
 import me.androidbox.busbymoviesv2.movie_details.di.movieDetailModule
@@ -20,6 +21,7 @@ fun initializeKoin(koinConfig: KoinAppDeclaration? = null, vararg platformSpecif
             movieListModule,
             configurationModule,
             movieDetailModule,
+            favouriteMovieModule,
             *platformSpecificModules
         )
     }

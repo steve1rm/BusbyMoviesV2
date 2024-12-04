@@ -18,6 +18,9 @@ import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Snackbar
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.runtime.Composable
@@ -43,6 +46,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun MovieDetailsScreen(
     movieDetailState: MovieDetailState,
+    snackBarHostState: SnackbarHostState,
     movieDetailAction: (movieDetailAction: MovieDetailAction) -> Unit
 ) {
 
@@ -65,6 +69,7 @@ fun MovieDetailsScreen(
     )
 
     val coroutineScope = rememberCoroutineScope()
+
     val pagerState = rememberPagerState(
         initialPage = 0,
         pageCount = {
@@ -72,8 +77,10 @@ fun MovieDetailsScreen(
         }
     )
 
-    @OptIn(ExperimentalMaterialApi::class)
     BottomSheetScaffold(
+        topBar = {
+            /** Topbar to go here in the future */
+        },
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         sheetPeekHeight = 0.dp,
         scaffoldState = bottomSheetState,
@@ -115,7 +122,16 @@ fun MovieDetailsScreen(
                     )
                     Column(modifier = Modifier.fillMaxSize()) {
                         MovieDetailHeader(
-                            movieDetail = movieDetailState.movieDetail
+                            movieDetail = movieDetailState.movieDetail,
+                            onFavouriteClicked = {
+                                if(movieDetailState.isFavourite) {
+                                    movieDetailAction(MovieDetailAction.OnDeleteFavouriteClicked)
+                                }
+                                else {
+                                    movieDetailAction(MovieDetailAction.OnSaveFavouriteClicked)
+                                }
+                            },
+                            isFavourite = movieDetailState.isFavourite
                         )
 
                         Box(modifier = Modifier.fillMaxSize()) {
@@ -141,10 +157,10 @@ fun MovieDetailsScreen(
                                 MovieDetailOverview(
                                     movieDetailState = movieDetailState,
                                     onMovieClicked = { movieId ->
-                                       movieDetailAction(MovieDetailAction.OnSimilarMovieClicked(movieId))
-                                       },
+                                        movieDetailAction(MovieDetailAction.OnSimilarMovieClicked(movieId))
+                                    },
                                     onHomePageClicked = { url ->
-                                       movieDetailAction(MovieDetailAction.OnHomePageClicked(url))
+                                        movieDetailAction(MovieDetailAction.OnHomePageClicked(url))
                                     },
                                     onTrailerClicked = {
                                         coroutineScope.launch {
@@ -162,7 +178,18 @@ fun MovieDetailsScreen(
                     }
                 }
             }
-        })
+        },
+        snackbarHost = { _ ->
+            SnackbarHost(
+               hostState = snackBarHostState,
+            ) { snackBarData ->
+                Snackbar(
+                    actionColor = Color.Green,
+                    snackbarData = snackBarData
+                )
+            }
+        }
+    )
 }
 
 @Composable
@@ -171,7 +198,8 @@ fun PreviewMovieDetailsScreen() {
     MaterialTheme {
         MovieDetailsScreen(
             movieDetailState = MovieDetailState(),
-            movieDetailAction = {}
+            movieDetailAction = {},
+            snackBarHostState = SnackbarHostState()
         )
     }
 }

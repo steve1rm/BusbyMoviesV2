@@ -12,5 +12,6 @@ data class MovieDetailState(
     val movieCredits: Credits = Credits(),
     val isLoadingDetails: Boolean = false,
     val isLoadingSimilarMovies: Boolean = false,
-    val isLoadingCredits: Boolean = false
+    val isLoadingCredits: Boolean = false,
+    val isFavourite: Boolean = false /** saved has completed */
 )

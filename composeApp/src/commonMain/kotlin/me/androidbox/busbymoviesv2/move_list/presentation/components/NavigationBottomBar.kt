@@ -15,6 +15,7 @@ import org.jetbrains.compose.resources.stringResource
 fun RowScope.NavigationBottomBar(
     listOfNavigationItems: List<MovieListNavigationItem>,
     selectedItemIndex: Int,
+    favouriteMovieCount: Int,
     onItemClicked: (movieCategory: MovieCategories, index: Int) -> Unit) {
 
     listOfNavigationItems.forEachIndexed { index, navigationItem ->
@@ -38,7 +39,7 @@ fun RowScope.NavigationBottomBar(
                     badge = {
                         if (navigationItem.badgeCount != null) {
                             Badge {
-                                Text(text = navigationItem.badgeCount.toString())
+                                Text(text = favouriteMovieCount.toString())
                             }
                         } else if (navigationItem.hasExtra) {
                             Badge()
