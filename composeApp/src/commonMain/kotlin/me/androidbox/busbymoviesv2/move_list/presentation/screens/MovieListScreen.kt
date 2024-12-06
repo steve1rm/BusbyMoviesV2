@@ -19,12 +19,16 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -91,6 +95,17 @@ fun MovieListScreen(
                 TopAppBar(
                     title = {
                         Text(stringResource(resource = listOfNavigationItems[selectedItemIndex].title))
+                    },
+                    actions = {
+                        IconButton(
+                            onClick = onFavouriteItemClicked,
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Filled.Favorite,
+                                    contentDescription = "Click to access favourites"
+                                )
+                            }
+                        )
                     }
                 )
             },
