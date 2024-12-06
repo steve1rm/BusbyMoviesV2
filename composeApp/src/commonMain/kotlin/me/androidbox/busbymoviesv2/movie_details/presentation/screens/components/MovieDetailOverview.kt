@@ -3,6 +3,7 @@
 package me.androidbox.busbymoviesv2.movie_details.presentation.screens.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -36,8 +38,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -60,6 +64,8 @@ import kotlin.time.Duration.Companion.minutes
 fun MovieDetailOverview(
     movieDetailState: MovieDetailState,
     onMovieClicked: (movieId: Int) -> Unit,
+    onTrailerClicked: () -> Unit,
+    onHomePageClicked: (url: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var maxWidth by remember {
@@ -116,7 +122,6 @@ fun MovieDetailOverview(
                             color = Color.Black,
                             text = "${movieDetailState.movieDetail.runtime.minutes}"
                         )
-
                     }
 
                     /** Don't show if there is zero budget or revenue */
@@ -151,6 +156,25 @@ fun MovieDetailOverview(
                             )
                         }
                     }
+
+                    Spacer(modifier = Modifier.height(6.dp))
+
+                    if(movieDetailState.movieDetail.homepage.isNotBlank()) {
+                        Text(
+                            modifier = Modifier.clickable(
+                                onClick = {
+                                    onHomePageClicked(movieDetailState.movieDetail.homepage)
+                                }
+                            ),
+                            text = "Movie Homepage",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            fontStyle = FontStyle.Italic,
+                            textDecoration = TextDecoration.Underline,
+                            textAlign = TextAlign.Center,
+                            color = Color(0xFF38A0FF))
+                    }
+
                 }
 
                 Row(
@@ -167,11 +191,13 @@ fun MovieDetailOverview(
                         onClicked = {}
                     )
 
+                    /** Show trailers (excluding the first, which is in the header) only if available */
+                    val alpha = if(movieDetailState.otherVideoTrailers.isNotEmpty()) 0.6f else 0.0f
                     MovieButton(
-                        modifier = Modifier.alpha(0.6f).weight(1f),
+                        modifier = Modifier.alpha(alpha).weight(1f),
                         iconRes = Res.drawable.movie,
-                        text = "10 Trailers",
-                        onClicked = {}
+                        text = "${movieDetailState.otherVideoTrailers.count()} Trailers",
+                        onClicked = onTrailerClicked
                     )
                 }
             }
@@ -182,7 +208,7 @@ fun MovieDetailOverview(
 
         /** Overview */
         Column(modifier = Modifier
-            .fillMaxSize().offset(y = -(24.dp)).zIndex(-1f).alpha(0.9f)
+            .fillMaxSize().offset(y = -(24.dp)).zIndex(-1f).alpha(0.8f)
             .background(color = Color.White, shape = RoundedCornerShape(topStart = 22.dp, topEnd = 22.dp))) {
             Text(
                 modifier = Modifier.padding(start = 8.dp, top = 4.dp),
@@ -306,6 +332,37 @@ fun MovieDetailOverview(
                         }
                     )
                 }
+
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                val pagerState = rememberPagerState(
+                    initialPage = 0,
+                    pageCount = {
+                        movieDetailState.movieDetail.videos.results.count()
+                    }
+                )
+
+               /* HorizontalPager(
+                    state = pagerState,
+                    pageContent = {page ->
+                        YouTubePlayerView(
+                            modifier = Modifier.aspectRatio(16f / 9f),
+                            videoId = movieDetailState.movieDetail.videos.results[page].key,
+                            playerConfig = PlayerConfig(
+                                isDurationVisible = false,
+                                isSeekBarVisible = false,
+                                isScreenResizeEnabled = false,
+                                isPause = true,
+                                loop = false,
+                                fastBackwardIconResource = null,
+                                fastForwardIconResource = null,
+                            )
+                        )
+                    }
+                )*/
+
+                Spacer(modifier = Modifier.height(16.dp))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -319,7 +376,9 @@ fun PreviewMovieDetailOverview() {
     MaterialTheme {
         MovieDetailOverview(
            movieDetailState = MovieDetailState(),
-            onMovieClicked = {}
+            onMovieClicked = {},
+            onHomePageClicked = {},
+            onTrailerClicked = {}
         )
     }
 }

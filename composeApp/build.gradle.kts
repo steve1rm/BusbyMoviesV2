@@ -11,6 +11,8 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.serialization)
     alias(libs.plugins.gmazzo.buildconfig)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -93,7 +95,10 @@ kotlin {
             implementation(libs.windowSizeMultiplatform)
             implementation("io.github.oleksandrbalan:textflow-material3:1.2.1")
             implementation("io.coil-kt.coil3:coil-compose:3.0.0")
-            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+            implementation(libs.kotlinx.datetime)
+
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
         }
 
         androidMain.dependencies {
@@ -105,14 +110,14 @@ kotlin {
             implementation(libs.koin.androidx.compose)
             implementation(libs.paging.common)
             implementation(libs.paging.compose.common)
-
+            implementation(libs.androidyoutubeplayer)
+            implementation(libs.room.runtime.android)
         }
 
         nativeMain.dependencies {
             implementation(libs.ktor.engine.cio)
             implementation(libs.paging.common)
             implementation(libs.paging.compose.common)
-
         }
 
         desktopMain.dependencies {
@@ -167,8 +172,15 @@ android {
         debugImplementation(compose.uiTooling)
     }
 }
+
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
     implementation(project(":shared"))
+
+    ksp(libs.room.compiler)
 }
 
 compose.desktop {

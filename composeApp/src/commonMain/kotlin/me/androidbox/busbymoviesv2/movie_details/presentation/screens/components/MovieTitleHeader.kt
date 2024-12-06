@@ -1,18 +1,24 @@
 package me.androidbox.busbymoviesv2.movie_details.presentation.screens.components
 
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,70 +36,98 @@ fun MovieTitleHeader(
     title: String,
     tagline: String,
     releaseDate: String,
-    modifier: Modifier = Modifier
+    isFavourite: Boolean,
+    modifier: Modifier = Modifier,
+    onFavouriteClicked: () -> Unit
 ) {
-        Column(
-            modifier = modifier
-                .padding(horizontal = 10.dp)
-                .padding(top = 8.dp, bottom = 4.dp)
+
+    Column(
+        modifier = modifier
+            .padding(horizontal = 10.dp)
+            .padding(top = 4.dp, bottom = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    modifier = Modifier.weight(1f),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    text = tagline,
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Thin
-                )
-
-                IconButton(
-                    modifier = Modifier.wrapContentSize().size(24.dp),
-                    onClick = {}
-                ) {
-                    Icon(
-                        painter = painterResource(resource = Res.drawable.favourite),
-                        contentDescription = "Favourite",
-                        tint = Color.White
-                    )
-                }
-            }
-
-            Divider(
-                modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp),
-                color = Color.LightGray,
-                thickness = 1.dp
+            Text(
+                modifier = Modifier.weight(1f),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                text = tagline,
+                color = Color.White,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Thin
             )
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    modifier = Modifier.weight(1f),
-                    text = title,
-                    color = Color.White,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
+            val transition = updateTransition(
+                targetState = isFavourite
+            )
 
-                Text(
-                    modifier = Modifier.wrapContentWidth(),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    text = releaseDate,
-                    color = Color.White,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
+            val iconColor by transition.animateColor(
+                transitionSpec = {
+                    tween(durationMillis = 500)
+                },
+                targetValueByState = {
+                    if(isFavourite) Color.Red else Color.White
+                })
+
+            val iconSize by transition.animateDp(
+                transitionSpec = {
+                    tween(durationMillis = 500)
+                },
+                targetValueByState = {
+                    if(isFavourite) 44.dp else 34.dp
+                })
+
+            Icon(
+                modifier = Modifier
+                    .size(iconSize)
+                    .clickable(
+                        onClick = {
+                            onFavouriteClicked()
+                        },
+                        indication = null,
+                        interactionSource = remember {
+                            MutableInteractionSource()
+                        }
+                    ),
+                painter = painterResource(resource = Res.drawable.favourite),
+                contentDescription = "Favourite",
+                tint = iconColor
+            )
         }
+
+        Divider(
+            modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp),
+            color = Color.LightGray,
+            thickness = 1.dp
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = title,
+                color = Color.White,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+
+            Text(
+                modifier = Modifier.wrapContentWidth(),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                text = releaseDate,
+                color = Color.White,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+    }
 }
 
 @Preview
@@ -103,5 +137,7 @@ fun MovieTitleHeaderPreview() {
         title = "Seven Samurai",
         tagline = "The Mighty Warriors who became Heroes",
         releaseDate = "26 April 1964",
-        modifier = Modifier)
+        modifier = Modifier,
+        onFavouriteClicked = {},
+        isFavourite = true)
 }

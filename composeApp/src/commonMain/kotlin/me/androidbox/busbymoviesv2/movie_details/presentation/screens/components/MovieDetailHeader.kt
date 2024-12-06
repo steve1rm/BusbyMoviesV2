@@ -21,12 +21,15 @@ import kotlinx.datetime.format
 import kotlinx.datetime.format.MonthNames
 import kotlinx.datetime.format.Padding
 import kotlinx.datetime.format.char
+import me.androidbox.busbymoviesv2.VideoPlayer
 import me.androidbox.busbymoviesv2.movie_details.presentation.model.MovieDetail
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MovieDetailHeader(
-    movieDetail: MovieDetail
+    movieDetail: MovieDetail,
+    isFavourite: Boolean,
+    onFavouriteClicked: () -> Unit
 ) {
     val hazeState = remember { HazeState() }
 
@@ -34,21 +37,30 @@ fun MovieDetailHeader(
         modifier = Modifier.fillMaxWidth()
     ) {
 
-        KamelImage(
-            resource = { asyncPainterResource(data = movieDetail.backdropPath) },
-            contentDescription = movieDetail.title,
-            modifier = Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
-            contentScale = ContentScale.FillHeight,
-            onLoading = {_ ->
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = Color.Blue
-                )
-            },
-            onFailure = {
-                it.printStackTrace()
-            },
-        )
+        /** If no videos are available display the image instead */
+        if(movieDetail.videos.results.isNotEmpty()) {
+            VideoPlayer(
+                Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
+                url = movieDetail.videos.results.first().key
+            )
+        }
+        else {
+            KamelImage(
+                resource = { asyncPainterResource(data = movieDetail.backdropPath) },
+                contentDescription = movieDetail.title,
+                modifier = Modifier.aspectRatio(16f / 9f).haze(state = hazeState),
+                contentScale = ContentScale.FillHeight,
+                onLoading = {_ ->
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = Color.Blue
+                    )
+                },
+                onFailure = {
+                    it.printStackTrace()
+                },
+            )
+        }
 
         MovieTitleHeader(
             title = movieDetail.title,
@@ -68,7 +80,9 @@ fun MovieDetailHeader(
             modifier = Modifier.align(Alignment.BottomCenter).hazeChild(
                 state = hazeState,
                 shape = RoundedCornerShape(topStart = 60f, topEnd = 60f)
-            )
+            ),
+            onFavouriteClicked = onFavouriteClicked,
+            isFavourite = isFavourite
         )
     }
 }
@@ -76,5 +90,5 @@ fun MovieDetailHeader(
 @Preview
 @Composable
 fun MovieDetailHeaderPreview() {
-    MovieDetailHeader(movieDetail = MovieDetail())
+    MovieDetailHeader(movieDetail = MovieDetail(), onFavouriteClicked = {}, isFavourite = true)
 }

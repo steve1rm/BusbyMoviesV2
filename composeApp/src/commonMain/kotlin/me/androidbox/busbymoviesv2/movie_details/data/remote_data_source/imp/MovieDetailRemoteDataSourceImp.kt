@@ -24,6 +24,9 @@ class MovieDetailRemoteDataSourceImp(private val httpClient: HttpClient) : Movie
                 url {
                     /** https://api.themoviedb.org/3/movie/1184918 */
                     this.appendPathSegments(movieId.toString(), encodeSlash = true)
+
+                    /** Query parameters */
+                    this.parameters.append("append_to_response", "videos")
                 }
                 headers {
                     this.append("Authorization", "Bearer ${BuildConfig.TMDB_ACCESS_TOKEN_AUTH}")

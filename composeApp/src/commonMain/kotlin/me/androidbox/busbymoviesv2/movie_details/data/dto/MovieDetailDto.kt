@@ -34,5 +34,6 @@ data class MovieDetailDto(
     val voteAverage: Double,
     @SerialName("vote_count")
     val voteCount: Int,
-    val genres: List<GenreDto>
+    val genres: List<GenreDto>,
+    val videos: VideoResultsDto
 )

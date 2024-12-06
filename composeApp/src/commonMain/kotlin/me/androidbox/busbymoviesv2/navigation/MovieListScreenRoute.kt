@@ -25,6 +25,9 @@ data object MovieListScreenRoute : Screen {
         MovieListScreen(
             movieListState = movieListState,
             movieListPager = pager,
+            onFavouriteItemClicked = {
+                navigationItem?.push(MovieFavouriteScreenRoute)
+            },
             onMovieListAction = { movieListAction: MovieListAction ->
                 when(movieListAction) {
                     is MovieListAction.OnMovieClicked -> {
