@@ -53,13 +53,5 @@ val listOfNavigationItems = listOf(
         selectedIcon = Icons.Filled.DateRange,
         unSelectedIcon = Icons.Outlined.DateRange,
         hasExtra = true
-    ),
-    MovieListNavigationItem(
-        title = MovieCategories.FAVOURITE.titleRes,
-        movieCategory = MovieCategories.FAVOURITE,
-        selectedIcon = Icons.Filled.Favorite,
-        unSelectedIcon = Icons.Outlined.Favorite,
-        hasExtra = true,
-        badgeCount = 0
     )
 )

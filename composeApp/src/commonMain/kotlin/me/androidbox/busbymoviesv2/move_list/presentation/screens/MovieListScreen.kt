@@ -15,6 +15,8 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material.Badge
+import androidx.compose.material.BadgedBox
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationDefaults
 import androidx.compose.material.CircularProgressIndicator
@@ -100,10 +102,20 @@ fun MovieListScreen(
                         IconButton(
                             onClick = onFavouriteItemClicked,
                             content = {
-                                Icon(
-                                    imageVector = Icons.Filled.Favorite,
-                                    contentDescription = "Click to access favourites"
-                                )
+                                BadgedBox(
+                                    badge = {
+                                        if (movieListState.favouriteMovieCount > 0) {
+                                            Badge {
+                                                Text(text = movieListState.favouriteMovieCount.toString())
+                                            }
+                                        }
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Favorite,
+                                        contentDescription = "Show favourites movies"
+                                    )
+                                }
                             }
                         )
                     }
@@ -260,23 +272,13 @@ fun MovieListScreen(
                     BottomNavigation(
                         elevation = BottomNavigationDefaults.Elevation
                     ) {
-                        println("Favourites navigation ${movieListState.favouriteMovieCount}")
-
                         NavigationBottomBar(
                             listOfNavigationItems,
                             favouriteMovieCount = movieListState.favouriteMovieCount,
                             selectedItemIndex = selectedItemIndex,
                             onItemClicked = { movieCategory, index ->
                                 selectedItemIndex = index
-
-                                when (movieCategory) {
-                                    MovieCategories.FAVOURITE -> {
-                                        onFavouriteItemClicked()
-                                    }
-                                    else -> {
-                                        onMovieListAction(MovieListAction.OnMovieListNavigationItemClicked(movieCategory))
-                                    }
-                                }
+                                onMovieListAction(MovieListAction.OnMovieListNavigationItemClicked(movieCategory))
                             }
                         )
                     }
