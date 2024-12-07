@@ -113,7 +113,8 @@ class MovieDetailViewModel(
                 is CheckResult.Failure -> {
                     _movieDetailState.update { movieDetailState ->
                         movieDetailState.copy(
-                            isLoadingDetails = true
+                            isLoadingDetails = true,
+                            hasError = true
                         )
                     }
                 }
@@ -173,6 +174,15 @@ class MovieDetailViewModel(
                 movieDetail(movieDetailAction.movieId)
                 movieCredits(movieDetailAction.movieId)
                 similarMovies(movieDetailAction.movieId)
+            }
+
+            MovieDetailAction.OnTryAgain -> {
+                _movieDetailState.update { movieDetailState ->
+                    movieDetailState.copy(hasError = false)
+                }
+                movieDetail(movieId)
+                movieCredits(movieId)
+                similarMovies(movieId)
             }
         }
     }

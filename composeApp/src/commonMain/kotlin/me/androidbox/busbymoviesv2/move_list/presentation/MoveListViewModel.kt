@@ -14,7 +14,10 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onEmpty
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import me.androidbox.busbymoviesv2.configuration.domain.models.ConfigurationModel
 import me.androidbox.busbymoviesv2.configuration.domain.usecases.ConfigurationUseCase
@@ -23,6 +26,7 @@ import me.androidbox.busbymoviesv2.core.domain.utils.CheckResult
 import me.androidbox.busbymoviesv2.core.presentation.utils.mapImageSize
 import me.androidbox.busbymoviesv2.core.presentation.utils.toMovieWithImageSize
 import me.androidbox.busbymoviesv2.move_list.data.repository.imp.MovieListPagingRepositoryImp
+import me.androidbox.busbymoviesv2.move_list.domain.models.MovieResultModel
 import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListUseCase
 import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieResult
 import me.androidbox.busbymoviesv2.movie_details.domain.usecase.GetFavouriteMoviesUseCase
@@ -44,7 +48,6 @@ class MoveListViewModel(
     private var imageSize: String = "w500"
 
     init {
-        println("Favourites init")
         viewModelScope.launch {
             val configuration = viewModelScope.async {
                 configurationUseCase.execute()
@@ -54,16 +57,12 @@ class MoveListViewModel(
                 mapImageSize(it)
             } ?: "original"
 
-            println("Favourites before")
             getFavouriteMoviesUseCase.execute()
                 .onEach { listOfFavouriteMovies ->
-                    println("Favourites ${listOfFavouriteMovies.count()}")
                     movieListState = movieListState.copy(
                         favouriteMovieCount = listOfFavouriteMovies.count()
                     )
-                    println("Favourites movieListState ${movieListState.favouriteMovieCount}")
                 }.launchIn(viewModelScope)
-            println("Favourites after")
 
             observePaging(imageSize, Routes.NOW_PLAYING)
         }
@@ -103,6 +102,8 @@ class MoveListViewModel(
 
                // movieList(action.movieCategory.movieRoute)
                 viewModelScope.launch {
+                    movieListState = movieListState.copy(isLoading = true)
+                    println("Loading before")
                     observePaging(imageSize, action.movieCategory.movieRoute)
                 }
             }

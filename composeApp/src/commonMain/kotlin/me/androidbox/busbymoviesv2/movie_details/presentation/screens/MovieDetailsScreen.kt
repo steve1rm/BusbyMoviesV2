@@ -2,6 +2,7 @@
 
 package me.androidbox.busbymoviesv2.movie_details.presentation.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,9 +20,11 @@ import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Snackbar
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
+import androidx.compose.material.Text
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.runtime.Composable
@@ -100,79 +104,124 @@ fun MovieDetailsScreen(
             )
         },
         content = { paddingValues ->
-            Column(
-                modifier = Modifier.padding(paddingValues).fillMaxSize(),
-            ) {
-                if(movieDetailState.isLoadingDetails) {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(
-                            color = Color.Blue)
+            Box(modifier = Modifier.fillMaxSize().padding(paddingValues),
+                contentAlignment = Alignment.Center) {
+                println("HasError ${movieDetailState.hasError}")
+                if (
+                   movieDetailState.hasError
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "No Internet Connection",
+                            maxLines = 1,
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            color = Color.Red
+                        )
+                        OutlinedButton(
+                            onClick = {
+                                movieDetailAction(MovieDetailAction.OnTryAgain)
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                                .wrapContentWidth(Alignment.CenterHorizontally)
+                        ) {
+                            Text(text = "Try again")
+                        }
                     }
                 }
                 else {
-                    remember(1f) {
-                        ColorMatrix().apply {
-                            this.setToSaturation(1f)
-                        }
-                    }
-
-                    ColorFilter.lighting(
-                        add = Color.White.copy(alpha = 0.2f), // Adjust alpha for lightening intensity
-                        multiply = Color.White
-                    )
-                    Column(modifier = Modifier.fillMaxSize()) {
-                        MovieDetailHeader(
-                            movieDetail = movieDetailState.movieDetail,
-                            onFavouriteClicked = {
-                                if(movieDetailState.isFavourite) {
-                                    movieDetailAction(MovieDetailAction.OnDeleteFavouriteClicked)
-                                }
-                                else {
-                                    movieDetailAction(MovieDetailAction.OnSaveFavouriteClicked)
-                                }
-                            },
-                            isFavourite = movieDetailState.isFavourite
-                        )
-
-                        Box(modifier = Modifier.fillMaxSize()) {
-                            KamelImage(
-                                resource = { asyncPainterResource(data = movieDetailState.movieDetail.backdropPath) },
-                                contentDescription = movieDetailState.movieDetail.title,
+                    Column(
+                        modifier = Modifier.padding(paddingValues).fillMaxSize(),
+                    ) {
+                        if (movieDetailState.isLoadingDetails) {
+                            Box(
                                 modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Crop,
-                                colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }),
-                                alpha = 0.2f,
-                                onLoading = {_ ->
-                                    CircularProgressIndicator(
-                                        modifier = Modifier.align(Alignment.Center),
-                                        color = Color.Blue
-                                    )
-                                },
-                                onFailure = {
-                                    it.printStackTrace()
-                                },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator(
+                                    color = Color.Blue
+                                )
+                            }
+                        } else {
+                            remember(1f) {
+                                ColorMatrix().apply {
+                                    this.setToSaturation(1f)
+                                }
+                            }
+
+                            ColorFilter.lighting(
+                                add = Color.White.copy(alpha = 0.2f), // Adjust alpha for lightening intensity
+                                multiply = Color.White
                             )
                             Column(modifier = Modifier.fillMaxSize()) {
-                                Spacer(modifier = Modifier.height(16.dp))
-                                MovieDetailOverview(
-                                    movieDetailState = movieDetailState,
-                                    onMovieClicked = { movieId ->
-                                        movieDetailAction(MovieDetailAction.OnSimilarMovieClicked(movieId))
-                                    },
-                                    onHomePageClicked = { url ->
-                                        movieDetailAction(MovieDetailAction.OnHomePageClicked(url))
-                                    },
-                                    onTrailerClicked = {
-                                        coroutineScope.launch {
-                                            if(bottomSheetState.bottomSheetState.isCollapsed) {
-                                                bottomSheetState.bottomSheetState.expand()
-                                            }
-                                            else {
-                                                bottomSheetState.bottomSheetState.collapse()
-                                            }
+                                MovieDetailHeader(
+                                    movieDetail = movieDetailState.movieDetail,
+                                    onFavouriteClicked = {
+                                        if (movieDetailState.isFavourite) {
+                                            movieDetailAction(MovieDetailAction.OnDeleteFavouriteClicked)
+                                        } else {
+                                            movieDetailAction(MovieDetailAction.OnSaveFavouriteClicked)
                                         }
-                                    }
+                                    },
+                                    isFavourite = movieDetailState.isFavourite
                                 )
+
+                                Box(modifier = Modifier.fillMaxSize()) {
+                                    KamelImage(
+                                        resource = { asyncPainterResource(data = movieDetailState.movieDetail.backdropPath) },
+                                        contentDescription = movieDetailState.movieDetail.title,
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentScale = ContentScale.Crop,
+                                        colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply {
+                                            setToSaturation(
+                                                0f
+                                            )
+                                        }),
+                                        alpha = 0.2f,
+                                        onLoading = { _ ->
+                                            CircularProgressIndicator(
+                                                modifier = Modifier.align(Alignment.Center),
+                                                color = Color.Blue
+                                            )
+                                        },
+                                        onFailure = {
+                                            it.printStackTrace()
+                                        },
+                                    )
+                                    Column(modifier = Modifier.fillMaxSize()) {
+                                        Spacer(modifier = Modifier.height(16.dp))
+                                        MovieDetailOverview(
+                                            movieDetailState = movieDetailState,
+                                            onMovieClicked = { movieId ->
+                                                movieDetailAction(
+                                                    MovieDetailAction.OnSimilarMovieClicked(
+                                                        movieId
+                                                    )
+                                                )
+                                            },
+                                            onHomePageClicked = { url ->
+                                                movieDetailAction(
+                                                    MovieDetailAction.OnHomePageClicked(
+                                                        url
+                                                    )
+                                                )
+                                            },
+                                            onTrailerClicked = {
+                                                coroutineScope.launch {
+                                                    if (bottomSheetState.bottomSheetState.isCollapsed) {
+                                                        bottomSheetState.bottomSheetState.expand()
+                                                    } else {
+                                                        bottomSheetState.bottomSheetState.collapse()
+                                                    }
+                                                }
+                                            }
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
@@ -181,7 +230,7 @@ fun MovieDetailsScreen(
         },
         snackbarHost = { _ ->
             SnackbarHost(
-               hostState = snackBarHostState,
+                hostState = snackBarHostState,
             ) { snackBarData ->
                 Snackbar(
                     actionColor = Color.Green,

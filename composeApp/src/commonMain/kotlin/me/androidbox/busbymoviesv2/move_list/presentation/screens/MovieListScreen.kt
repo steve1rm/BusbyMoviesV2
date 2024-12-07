@@ -127,11 +127,14 @@ fun MovieListScreen(
                     .pullRefresh(pullToRefreshState),
                     contentAlignment = Alignment.Center) {
 
+                    if (movieListState.isLoading) {
+                        CircularProgressIndicator()
+                    } else {
                         LazyVerticalGrid(
                             columns = GridCells.Fixed(count = 2),
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(start = if(showNavigationRail) 68.dp else 0.dp),
+                                .padding(start = if (showNavigationRail) 68.dp else 0.dp),
                             state = scrollState,
                             content = {
                                 items(
@@ -142,7 +145,11 @@ fun MovieListScreen(
                                     itemContent = { index ->
                                         movieListPager[index]?.let { movieResult ->
                                             MovieListItem(movieResult) { movie ->
-                                                onMovieListAction(MovieListAction.OnMovieClicked(movie.id))
+                                                onMovieListAction(
+                                                    MovieListAction.OnMovieClicked(
+                                                        movie.id
+                                                    )
+                                                )
                                             }
                                         }
                                     }
@@ -220,7 +227,8 @@ fun MovieListScreen(
                                             }
                                         ) {
                                             Box(
-                                                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                                                modifier = Modifier.fillMaxWidth()
+                                                    .padding(vertical = 8.dp),
                                                 contentAlignment = Alignment.Center
                                             ) {
                                                 CircularProgressIndicator(
@@ -266,6 +274,7 @@ fun MovieListScreen(
                             state = pullToRefreshState
                         )
                     }
+                }
             },
             bottomBar = {
                 if(!showNavigationRail) {
