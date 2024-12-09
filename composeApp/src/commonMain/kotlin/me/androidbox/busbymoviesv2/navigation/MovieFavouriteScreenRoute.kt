@@ -20,10 +20,11 @@ data object MovieFavouriteScreenRoute : Screen {
         val navigator = LocalNavigator.current
 
         FavouriteScreen(
-            listOfFavouriteMovies = favouriteMovieState.value.listOfFavouriteMovies,
+            listOfFavouriteMovies = favouriteMovieState.value.listOfFavouriteMovies.toMutableList(),
             onMovieClicked = { movieId ->
                 navigator?.push(MovieDetailsScreenRoute(movieId))
-            }
+            },
+            onFavouriteActions = favouriteMovieViewModel::onFavouriteAction
         )
     }
 }

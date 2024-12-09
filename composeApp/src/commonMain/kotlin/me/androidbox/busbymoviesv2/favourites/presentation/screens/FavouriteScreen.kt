@@ -11,12 +11,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import me.androidbox.busbymoviesv2.core.presentation.components.SwipeToDeleteContainer
+import me.androidbox.busbymoviesv2.favourites.presentation.FavouriteActions
 import me.androidbox.busbymoviesv2.movie_details.domain.models.MovieFavouriteModel
 
 @Composable
 fun FavouriteScreen(
-    listOfFavouriteMovies: List<MovieFavouriteModel>,
+    listOfFavouriteMovies: MutableList<MovieFavouriteModel>,
     onMovieClicked: (movieId: Int) -> Unit,
+    onFavouriteActions: (action: FavouriteActions) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -38,10 +41,21 @@ fun FavouriteScreen(
                     },
                     items = listOfFavouriteMovies,
                     itemContent = { movieFavouriteModel ->
-                        FavouriteMovieItem(
-                            movieFavouriteModel,
-                            onMovieClicked = { movieId ->
-                                onMovieClicked(movieId)
+                        SwipeToDeleteContainer(
+                            item = movieFavouriteModel,
+                            onDelete = { item ->
+                                onFavouriteActions(FavouriteActions.OnDeleteFromFavourites(item))
+                            },
+                            content = {
+                                FavouriteMovieItem(
+                                    movieFavouriteModel,
+                                    onMovieClicked = { movieId ->
+                                        onMovieClicked(movieId)
+                                    },
+                                    onMovieDelete = { movieFavouriteModel ->
+                                        onFavouriteActions(FavouriteActions.OnDeleteFromFavourites(movieFavouriteModel))
+                                    }
+                                )
                             }
                         )
                     }

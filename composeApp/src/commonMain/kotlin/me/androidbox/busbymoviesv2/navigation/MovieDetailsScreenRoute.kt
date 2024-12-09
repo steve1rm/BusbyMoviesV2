@@ -12,6 +12,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.Screen
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import me.androidbox.busbymoviesv2.core.presentation.utils.ObserveAsEvents
 import me.androidbox.busbymoviesv2.movie_details.presentation.MovieDetailAction
@@ -37,12 +38,15 @@ data class MovieDetailsScreenRoute(private val movieId: Int) : Screen {
             SnackbarHostState()
         }
 
+        var job: Job? = null
+
         ObserveAsEvents(
             event = movieDetailViewModel.movieDetailEvent,
             onEvent = { movieDetailEvent ->
+                job?.cancel()
                 when(movieDetailEvent) {
                     MovieDetailEvent.OnFavouriteSaved -> {
-                        coroutineScope.launch {
+                        job = coroutineScope.launch {
                             val snackBarResult = snackBarHostState.showSnackbar(
                                 message = "${movieDetailState.movieDetail.title} Saved to favourites",
                                 actionLabel = "Undo",
@@ -50,8 +54,7 @@ data class MovieDetailsScreenRoute(private val movieId: Int) : Screen {
                             )
 
                             when (snackBarResult) {
-                                SnackbarResult.Dismissed -> { /* no-op */
-                                }
+                                SnackbarResult.Dismissed -> { /* no-op */ }
 
                                 SnackbarResult.ActionPerformed -> {
                                     movieDetailViewModel.onMovieDetailAction(MovieDetailAction.OnDeleteFavouriteClicked)
@@ -60,7 +63,7 @@ data class MovieDetailsScreenRoute(private val movieId: Int) : Screen {
                         }
                     }
                     MovieDetailEvent.OnFavouriteDeleted -> {
-                        coroutineScope.launch {
+                        job = coroutineScope.launch {
                             snackBarHostState.showSnackbar(
                                 message = "${movieDetailState.movieDetail.title} Removed from favourites",
                                 duration = SnackbarDuration.Short

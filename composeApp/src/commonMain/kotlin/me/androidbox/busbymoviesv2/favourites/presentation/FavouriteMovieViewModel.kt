@@ -11,11 +11,14 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import me.androidbox.busbymoviesv2.favourites.presentation.screens.FavouriteMovieState
+import me.androidbox.busbymoviesv2.movie_details.domain.usecase.DeleteFavouriteMovieUseCase
 import me.androidbox.busbymoviesv2.movie_details.domain.usecase.GetFavouriteMoviesUseCase
 
 class FavouriteMovieViewModel(
-    private val getFavouriteMoviesUseCase: GetFavouriteMoviesUseCase
+    private val getFavouriteMoviesUseCase: GetFavouriteMoviesUseCase,
+    private val deleteFavouriteMovieUseCase: DeleteFavouriteMovieUseCase
 ) : ViewModel() {
 
     private var hasFetchedFavourites = false
@@ -46,5 +49,15 @@ class FavouriteMovieViewModel(
                 }
             }
             .launchIn(viewModelScope)
+    }
+
+    fun onFavouriteAction(action: FavouriteActions) {
+        when(action) {
+            is FavouriteActions.OnDeleteFromFavourites -> {
+                viewModelScope.launch {
+                    deleteFavouriteMovieUseCase.execute(action.movieFavouriteModel)
+                }
+            }
+        }
     }
 }

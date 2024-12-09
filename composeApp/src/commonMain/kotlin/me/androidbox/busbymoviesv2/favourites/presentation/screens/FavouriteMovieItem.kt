@@ -38,7 +38,8 @@ import kotlin.math.roundToInt
 fun FavouriteMovieItem(
     favouriteMovieModel: MovieFavouriteModel,
     modifier: Modifier = Modifier,
-    onMovieClicked: (movieId: Int) -> Unit
+    onMovieClicked: (movieId: Int) -> Unit,
+    onMovieDelete: (favouriteModel: MovieFavouriteModel) -> Unit
 ) {
 
     val roundedVoteAverage = remember(favouriteMovieModel.voteAverage) {
