@@ -36,7 +36,7 @@ fun CircularProgressBar(
     fontSize: TextUnit = 12.sp,
     radius: Dp = 38.dp,
     strokeWidth: Dp = 2.dp,
-    animationDuration: Int = 5_000,
+    animationDuration: Int = 250,
     animationDelay: Int = 0) {
 
     var hasAnimationPlayed by remember { mutableStateOf(false) }

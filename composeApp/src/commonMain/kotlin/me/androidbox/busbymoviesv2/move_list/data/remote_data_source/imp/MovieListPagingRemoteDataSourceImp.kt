@@ -32,8 +32,10 @@ class MovieListPagingRemoteDataSourceImp(
                 return LoadResult.Error(Throwable(message = response.exceptionError.toString()))
             }
             is CheckResult.Success -> {
-                val nextKey = if(response.data.movieResultDto.isEmpty()) {
+                println("LIST_PAGER END OF RESULTS ${response.data.totalPages} ${response.data.totalResults} ${response.data.page}")
+                val nextKey = if(response.data.totalPages == position) {
                     /** End of results */
+                    println("LIST_PAGER END OF RESULTS ${response.data.totalPages} $position")
                     null
                 }
                 else {
