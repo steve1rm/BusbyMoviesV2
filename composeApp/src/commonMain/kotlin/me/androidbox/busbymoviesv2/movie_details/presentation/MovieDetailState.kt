@@ -13,5 +13,6 @@ data class MovieDetailState(
     val isLoadingDetails: Boolean = false,
     val isLoadingSimilarMovies: Boolean = false,
     val isLoadingCredits: Boolean = false,
-    val isFavourite: Boolean = false /** saved has completed */
+    val isFavourite: Boolean = false /** saved has completed */,
+    val hasError: Boolean = false
 )

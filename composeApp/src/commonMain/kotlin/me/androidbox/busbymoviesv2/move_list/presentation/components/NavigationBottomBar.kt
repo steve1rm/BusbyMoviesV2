@@ -7,6 +7,7 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import me.androidbox.busbymoviesv2.move_list.presentation.MovieCategories
 import me.androidbox.busbymoviesv2.move_list.presentation.screens.MovieListNavigationItem
 import org.jetbrains.compose.resources.stringResource
@@ -49,7 +50,8 @@ fun RowScope.NavigationBottomBar(
                     Icon(
                         imageVector = if (selectedItemIndex == index)
                             navigationItem.selectedIcon else navigationItem.unSelectedIcon,
-                        contentDescription = stringResource(resource = navigationItem.title)
+                        contentDescription = stringResource(resource = navigationItem.title),
+                        tint = if(stringResource(resource = navigationItem.title) == "Search") Color.Transparent else Color.White
                     )
                 }
             }

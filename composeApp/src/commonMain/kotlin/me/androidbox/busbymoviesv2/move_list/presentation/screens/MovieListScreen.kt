@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -15,16 +16,28 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Badge
+import androidx.compose.material.BadgedBox
+import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FabPosition
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -40,6 +53,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import app.cash.paging.LoadStateError
@@ -91,6 +105,27 @@ fun MovieListScreen(
                 TopAppBar(
                     title = {
                         Text(stringResource(resource = listOfNavigationItems[selectedItemIndex].title))
+                    },
+                    actions = {
+                        IconButton(
+                            onClick = onFavouriteItemClicked,
+                            content = {
+                                BadgedBox(
+                                    badge = {
+                                        if (movieListState.favouriteMovieCount > 0) {
+                                            Badge {
+                                                Text(text = movieListState.favouriteMovieCount.toString())
+                                            }
+                                        }
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Favorite,
+                                        contentDescription = "Show favourites movies"
+                                    )
+                                }
+                            }
+                        )
                     }
                 )
             },
@@ -100,11 +135,14 @@ fun MovieListScreen(
                     .pullRefresh(pullToRefreshState),
                     contentAlignment = Alignment.Center) {
 
+                    if (movieListState.isLoading) {
+                        CircularProgressIndicator()
+                    } else {
                         LazyVerticalGrid(
                             columns = GridCells.Fixed(count = 2),
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(start = if(showNavigationRail) 68.dp else 0.dp),
+                                .padding(start = if (showNavigationRail) 68.dp else 0.dp),
                             state = scrollState,
                             content = {
                                 items(
@@ -115,7 +153,11 @@ fun MovieListScreen(
                                     itemContent = { index ->
                                         movieListPager[index]?.let { movieResult ->
                                             MovieListItem(movieResult) { movie ->
-                                                onMovieListAction(MovieListAction.OnMovieClicked(movie.id))
+                                                onMovieListAction(
+                                                    MovieListAction.OnMovieClicked(
+                                                        movie.id
+                                                    )
+                                                )
                                             }
                                         }
                                     }
@@ -125,10 +167,12 @@ fun MovieListScreen(
                                  * Check loading states */
                                 when {
                                     movieListPager.loadState.refresh is LoadStateNotLoading && movieListPager.itemCount < 0 -> {
+                                        println("LIST_PAGER 162 movieListPager.loadState.refresh is LoadStateNotLoading")
                                         println("REFRESH NO ITEMS")
                                     }
 
                                     movieListPager.loadState.refresh is LoadStateLoading -> {
+                                        println("LIST_PAGER 167 movieListPager.loadState.append is LoadStateLoading [${movieListPager.loadState.refresh.endOfPaginationReached}]")
                                         item(
                                             span = {
                                                 /** Maybe have to change this span when working with landscape or tablet if we have more grid items */
@@ -149,12 +193,20 @@ fun MovieListScreen(
                                         }
                                     }
 
-                                    movieListPager.loadState.refresh is LoadStateNotLoading -> {
+                                    movieListPager.loadState.refresh is LoadStateNotLoading && movieListPager.loadState.append.endOfPaginationReached-> {
                                         /** Stop the refresh indicator as the data has already loaded */
+                                        println("LIST_PAGER 190 movieListPager.loadState.refresh is LoadStateNotLoading [${movieListPager.loadState.refresh.endOfPaginationReached}]")
+                                        isRefreshing = false
+                                    }
+
+                                    movieListPager.loadState.append is LoadStateNotLoading -> {
+                                        /** Stop the refresh indicator as the data has already loaded */
+                                        println("LIST_PAGER 196 movieListPager.loadState.refresh is LoadStateNotLoading [${movieListPager.loadState.refresh.endOfPaginationReached}]")
                                         isRefreshing = false
                                     }
 
                                     movieListPager.loadState.refresh is LoadStateError -> {
+                                        println("LIST_PAGER 201 movieListPager.loadState.refresh is LoadStateError [${movieListPager.loadState.refresh.endOfPaginationReached}]")
                                         item(
                                             span = {
                                                 GridItemSpan(currentLineSpan = 2)
@@ -185,15 +237,17 @@ fun MovieListScreen(
                                             }
                                         }
                                     }
-
+                                    // loadState.append.endOfPaginationReached
                                     movieListPager.loadState.append is LoadStateLoading -> {
+                                        println("LIST_PAGER 228 movieListPager.loadState.append is LoadStateLoading [${movieListPager.loadState.append.endOfPaginationReached}]")
                                         item(
                                             span = {
                                                 GridItemSpan(currentLineSpan = 2)
                                             }
                                         ) {
                                             Box(
-                                                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                                                modifier = Modifier.fillMaxWidth()
+                                                    .padding(vertical = 8.dp),
                                                 contentAlignment = Alignment.Center
                                             ) {
                                                 CircularProgressIndicator(
@@ -205,6 +259,7 @@ fun MovieListScreen(
                                     }
 
                                     movieListPager.loadState.append is LoadStateError -> {
+                                        println("LIST_PAGER 248 movieListPager.loadState.append is LoadStateError [${movieListPager.loadState.append.endOfPaginationReached}]")
                                         item(
                                             span = {
                                                 GridItemSpan(currentLineSpan = 2)
@@ -239,29 +294,31 @@ fun MovieListScreen(
                             state = pullToRefreshState
                         )
                     }
+                }
             },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {
+                        selectedItemIndex = 2 // Index of the search that needs to be highlighted when clicked
+                    }
+                ) {
+                    Icon(imageVector = Icons.Default.Search,
+                        contentDescription = "Search")
+                }
+            },
+            floatingActionButtonPosition = FabPosition.Center,
+            isFloatingActionButtonDocked = true,
+
             bottomBar = {
                 if(!showNavigationRail) {
-                    BottomNavigation(
-                        elevation = BottomNavigationDefaults.Elevation
-                    ) {
-                        println("Favourites navigation ${movieListState.favouriteMovieCount}")
-
+                    BottomNavigation(elevation = BottomNavigationDefaults.Elevation) {
                         NavigationBottomBar(
                             listOfNavigationItems,
                             favouriteMovieCount = movieListState.favouriteMovieCount,
                             selectedItemIndex = selectedItemIndex,
                             onItemClicked = { movieCategory, index ->
                                 selectedItemIndex = index
-
-                                when (movieCategory) {
-                                    MovieCategories.FAVOURITE -> {
-                                        onFavouriteItemClicked()
-                                    }
-                                    else -> {
-                                        onMovieListAction(MovieListAction.OnMovieListNavigationItemClicked(movieCategory))
-                                    }
-                                }
+                                onMovieListAction(MovieListAction.OnMovieListNavigationItemClicked(movieCategory))
                             }
                         )
                     }

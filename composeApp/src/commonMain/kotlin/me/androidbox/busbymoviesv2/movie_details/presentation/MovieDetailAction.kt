@@ -7,4 +7,5 @@ sealed interface MovieDetailAction {
     data object OnMovieActorClicked : MovieDetailAction
     data class OnSimilarMovieClicked(val movieId: Int) : MovieDetailAction
     data class OnHomePageClicked(val url: String) : MovieDetailAction
+    data object OnTryAgain : MovieDetailAction
 }

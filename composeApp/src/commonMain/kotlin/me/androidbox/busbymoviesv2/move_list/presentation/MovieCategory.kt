@@ -4,6 +4,7 @@ import busbymoviesv2.composeapp.generated.resources.Res
 import busbymoviesv2.composeapp.generated.resources.favourites
 import busbymoviesv2.composeapp.generated.resources.now_playing
 import busbymoviesv2.composeapp.generated.resources.popular
+import busbymoviesv2.composeapp.generated.resources.search
 import busbymoviesv2.composeapp.generated.resources.top_rated
 import busbymoviesv2.composeapp.generated.resources.upcoming
 import me.androidbox.busbymoviesv2.core.data.network.Routes
@@ -14,5 +15,5 @@ enum class MovieCategories(val titleRes: StringResource, val movieRoute: String 
     TOP_RATED(Res.string.top_rated, Routes.TOP_RATED),
     POPULAR(Res.string.popular, Routes.POPULAR),
     UPCOMING(Res.string.upcoming, Routes.UPCOMING),
-    FAVOURITE(Res.string.favourites)
+    SEARCH(Res.string.search)
 }
