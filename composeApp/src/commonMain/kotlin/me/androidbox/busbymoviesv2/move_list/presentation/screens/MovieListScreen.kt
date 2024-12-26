@@ -299,7 +299,7 @@ fun MovieListScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-
+                        selectedItemIndex = 2 // Index of the search that needs to be highlighted when clicked
                     }
                 ) {
                     Icon(imageVector = Icons.Default.Search,

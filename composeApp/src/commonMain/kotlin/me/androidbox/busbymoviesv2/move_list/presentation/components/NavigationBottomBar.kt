@@ -51,7 +51,7 @@ fun RowScope.NavigationBottomBar(
                         imageVector = if (selectedItemIndex == index)
                             navigationItem.selectedIcon else navigationItem.unSelectedIcon,
                         contentDescription = stringResource(resource = navigationItem.title),
-                     //   tint = if(stringResource(resource = navigationItem.title) == "Search") Color.Transparent else Color.White
+                        tint = if(stringResource(resource = navigationItem.title) == "Search") Color.Transparent else Color.White
                     )
                 }
             }
