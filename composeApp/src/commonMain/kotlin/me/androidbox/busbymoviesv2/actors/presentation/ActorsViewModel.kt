@@ -17,11 +17,13 @@ import me.androidbox.busbymoviesv2.movie_details.presentation.toCredits
 
 class ActorsViewModel(
     private val movieCreditsUseCase: MovieCreditsUseCase,
-    savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private var hasFetched = false
 
-    private val movieId = savedStateHandle.get<Int>("MOVIE_ID")
+    companion object {
+        const val MOVIE_ID = "MOVIE_ID"
+    }
 
     private val _actorState = MutableStateFlow<ActorState>(ActorState())
     val actorState = _actorState.asStateFlow()
@@ -37,15 +39,21 @@ class ActorsViewModel(
             initialValue = ActorState()
         )
 
+    fun saveMovieId(movieId: Int) {
+        savedStateHandle[MOVIE_ID] = movieId
+    }
+
     fun fetchActors() {
         viewModelScope.launch {
-            try { /** do sometihng here if the movie id is null, Don't display a blank screen */
-           //     if(movieId != null) {
+            try { /** do something here if the movie id is null, Don't display a blank screen */
+                val movieId = savedStateHandle.get<Int>(MOVIE_ID)
+
+                if(movieId  != null) {
                     _actorState.update {  actorState ->
                         actorState.copy(isLoading = true)
                     }
 
-                    movieCreditsUseCase.execute(558449)
+                    movieCreditsUseCase.execute(movieId)
                         .onSuccess { creditsModel ->
                             _actorState.update {  actorState ->
                                 actorState.copy(
@@ -58,7 +66,7 @@ class ActorsViewModel(
                                 actorState.copy(isLoading = false)
                             }
                         }
-        //        }
+                }
             }
             catch (exception: Exception) {
                 _actorState.update {  actorState ->

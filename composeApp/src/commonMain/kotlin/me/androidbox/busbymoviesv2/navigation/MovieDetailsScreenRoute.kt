@@ -88,7 +88,7 @@ data class MovieDetailsScreenRoute(private val movieId: Int) : Screen {
                     }
                     is MovieDetailAction.OnViewAllActorsClicked -> {
                         /** View all actors */
-                        navigator?.push(MovieActorsScreenRoute())
+                        navigator?.push(MovieActorsScreenRoute(movieDetailState.movieDetail.id))
                     }
                     MovieDetailAction.OnReviewClicked -> TODO()
                     else -> {

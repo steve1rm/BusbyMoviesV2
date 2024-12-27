@@ -8,12 +8,14 @@ import me.androidbox.busbymoviesv2.actors.presentation.ActorsViewModel
 import me.androidbox.busbymoviesv2.actors.presentation.screen.ActorsScreen
 import org.koin.compose.viewmodel.koinViewModel
 
-class MovieActorsScreenRoute : Screen {
+data class MovieActorsScreenRoute(val movieId: Int) : Screen {
 
     @Composable
     override fun Content() {
         val actorsViewModel = koinViewModel<ActorsViewModel>()
         val actorsState by actorsViewModel.actorState.collectAsStateWithLifecycle()
+
+        actorsViewModel.saveMovieId(movieId)
 
         ActorsScreen(
             actorState = actorsState,
