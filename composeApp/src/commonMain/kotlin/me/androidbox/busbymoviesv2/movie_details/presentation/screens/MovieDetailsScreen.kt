@@ -218,6 +218,9 @@ fun MovieDetailsScreen(
                                                         bottomSheetState.bottomSheetState.collapse()
                                                     }
                                                 }
+                                            },
+                                            onViewAllActors = { actorId ->
+                                                movieDetailAction(MovieDetailAction.OnViewAllActorsClicked(movieId = movieDetailState.movieDetail.id))
                                             }
                                         )
                                     }

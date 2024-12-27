@@ -12,6 +12,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import me.androidbox.busbymoviesv2.core.presentation.utils.ObserveAsEvents
@@ -37,6 +38,7 @@ data class MovieDetailsScreenRoute(private val movieId: Int) : Screen {
         val snackBarHostState = remember {
             SnackbarHostState()
         }
+        val navigator = LocalNavigator.current
 
         var job: Job? = null
 
@@ -78,9 +80,15 @@ data class MovieDetailsScreenRoute(private val movieId: Int) : Screen {
             snackBarHostState = snackBarHostState,
             movieDetailAction = { action ->
                 when(action) {
-                    MovieDetailAction.OnMovieActorClicked -> TODO()
+                    MovieDetailAction.OnMovieActorClicked -> {
+                        /** Single actor clicked */
+                    }
                     is MovieDetailAction.OnHomePageClicked -> {
                         urlHandler.openUri(action.url)
+                    }
+                    is MovieDetailAction.OnViewAllActorsClicked -> {
+                        /** View all actors */
+                        navigator?.push(MovieActorsScreenRoute())
                     }
                     MovieDetailAction.OnReviewClicked -> TODO()
                     else -> {

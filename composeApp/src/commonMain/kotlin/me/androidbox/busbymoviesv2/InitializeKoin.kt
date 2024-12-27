@@ -1,5 +1,6 @@
 package me.androidbox.busbymoviesv2
 
+import me.androidbox.busbymoviesv2.actors.di.actorModule
 import me.androidbox.busbymoviesv2.configuration.di.configurationModule
 import me.androidbox.busbymoviesv2.core.data.di.coreDataModule
 import me.androidbox.busbymoviesv2.favourites.di.favouriteMovieModule
@@ -22,6 +23,7 @@ fun initializeKoin(koinConfig: KoinAppDeclaration? = null, vararg platformSpecif
             configurationModule,
             movieDetailModule,
             favouriteMovieModule,
+            actorModule,
             *platformSpecificModules
         )
     }

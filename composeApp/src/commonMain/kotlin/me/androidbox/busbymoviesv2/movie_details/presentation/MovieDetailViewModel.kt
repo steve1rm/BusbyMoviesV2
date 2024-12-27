@@ -184,6 +184,8 @@ class MovieDetailViewModel(
                 movieCredits(movieId)
                 similarMovies(movieId)
             }
+
+            is MovieDetailAction.OnViewAllActorsClicked -> TODO()
         }
     }
 

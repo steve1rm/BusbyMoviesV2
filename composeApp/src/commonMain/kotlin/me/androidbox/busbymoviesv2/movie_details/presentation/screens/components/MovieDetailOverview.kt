@@ -66,6 +66,7 @@ fun MovieDetailOverview(
     onMovieClicked: (movieId: Int) -> Unit,
     onTrailerClicked: () -> Unit,
     onHomePageClicked: (url: String) -> Unit,
+    onViewAllActors: (movieId: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var maxWidth by remember {
@@ -284,7 +285,7 @@ fun MovieDetailOverview(
                 viewMoreContent = {
                     TextButton(
                         onClick = {
-                            println("Lets seem some more")
+                            onViewAllActors(movieDetailState.movieDetail.id)
                         }
                     ) {
                         Text(
@@ -378,7 +379,8 @@ fun PreviewMovieDetailOverview() {
            movieDetailState = MovieDetailState(),
             onMovieClicked = {},
             onHomePageClicked = {},
-            onTrailerClicked = {}
+            onTrailerClicked = {},
+            onViewAllActors = {}
         )
     }
 }

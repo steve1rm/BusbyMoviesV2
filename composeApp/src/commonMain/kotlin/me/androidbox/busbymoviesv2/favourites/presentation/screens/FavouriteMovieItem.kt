@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import busbymoviesv2.composeapp.generated.resources.Res
 import busbymoviesv2.composeapp.generated.resources.person
@@ -97,8 +98,10 @@ fun FavouriteMovieItem(
 
                 Text(
                     text = favouriteMovieModel.tagline,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                     fontStyle = FontStyle.Italic,
-                    color = Color.LightGray,
+                    color = Color.Gray,
                     modifier = Modifier.fillMaxWidth())
 
                 Spacer(Modifier.height(8.dp))
