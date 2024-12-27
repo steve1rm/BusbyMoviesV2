@@ -1,4 +1,4 @@
-package me.androidbox.busbymoviesv2.movie_details.data.local_data_source.imp
+package me.androidbox.busbymoviesv2.favourites.data.local_data_source.imp
 
 import kotlinx.coroutines.flow.Flow
 import me.androidbox.busbymoviesv2.movie_details.domain.models.MovieFavouriteModel

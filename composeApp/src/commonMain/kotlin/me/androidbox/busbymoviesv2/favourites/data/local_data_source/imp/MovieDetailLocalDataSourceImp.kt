@@ -1,8 +1,8 @@
-package me.androidbox.busbymoviesv2.movie_details.data.local_data_source.imp
+package me.androidbox.busbymoviesv2.favourites.data.local_data_source.imp
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import me.androidbox.busbymoviesv2.movie_details.data.entities.MovieDetailDatabase
+import me.androidbox.busbymoviesv2.favourites.data.entities.MovieDetailDatabase
 import me.androidbox.busbymoviesv2.movie_details.data.toMovieFavouriteEntity
 import me.androidbox.busbymoviesv2.movie_details.data.toMovieFavouriteModel
 import me.androidbox.busbymoviesv2.movie_details.domain.models.MovieFavouriteModel

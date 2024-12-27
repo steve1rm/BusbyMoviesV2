@@ -6,7 +6,7 @@ import me.androidbox.busbymoviesv2.core.domain.utils.DataError
 import me.androidbox.busbymoviesv2.core.domain.utils.ErrorModel
 import me.androidbox.busbymoviesv2.move_list.data.toMovieListModel
 import me.androidbox.busbymoviesv2.move_list.domain.models.MovieListModel
-import me.androidbox.busbymoviesv2.movie_details.data.local_data_source.imp.MovieDetailLocalDataSource
+import me.androidbox.busbymoviesv2.favourites.data.local_data_source.imp.MovieDetailLocalDataSource
 import me.androidbox.busbymoviesv2.movie_details.data.remote_data_source.MovieDetailRemoteDataSource
 import me.androidbox.busbymoviesv2.movie_details.data.repository.MovieDetailRepository
 import me.androidbox.busbymoviesv2.movie_details.data.toCreditsModel

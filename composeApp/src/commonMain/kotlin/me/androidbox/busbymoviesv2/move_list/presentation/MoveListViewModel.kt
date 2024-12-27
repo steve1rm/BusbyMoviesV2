@@ -29,7 +29,7 @@ import me.androidbox.busbymoviesv2.move_list.data.repository.imp.MovieListPaging
 import me.androidbox.busbymoviesv2.move_list.domain.models.MovieResultModel
 import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListUseCase
 import me.androidbox.busbymoviesv2.move_list.presentation.models.MovieResult
-import me.androidbox.busbymoviesv2.movie_details.domain.usecase.GetFavouriteMoviesUseCase
+import me.androidbox.busbymoviesv2.favourites.domain.GetFavouriteMoviesUseCase
 
 class MoveListViewModel(
     private val movieListUseCase: MovieListUseCase,

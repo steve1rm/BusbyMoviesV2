@@ -6,7 +6,7 @@ import me.androidbox.busbymoviesv2.move_list.data.repository.imp.MovieListPaging
 import me.androidbox.busbymoviesv2.move_list.domain.usecases.MovieListUseCase
 import me.androidbox.busbymoviesv2.move_list.domain.usecases.imp.MovieListUseCaseImp
 import me.androidbox.busbymoviesv2.move_list.presentation.MoveListViewModel
-import me.androidbox.busbymoviesv2.movie_details.domain.usecase.GetFavouriteMoviesUseCase
+import me.androidbox.busbymoviesv2.favourites.domain.GetFavouriteMoviesUseCase
 import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

@@ -1,4 +1,4 @@
-package me.androidbox.busbymoviesv2.movie_details.data.entities
+package me.androidbox.busbymoviesv2.favourites.data.entities
 
 import androidx.room.Dao
 import androidx.room.Delete

@@ -10,7 +10,7 @@ import me.androidbox.busbymoviesv2.movie_details.data.dto.CrewDto
 import me.androidbox.busbymoviesv2.movie_details.data.dto.GenreDto
 import me.androidbox.busbymoviesv2.movie_details.data.dto.MovieDetailDto
 import me.androidbox.busbymoviesv2.movie_details.data.dto.VideoResultsDto
-import me.androidbox.busbymoviesv2.movie_details.data.entities.MovieFavouriteEntity
+import me.androidbox.busbymoviesv2.favourites.data.entities.MovieFavouriteEntity
 import me.androidbox.busbymoviesv2.movie_details.domain.models.CastModel
 import me.androidbox.busbymoviesv2.movie_details.domain.models.CreditsModel
 import me.androidbox.busbymoviesv2.movie_details.domain.models.CrewModel

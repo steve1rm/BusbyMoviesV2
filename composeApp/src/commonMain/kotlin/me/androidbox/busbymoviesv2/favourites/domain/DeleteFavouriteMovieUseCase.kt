@@ -1,4 +1,4 @@
-package me.androidbox.busbymoviesv2.movie_details.domain.usecase
+package me.androidbox.busbymoviesv2.favourites.domain
 
 import me.androidbox.busbymoviesv2.movie_details.domain.models.MovieFavouriteModel
 

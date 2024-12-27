@@ -1,8 +1,8 @@
 package me.androidbox.busbymoviesv2.favourites.di
 
 import me.androidbox.busbymoviesv2.favourites.presentation.FavouriteMovieViewModel
-import me.androidbox.busbymoviesv2.movie_details.domain.usecase.DeleteFavouriteMovieUseCase
-import me.androidbox.busbymoviesv2.movie_details.domain.usecase.GetFavouriteMoviesUseCase
+import me.androidbox.busbymoviesv2.favourites.domain.DeleteFavouriteMovieUseCase
+import me.androidbox.busbymoviesv2.favourites.domain.GetFavouriteMoviesUseCase
 import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

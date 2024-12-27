@@ -20,8 +20,8 @@ import me.androidbox.busbymoviesv2.core.domain.utils.onSuccess
 import me.androidbox.busbymoviesv2.core.presentation.utils.mapImageSize
 import me.androidbox.busbymoviesv2.move_list.presentation.toMovieList
 import me.androidbox.busbymoviesv2.movie_details.domain.models.MovieFavouriteModel
-import me.androidbox.busbymoviesv2.movie_details.domain.usecase.DeleteFavouriteMovieUseCase
-import me.androidbox.busbymoviesv2.movie_details.domain.usecase.IsFavouriteMovieUseCase
+import me.androidbox.busbymoviesv2.favourites.domain.DeleteFavouriteMovieUseCase
+import me.androidbox.busbymoviesv2.favourites.domain.IsFavouriteMovieUseCase
 import me.androidbox.busbymoviesv2.movie_details.domain.usecase.MovieCreditsUseCase
 import me.androidbox.busbymoviesv2.movie_details.domain.usecase.MovieDetailUseCase
 import me.androidbox.busbymoviesv2.movie_details.domain.usecase.SaveFavouriteMovieUseCase

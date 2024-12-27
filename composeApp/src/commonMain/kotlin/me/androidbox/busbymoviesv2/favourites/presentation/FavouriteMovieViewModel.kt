@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.androidbox.busbymoviesv2.favourites.presentation.screens.FavouriteMovieState
-import me.androidbox.busbymoviesv2.movie_details.domain.usecase.DeleteFavouriteMovieUseCase
-import me.androidbox.busbymoviesv2.movie_details.domain.usecase.GetFavouriteMoviesUseCase
+import me.androidbox.busbymoviesv2.favourites.domain.DeleteFavouriteMovieUseCase
+import me.androidbox.busbymoviesv2.favourites.domain.GetFavouriteMoviesUseCase
 
 class FavouriteMovieViewModel(
     private val getFavouriteMoviesUseCase: GetFavouriteMoviesUseCase,
