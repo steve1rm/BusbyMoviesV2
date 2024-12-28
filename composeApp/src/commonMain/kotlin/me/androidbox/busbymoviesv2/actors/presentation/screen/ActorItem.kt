@@ -5,15 +5,19 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -39,18 +43,26 @@ fun ActorItem(
     Card(
         modifier = modifier
             .fillMaxWidth()
+            .padding(horizontal = 8.dp)
             .clickable {
                 onActorClicked(id)
             },
         elevation = 4.dp) {
 
-        Row(horizontalArrangement = Arrangement.spacedBy(
+        Row(
+            modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp, bottom = 4.dp, start = 8.dp, end = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(
             space = 8.dp,
             alignment = Alignment.CenterHorizontally
         )
         ) {
             KamelImage(
-                modifier = Modifier.size(60.dp),
+                modifier = Modifier
+                    .size(80.dp)
+                    .aspectRatio(1f)
+                    .clip(CircleShape),
                 contentScale = ContentScale.Crop,
                 resource = { asyncPainterResource(data = imagePath) },
                 contentDescription = name,
@@ -74,7 +86,7 @@ fun ActorItem(
 
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
