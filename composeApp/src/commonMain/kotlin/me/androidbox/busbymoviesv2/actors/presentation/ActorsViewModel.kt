@@ -1,7 +1,10 @@
 package me.androidbox.busbymoviesv2.actors.presentation
 
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,6 +22,16 @@ class ActorsViewModel(
     private val movieCreditsUseCase: MovieCreditsUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+    val lazyListState = LazyListState()
+
+    val shouldShowFab = snapshotFlow {
+        lazyListState.firstVisibleItemIndex >= 10
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000L),
+        initialValue = false
+    )
+
     private var hasFetched = false
 
     companion object {
@@ -38,6 +51,7 @@ class ActorsViewModel(
             started = SharingStarted.WhileSubscribed(5_000L),
             initialValue = ActorState()
         )
+
 
     fun saveMovieId(movieId: Int) {
         savedStateHandle[MOVIE_ID] = movieId
