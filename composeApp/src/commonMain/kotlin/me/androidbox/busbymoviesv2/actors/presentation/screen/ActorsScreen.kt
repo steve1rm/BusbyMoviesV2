@@ -1,5 +1,15 @@
 package me.androidbox.busbymoviesv2.actors.presentation.screen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOut
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,16 +19,12 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,8 +49,6 @@ fun ActorsScreen(
             CircularProgressIndicator()
         }
         else {
-            val scope = rememberCoroutineScope()
-
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -69,7 +73,21 @@ fun ActorsScreen(
                 )
             }
 
-            if(shouldShowFab) {
+            val scope = rememberCoroutineScope()
+
+            AnimatedVisibility(
+                visible = shouldShowFab,
+                enter = fadeIn(
+                    keyframes {
+                        this.durationMillis = 300
+                    }
+                ),
+                exit = fadeOut(
+                    keyframes {
+                        this.durationMillis = 300
+                    }
+                )
+            ) {
                 FloatingActionButton(
                     modifier = Modifier
                         .fillMaxSize()
